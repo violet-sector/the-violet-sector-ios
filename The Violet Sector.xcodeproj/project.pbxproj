@@ -13,6 +13,9 @@
 		A0F552E224D51C2B008C3296 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0F552E124D51C2B008C3296 /* Assets.xcassets */; };
 		A0F552E524D51C2B008C3296 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0F552E424D51C2B008C3296 /* Preview Assets.xcassets */; };
 		A0F552E824D51C2B008C3296 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0F552E624D51C2B008C3296 /* LaunchScreen.storyboard */; };
+		A0F552F124D525DA008C3296 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F552F024D525DA008C3296 /* Client.swift */; };
+		A0F552F324D527F8008C3296 /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F552F224D527F8008C3296 /* TimerView.swift */; };
+		A0F552F524D52888008C3296 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F552F424D52888008C3296 /* Timer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +28,9 @@
 		A0F552E724D51C2B008C3296 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A0F552E924D51C2B008C3296 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A0F552EF24D520C7008C3296 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		A0F552F024D525DA008C3296 /* Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
+		A0F552F224D527F8008C3296 /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
+		A0F552F424D52888008C3296 /* Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +67,9 @@
 				A0F552DB24D51C2A008C3296 /* AppDelegate.swift */,
 				A0F552DD24D51C2A008C3296 /* SceneDelegate.swift */,
 				A0F552DF24D51C2A008C3296 /* ContentView.swift */,
+				A0F552F224D527F8008C3296 /* TimerView.swift */,
+				A0F552F424D52888008C3296 /* Timer.swift */,
+				A0F552F024D525DA008C3296 /* Client.swift */,
 				A0F552E124D51C2B008C3296 /* Assets.xcassets */,
 				A0F552E624D51C2B008C3296 /* LaunchScreen.storyboard */,
 				A0F552E924D51C2B008C3296 /* Info.plist */,
@@ -148,8 +157,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0F552F324D527F8008C3296 /* TimerView.swift in Sources */,
 				A0F552DC24D51C2A008C3296 /* AppDelegate.swift in Sources */,
 				A0F552DE24D51C2A008C3296 /* SceneDelegate.swift in Sources */,
+				A0F552F524D52888008C3296 /* Timer.swift in Sources */,
+				A0F552F124D525DA008C3296 /* Client.swift in Sources */,
 				A0F552E024D51C2A008C3296 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

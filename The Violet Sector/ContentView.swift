@@ -9,13 +9,10 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        Text("Hello, World!")
-    }
-}
+    @ObservedObject var client = Client.shared
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+    var body: some View {
+        TimerView()
+            .alert(isPresented: $client.showingError, content: {Alert(title: Text("Error Fetching Data"), message: Text(client.error!))})
     }
 }
