@@ -12,6 +12,9 @@ struct TimerView: View {
     @ObservedObject var timer = Timer.shared
 
     var body: some View {
-        Text(String(format: "%d:%02d:%02d T%d", timer.hours, timer.minutes, timer.seconds, timer.turn))
+        HStack(spacing: 20.0) {
+            Text("Turn \(timer.turn)")
+            Text(String(format: "%ld:%02ld:%02ld", timer.hours, timer.minutes, timer.seconds))
+        }
     }
 }
