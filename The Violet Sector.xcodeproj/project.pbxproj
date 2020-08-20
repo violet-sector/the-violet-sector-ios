@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A041182B24EBE37100B309DA /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041182A24EBE37100B309DA /* Status.swift */; };
+		A041182D24EBE61400B309DA /* Sectors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041182C24EBE61400B309DA /* Sectors.swift */; };
+		A041182F24EE261700B309DA /* StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041182E24EE261700B309DA /* StatusView.swift */; };
+		A041183124EE4FF200B309DA /* HealthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041183024EE4FF200B309DA /* HealthView.swift */; };
+		A046D02E24E79E24000393E7 /* LegionNewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A046D02D24E79E24000393E7 /* LegionNewsView.swift */; };
+		A0EFC15724E781DE0082D187 /* LegionNews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EFC15624E781DE0082D187 /* LegionNews.swift */; };
 		A0F552DC24D51C2A008C3296 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F552DB24D51C2A008C3296 /* AppDelegate.swift */; };
 		A0F552DE24D51C2A008C3296 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F552DD24D51C2A008C3296 /* SceneDelegate.swift */; };
 		A0F552E024D51C2A008C3296 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F552DF24D51C2A008C3296 /* ContentView.swift */; };
@@ -19,6 +25,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A041182A24EBE37100B309DA /* Status.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
+		A041182C24EBE61400B309DA /* Sectors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sectors.swift; sourceTree = "<group>"; };
+		A041182E24EE261700B309DA /* StatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusView.swift; sourceTree = "<group>"; };
+		A041183024EE4FF200B309DA /* HealthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthView.swift; sourceTree = "<group>"; };
+		A046D02D24E79E24000393E7 /* LegionNewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegionNewsView.swift; sourceTree = "<group>"; };
+		A0EFC15624E781DE0082D187 /* LegionNews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegionNews.swift; sourceTree = "<group>"; };
 		A0F552D824D51C2A008C3296 /* The Violet Sector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The Violet Sector.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0F552DB24D51C2A008C3296 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A0F552DD24D51C2A008C3296 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -68,7 +80,13 @@
 				A0F552DD24D51C2A008C3296 /* SceneDelegate.swift */,
 				A0F552DF24D51C2A008C3296 /* ContentView.swift */,
 				A0F552F224D527F8008C3296 /* TimerView.swift */,
+				A046D02D24E79E24000393E7 /* LegionNewsView.swift */,
+				A041182E24EE261700B309DA /* StatusView.swift */,
+				A041183024EE4FF200B309DA /* HealthView.swift */,
 				A0F552F424D52888008C3296 /* Timer.swift */,
+				A0EFC15624E781DE0082D187 /* LegionNews.swift */,
+				A041182A24EBE37100B309DA /* Status.swift */,
+				A041182C24EBE61400B309DA /* Sectors.swift */,
 				A0F552F024D525DA008C3296 /* Client.swift */,
 				A0F552E124D51C2B008C3296 /* Assets.xcassets */,
 				A0F552E624D51C2B008C3296 /* LaunchScreen.storyboard */,
@@ -157,12 +175,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A041183124EE4FF200B309DA /* HealthView.swift in Sources */,
 				A0F552F324D527F8008C3296 /* TimerView.swift in Sources */,
 				A0F552DC24D51C2A008C3296 /* AppDelegate.swift in Sources */,
+				A041182F24EE261700B309DA /* StatusView.swift in Sources */,
 				A0F552DE24D51C2A008C3296 /* SceneDelegate.swift in Sources */,
 				A0F552F524D52888008C3296 /* Timer.swift in Sources */,
 				A0F552F124D525DA008C3296 /* Client.swift in Sources */,
+				A041182B24EBE37100B309DA /* Status.swift in Sources */,
+				A046D02E24E79E24000393E7 /* LegionNewsView.swift in Sources */,
+				A0EFC15724E781DE0082D187 /* LegionNews.swift in Sources */,
 				A0F552E024D51C2A008C3296 /* ContentView.swift in Sources */,
+				A041182D24EBE61400B309DA /* Sectors.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

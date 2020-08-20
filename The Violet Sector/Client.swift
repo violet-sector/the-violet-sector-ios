@@ -11,10 +11,13 @@ import Combine
 
 final class Client: ObservableObject {
     @Published var error: String? {didSet {if error != nil {showingError = true}}}
-    @Published var showingError = false {didSet {if !showingError {error = nil}}}
+    @Published var showingError = false
+    private var lastError: Error?
     private let session: URLSession
+    private let decoder = JSONDecoder()
 
     static let shared = Client()
+    private static let baseURL = URL(string: "https://www.violetsector.com/json/")!
 
     private init() {
         let configuration = URLSessionConfiguration.ephemeral
@@ -29,21 +32,28 @@ final class Client: ObservableObject {
         session = URLSession(configuration: configuration)
     }
 
-    func fetch<Root: AnyObject>(url: URL, assignTo keyPath: ReferenceWritableKeyPath<Root, Any>, on target: Root) -> Cancellable {
-        return session.dataTaskPublisher(for: url)
-            .tryMap({try JSONSerialization.jsonObject(with: $0.data)})
+    func fetch<Root: AnyObject, Target: Decodable>(resource: String, assignTo keyPath: ReferenceWritableKeyPath<Root, Target>, on root: Root) -> Cancellable {
+        return session.dataTaskPublisher(for: Client.baseURL.appendingPathComponent(resource, isDirectory: false))
+            .tryMap({[unowned self] in try self.decoder.decode(Target.self, from: $0.data)})
             .receive(on: RunLoop.main)
-            .sink(receiveCompletion: {[unowned self] in if case let .failure(error) = $0 {self.showError(error)}}, receiveValue: {target[keyPath: keyPath] = $0})
+            .sink(receiveCompletion: {[unowned self] in if case let .failure(error) = $0 {self.showError(error)}}, receiveValue: {root[keyPath: keyPath] = $0})
     }
 
-    func showError(_ error: Error) {
+    private func showError(_ error: Error) {
+        var message = String()
         switch error {
+        case _ as DecodingError:
+            message = "Error decoding information from the server."
         case let error as LocalizedError:
-            self.error = error.errorDescription
+            message = error.errorDescription ?? "Unknown error."
         case let error as NSError:
-            self.error = error.localizedDescription
+            message = error.localizedDescription
         default:
-            self.error = "Unknown error."
+            message = "Unknown error."
         }
+        guard !showingError && (self.error == nil || self.error != message) else {
+            return
+        }
+        self.error = message
     }
 }

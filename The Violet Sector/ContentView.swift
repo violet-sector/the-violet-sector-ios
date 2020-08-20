@@ -12,7 +12,10 @@ struct ContentView: View {
     @ObservedObject var client = Client.shared
 
     var body: some View {
-        TimerView()
-            .alert(isPresented: $client.showingError, content: {Alert(title: Text("Error Fetching Data"), message: Text(client.error!))})
+        VStack() {
+            TimerView()
+                .alert(isPresented: $client.showingError, content: {Alert(title: Text("Error Fetching Data"), message: Text(client.error!))})
+            LegionNewsView()
+        }
     }
 }
