@@ -11,30 +11,23 @@ import SwiftUI
 struct HealthView: View {
     let current: UInt
     let max: UInt
+    let showLabel: Bool
 
     var body: some View {
-        if max > 0 {
-            var currentView = Text("\(current)")
-            if current > max * 2 / 3 {
-                currentView = currentView.foregroundColor(Color(.sRGB, red: 0.0, green: 0.5, blue: 0.0, opacity: 1.0))
-            } else if current > max / 3 {
-                currentView = currentView.foregroundColor(.orange).fontWeight(.bold)
-            } else {
-                currentView = currentView.foregroundColor(.red).fontWeight(.bold)
-            }
-            return HStack(spacing: 0.0) {
-                currentView
-                Text("/\(max)")
-            }
-            .accessibilityElement(children: .combine)
-            .accessibility(label: Text("\(current)/\(max)"))
+        var text = Text(verbatim: showLabel ? "Hitpoints: " : "")
+        if current > max * 2 / 3 {
+            text = text + Text(verbatim: "\(current)").bold().foregroundColor(Color(.sRGB, red: 0.0, green: 0.5, blue: 0.0, opacity: 1.0))
+        } else if current > max / 3 {
+            text = text + Text(verbatim: "\(current)").bold().foregroundColor(.orange)
         } else {
-            return HStack(spacing: 0.0) {
-                Text("-")
-                Text("/-")
-            }
-            .accessibilityElement(children: .combine)
-            .accessibility(label: Text("Unknown"))
+            text = text + Text(verbatim: "\(current)").bold().foregroundColor(.red)
         }
+        return text + Text(verbatim: "/\(max)")
+    }
+
+    init(current: UInt, max: UInt, showLabel: Bool = false) {
+        self.current = current
+        self.max = max
+        self.showLabel = showLabel
     }
 }

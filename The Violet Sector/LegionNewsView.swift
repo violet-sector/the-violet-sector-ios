@@ -13,23 +13,25 @@ struct LegionNewsView: View {
 
     var body: some View {
         var news = "Fetching news..."
-        if let content = legionNews.response?.content {
-            news = "Set by \(content.author) on turn \(content.turn) (\(DateFormatter.localizedString(from: Date(timeIntervalSince1970: TimeInterval(content.time)), dateStyle: .short, timeStyle: .short)))\n\n\(content.text)"
+        var statusView: StatusView?
+        if let response = legionNews.response {
+            news = "Set by \(response.content.author) on turn \(response.content.turn) (\(DateFormatter.localizedString(from: Date(timeIntervalSince1970: TimeInterval(response.content.time)), dateStyle: .short, timeStyle: .short)))\n\n\(response.content.text)"
+            statusView = StatusView(status: response.status)
         }
         return VStack() {
-            Text("Legion News")
+            Text(verbatim: "Legion News")
                 .font(.title)
                 .accessibility(addTraits: .isHeader)
             GeometryReader() {(geometry) in
                 ScrollView() {
-                    Text(news)
+                    Text(verbatim: news)
                         .frame(maxWidth: geometry.size.width * 0.9, maxHeight: .infinity, alignment: .topLeading)
                 }
                 .padding(1.0)
                 .border(Color(.black))
                 .frame(width: geometry.size.width * 0.9, height: geometry.size.height - 5.0)
             }
-            StatusView(status: legionNews.response?.status)
+            statusView
         }
     }
 }

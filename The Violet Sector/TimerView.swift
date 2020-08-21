@@ -13,8 +13,8 @@ struct TimerView: View {
 
     var body: some View {
         HStack(spacing: 20.0) {
-            Text("Turn \(timer.turn)")
-            Text(String(format: "%ld:%02ld:%02ld", timer.hours, timer.minutes, timer.seconds))
+            Text(verbatim: "Turn \(timer.turn)")
+            Text(verbatim: String(format: "%ld:%02ld:%02ld", timer.hours, timer.minutes, timer.seconds))
         }
     }
 }

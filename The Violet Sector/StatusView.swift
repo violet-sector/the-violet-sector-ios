@@ -9,46 +9,33 @@
 import SwiftUI
 
 struct StatusView: View {
-    var status: Status?
+    var status: Status
 
     var body: some View {
-        var moves = "-"
-        var healthView = HealthView(current: 0, max: 0)
-        var sector = "Void"
-        if let status = status {
-            moves = "\(status.moves)"
-            healthView = HealthView(current: status.currentHealth, max: status.maxHealth)
-            if status.currentSector != .none {
-                sector = "\(status.currentSector)"
-            } else if status.destinationSector != .none {
-                sector = "hypering to \(status.destinationSector)"
-            } else {
-                sector = "Void"
-            }
-            if status.isSleeping {
-                sector += " (zZzZ)"
-            }
-            if status.isCloaked {
-                sector += " (Cloaked)"
-            }
-            if status.isInvulnerable {
-                sector += " (Invulnerable)"
-            }
+        var sector = "Sector: "
+        if status.destinationSector == .none {
+            sector += "\(status.currentSector)"
+        } else {
+            sector += "hypering to \(status.destinationSector)"
         }
-        return VStack() {
+        if status.isSleeping {
+            sector += " (zZzZ)"
+        }
+        if status.isCloaked {
+            sector += " (Cloaked)"
+        }
+        if status.isInvulnerable {
+            sector += " (Invulnerable)"
+        }
+        return VStack(alignment: .leading) {
             HStack() {
-                Text("Moves: \(moves)")
-                    .frame(alignment: .leading)
-                HStack(spacing: 0.0) {
-                    Text("Hitpoints: ")
-                    healthView
-                }
-                .frame(alignment: .leading)
-                .accessibilityElement(children: .combine)
-                .accessibility(label: Text("Hitpoints: " + (status != nil ? "\(status!.currentHealth)/\(status!.maxHealth)" : "Unknown")))
+                Text(verbatim: "Moves: \(status.moves)")
+                    .frame(idealWidth: .infinity, alignment: .leading)
+                HealthView(current: status.currentHealth, max: status.maxHealth, showLabel: true)
+                    .frame(idealWidth: .infinity, alignment: .leading)
             }
-            Text("Sector: \(sector)")
-                .frame(alignment: .leading)
+            Text(verbatim: sector)
+                .frame(idealWidth: .infinity, alignment: .leading)
         }
     }
 }
