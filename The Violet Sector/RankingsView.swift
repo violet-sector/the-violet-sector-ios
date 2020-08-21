@@ -10,6 +10,7 @@ import SwiftUI
 
 struct RankingsView: View {
     @ObservedObject var rankings = Rankings.shared
+    @State private var pattern = ""
 
     var body: some View {
         VStack {
@@ -17,15 +18,16 @@ struct RankingsView: View {
                 .font(.title)
                 .accessibility(addTraits: .isHeader)
             if rankings.response != nil {
-                List() {
-                    ForEach(Range(uncheckedBounds: (0, rankings.response!.content.count))) {(index) in
-                        HStack {
-                            Text(verbatim: "\(index + 1)")
-                                .frame(width: 50.0, alignment: .leading)
-                            PilotView(pilot: self.rankings.response!.content[index])
-                        }
-                        .accessibilityElement(children: .combine)
+                TextField("Search", text: $pattern, onCommit: {self.rankings.search(for: self.pattern)})
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
+                List(rankings.matches!, id: \.offset) {(rank) in
+                    HStack {
+                        Text(verbatim: "\(rank.offset + 1)")
+                            .frame(width: 50.0, alignment: .leading)
+                        PilotView(pilot: rank.element)
                     }
+                    .accessibilityElement(children: .combine)
                 }
                 StatusView(status: rankings.response!.status)
             } else {
