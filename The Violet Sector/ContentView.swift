@@ -15,7 +15,8 @@ struct ContentView: View {
         VStack() {
             TimerView()
                 .alert(isPresented: $client.showingError, content: {Alert(title: Text("Error Fetching Data"), message: Text(client.error!))})
-            LegionNewsView()
+            //LegionNewsView()
+            RankingsView()
         }
     }
 }
