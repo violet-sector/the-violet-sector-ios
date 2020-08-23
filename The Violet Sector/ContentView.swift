@@ -12,11 +12,43 @@ struct ContentView: View {
     @ObservedObject var client = Client.shared
 
     var body: some View {
-        VStack() {
-            TimerView()
-            //LegionNewsView()
-            RankingsView()
-            StatusView()
+        TabView() {
+            VStack() {
+                TimerView()
+                LegionNewsView()
+                StatusView()
+            }
+            .tabItem({Image(systemName: "desktopcomputer"); Text(verbatim: "Computer")})
+            VStack() {
+                TimerView()
+                Spacer()
+                Text(verbatim: "Placeholder")
+                Spacer()
+                StatusView()
+            }
+            .tabItem({Image(systemName: "antenna.radiowaves.left.and.right"); Text(verbatim: "Scanners")})
+            VStack() {
+                TimerView()
+                Spacer()
+                Text(verbatim: "Placeholder")
+                Spacer()
+                StatusView()
+            }
+            .tabItem({Image(systemName: "map"); Text(verbatim: "Navigation")})
+            VStack() {
+                TimerView()
+                Spacer()
+                Text(verbatim: "Placeholder")
+                Spacer()
+                StatusView()
+            }
+            .tabItem({Image(systemName: "envelope"); Text(verbatim: "Comms")})
+            VStack() {
+                TimerView()
+                RankingsView()
+                StatusView()
+            }
+            .tabItem({Image(systemName: "person"); Text(verbatim: "Rankings")})
         }
         .alert(isPresented: $client.showingError, content: {Alert(title: Text("Error Fetching Data"), message: Text(client.error!))})
     }
