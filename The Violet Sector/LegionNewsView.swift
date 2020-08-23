@@ -15,6 +15,7 @@ struct LegionNewsView: View {
         VStack() {
             Text(verbatim: "Legion News")
                 .font(.title)
+                .foregroundColor(.accentColor)
                 .accessibility(addTraits: .isHeader)
             if model.isReady {
                 GeometryReader() {(geometry) in

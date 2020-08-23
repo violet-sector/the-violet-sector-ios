@@ -16,5 +16,6 @@ struct TimerView: View {
             Text(verbatim: "Turn \(model.turn)")
             Text(verbatim: String(format: "%ld:%02ld:%02ld", model.hours, model.minutes, model.seconds))
         }
+        .foregroundColor(.accentColor)
     }
 }

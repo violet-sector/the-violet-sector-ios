@@ -16,6 +16,7 @@ struct RankingsView: View {
         VStack {
             Text(verbatim: "Rankings")
                 .font(.title)
+                .foregroundColor(.accentColor)
                 .accessibility(addTraits: .isHeader)
             if model.isReady {
                 TextField("Search", text: $pattern, onCommit: {self.model.search(for: self.pattern)})
@@ -24,10 +25,11 @@ struct RankingsView: View {
                 List(model.matches!, id: \.offset) {(element) in
                     HStack {
                         Text(verbatim: "\(element.offset + 1)")
-                            .frame(width: 50.0, alignment: .leading)
+                            .frame(width: 30.0, alignment: .leading)
                         PilotView(pilot: element.element)
                     }
                     .accessibilityElement(children: .combine)
+                    .frame(height: 150.0)
                 }
             } else {
                 Spacer()
