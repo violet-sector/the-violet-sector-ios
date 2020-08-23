@@ -9,33 +9,22 @@
 import SwiftUI
 
 struct StatusView: View {
-    var status: Status
+    @ObservedObject var model = StatusModel.shared
 
     var body: some View {
-        var sector = "Sector: "
-        if status.destinationSector == .none {
-            sector += "\(status.currentSector)"
-        } else {
-            sector += "hypering to \(status.destinationSector)"
-        }
-        if status.isSleeping {
-            sector += " (zZzZ)"
-        }
-        if status.isCloaked {
-            sector += " (Cloaked)"
-        }
-        if status.isInvulnerable {
-            sector += " (Invulnerable)"
-        }
-        return VStack(alignment: .leading) {
-            HStack() {
-                Text(verbatim: "Moves: \(status.moves)")
-                    .frame(idealWidth: .infinity, alignment: .leading)
-                HealthView(current: status.currentHealth, max: status.maxHealth, showLabel: true)
-                    .frame(idealWidth: .infinity, alignment: .leading)
+        Group {
+            if model.isReady {
+                VStack(alignment: .leading) {
+                    HStack() {
+                        Text(verbatim: "Moves: \(model.moves)")
+                            .frame(idealWidth: .infinity, alignment: .leading)
+                        HealthView(current: model.currentHealth, max: model.maxHealth, showLabel: true)
+                            .frame(idealWidth: .infinity, alignment: .leading)
+                    }
+                    Text(verbatim: "Sector: " + (model.destinationSector == .none ? "\(model.currentSector)" : "hypering to \(model.destinationSector)") + (model.isSleeping ? " (zZzZ)" : "") + (model.isCloaked ? " (Cloaked)" : "") + (model.isInvulnerable ? " (Invulnerable)" : ""))
+                        .frame(idealWidth: .infinity, alignment: .leading)
+                }
             }
-            Text(verbatim: sector)
-                .frame(idealWidth: .infinity, alignment: .leading)
         }
     }
 }

@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct RankingsView: View {
-    @ObservedObject var rankings = Rankings.shared
+    @ObservedObject var model = RankingsModel.shared
     @State private var pattern = ""
 
     var body: some View {
@@ -17,21 +17,22 @@ struct RankingsView: View {
             Text(verbatim: "Rankings")
                 .font(.title)
                 .accessibility(addTraits: .isHeader)
-            if rankings.response != nil {
-                TextField("Search", text: $pattern, onCommit: {self.rankings.search(for: self.pattern)})
+            if model.isReady {
+                TextField("Search", text: $pattern, onCommit: {self.model.search(for: self.pattern)})
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
-                List(rankings.matches!, id: \.offset) {(rank) in
+                List(model.matches!, id: \.offset) {(element) in
                     HStack {
-                        Text(verbatim: "\(rank.offset + 1)")
+                        Text(verbatim: "\(element.offset + 1)")
                             .frame(width: 50.0, alignment: .leading)
-                        PilotView(pilot: rank.element)
+                        PilotView(pilot: element.element)
                     }
                     .accessibilityElement(children: .combine)
                 }
-                StatusView(status: rankings.response!.status)
             } else {
-                Text(verbatim: "Fetching rankings...")
+                Spacer()
+                Text(verbatim: "Loading...")
+                Spacer()
             }
         }
     }
