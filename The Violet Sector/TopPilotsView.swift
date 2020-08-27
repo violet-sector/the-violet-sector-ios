@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct TopPilotsView: View {
-    @ObservedObject var model = RankingsModel.shared
+    @ObservedObject var model = TopPilotsModel.shared
     @State private var pattern = ""
 
     var body: some View {

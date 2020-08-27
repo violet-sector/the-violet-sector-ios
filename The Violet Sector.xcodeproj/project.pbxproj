@@ -15,7 +15,7 @@
 		A041183324EEAF0A00B309DA /* Legions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041183224EEAF0A00B309DA /* Legions.swift */; };
 		A041183524EEB2A500B309DA /* Ships.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041183424EEB2A500B309DA /* Ships.swift */; };
 		A041183724EEC21B00B309DA /* Pilot.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041183624EEC21B00B309DA /* Pilot.swift */; };
-		A041183924EED0B600B309DA /* RankingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041183824EED0B600B309DA /* RankingsModel.swift */; };
+		A041183924EED0B600B309DA /* TopPilotsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041183824EED0B600B309DA /* TopPilotsModel.swift */; };
 		A041183B24EED98300B309DA /* PilotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041183A24EED98300B309DA /* PilotView.swift */; };
 		A041183D24EFBB7F00B309DA /* TopPilotsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041183C24EFBB7F00B309DA /* TopPilotsView.swift */; };
 		A043549B24F0355100EA9BF4 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = A043549A24F0355100EA9BF4 /* String.swift */; };
@@ -43,7 +43,7 @@
 		A041183224EEAF0A00B309DA /* Legions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Legions.swift; sourceTree = "<group>"; };
 		A041183424EEB2A500B309DA /* Ships.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ships.swift; sourceTree = "<group>"; };
 		A041183624EEC21B00B309DA /* Pilot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pilot.swift; sourceTree = "<group>"; };
-		A041183824EED0B600B309DA /* RankingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsModel.swift; sourceTree = "<group>"; };
+		A041183824EED0B600B309DA /* TopPilotsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopPilotsModel.swift; sourceTree = "<group>"; };
 		A041183A24EED98300B309DA /* PilotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PilotView.swift; sourceTree = "<group>"; };
 		A041183C24EFBB7F00B309DA /* TopPilotsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopPilotsView.swift; sourceTree = "<group>"; };
 		A043549A24F0355100EA9BF4 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
@@ -108,7 +108,7 @@
 				A0F552F224D527F8008C3296 /* TimerView.swift */,
 				A041183024EE4FF200B309DA /* HealthView.swift */,
 				A0EFC15624E781DE0082D187 /* LegionNewsModel.swift */,
-				A041183824EED0B600B309DA /* RankingsModel.swift */,
+				A041183824EED0B600B309DA /* TopPilotsModel.swift */,
 				A043549C24F2118000EA9BF4 /* StatusModel.swift */,
 				A0F552F424D52888008C3296 /* TimerModel.swift */,
 				A041183624EEC21B00B309DA /* Pilot.swift */,
@@ -214,7 +214,7 @@
 				A041182F24EE261700B309DA /* StatusView.swift in Sources */,
 				A0F4EE4824F83CA000D7AB84 /* RankingsView.swift in Sources */,
 				A041183524EEB2A500B309DA /* Ships.swift in Sources */,
-				A041183924EED0B600B309DA /* RankingsModel.swift in Sources */,
+				A041183924EED0B600B309DA /* TopPilotsModel.swift in Sources */,
 				A0F552DE24D51C2A008C3296 /* SceneDelegate.swift in Sources */,
 				A0F552F524D52888008C3296 /* TimerModel.swift in Sources */,
 				A0F552F124D525DA008C3296 /* Client.swift in Sources */,
