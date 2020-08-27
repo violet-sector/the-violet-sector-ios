@@ -11,9 +11,9 @@ import Combine
 
 final class TopPilotsModel: ObservableObject {
     @Published private(set) var matches: [(rank: Int, pilot: Pilot)]?
+    @Published var term = ""
     private var response: Response? {didSet {refresh()}}
     private var rankedPilots: [(rank: Int, pilot: Pilot)]?
-    private var pattern = ""
     private var timer: Cancellable?
     private var request: Cancellable?
 
@@ -35,18 +35,17 @@ final class TopPilotsModel: ObservableObject {
         StatusModel.shared.refresh(data: response.status)
         let pilots = response.pilots.sorted(by: {$0.score > $1.score})
         rankedPilots = pilots.indices.map({(rank: $0 + 1, pilot: pilots[$0])})
-        search(for: pattern)
+        search()
     }
 
-    func search(for pattern: String) {
-        self.pattern = pattern
-        guard !pattern.isEmpty else {
+    func search() {
+        guard !term.isEmpty else {
             matches = rankedPilots
             return
         }
         matches = rankedPilots!.filter() {(rankedPilot) in
-            let tolerance = max(pattern.count, rankedPilot.pilot.name.count) * 2 / 5
-            let distance = pattern ~= rankedPilot.pilot.name
+            let tolerance = max(term.count, rankedPilot.pilot.name.count) * 2 / 5
+            let distance = term ~= rankedPilot.pilot.name
             return distance <= tolerance
         }
     }

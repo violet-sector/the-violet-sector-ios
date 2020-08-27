@@ -10,14 +10,13 @@ import SwiftUI
 
 struct TopPilotsView: View {
     @ObservedObject var model = TopPilotsModel.shared
-    @State private var pattern = ""
 
     var body: some View {
         VStack() {
             Text(verbatim: "Top Pilots")
                 .bold()
             if model.matches != nil {
-                TextField("Search", text: $pattern, onCommit: {self.model.search(for: self.pattern)})
+                TextField("Search", text: $model.term, onCommit: {self.model.search()})
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
                 List(model.matches!, id: \.pilot.name) {(element) in

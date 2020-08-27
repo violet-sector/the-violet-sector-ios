@@ -10,14 +10,13 @@ import SwiftUI
 
 struct TopDeathsView: View {
     @ObservedObject var model = TopDeathsModel.shared
-    @State private var term = ""
 
     var body: some View {
         VStack() {
             Text(verbatim: "Top Deaths")
             .bold()
             if model.matches != nil {
-                TextField("Search", text: $term, onCommit: {self.model.search(for: self.term)})
+                TextField("Search", text: $model.term, onCommit: {self.model.search()})
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
                 List(model.matches!, id: \.rank) {(rankedDeath) in

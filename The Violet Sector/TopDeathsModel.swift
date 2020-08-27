@@ -11,9 +11,9 @@ import Combine
 
 final class TopDeathsModel: ObservableObject {
     @Published private(set) var matches: [(rank: Int, death: Death)]?
+    @Published var term = ""
     private var response: Response? {didSet {refresh()}}
     private var rankedDeaths: [(rank: Int, death: Death)]?
-    private var term = ""
     private var timer: Cancellable?
     private var request: Cancellable?
 
@@ -35,11 +35,10 @@ final class TopDeathsModel: ObservableObject {
         StatusModel.shared.refresh(data: response.status)
         let deaths = response.deaths.sorted(by: {$0.score > $1.score})
         rankedDeaths = deaths.indices.map({(rank: $0 + 1, death: deaths[$0])})
-        search(for: term)
+        search()
     }
 
-    func search(for term: String) {
-        self.term = term
+    func search() {
         guard !term.isEmpty else {
             matches = rankedDeaths
             return
