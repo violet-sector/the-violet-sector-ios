@@ -9,10 +9,27 @@
 import SwiftUI
 
 struct RankingsView: View {
+    @State private var tab = Tabs.topPilots
+
     var body: some View {
         NavigationView() {
-            TopPilotsView()
+            VStack() {
+                HStack() {
+                    Button("Top Pilots", action: {self.tab = .topPilots})
+                    Button("Top Deaths", action: {self.tab = .topDeaths})
+                }
+                if tab == .topPilots {
+                    TopPilotsView()
+                } else if tab == .topDeaths {
+                    TopDeathsView()
+                }
+            }
                 .navigationBarTitle("Rankings", displayMode: .inline)
         }
+    }
+
+    private enum Tabs {
+        case topPilots
+        case topDeaths
     }
 }

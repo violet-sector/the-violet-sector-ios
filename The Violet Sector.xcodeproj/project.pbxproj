@@ -21,6 +21,8 @@
 		A043549B24F0355100EA9BF4 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = A043549A24F0355100EA9BF4 /* String.swift */; };
 		A043549D24F2118000EA9BF4 /* StatusModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A043549C24F2118000EA9BF4 /* StatusModel.swift */; };
 		A046D02E24E79E24000393E7 /* LegionNewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A046D02D24E79E24000393E7 /* LegionNewsView.swift */; };
+		A07CFC4C24F85AB10019FE20 /* TopDeathsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07CFC4B24F85AB10019FE20 /* TopDeathsModel.swift */; };
+		A07CFC4E24F869BF0019FE20 /* TopDeathsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07CFC4D24F869BF0019FE20 /* TopDeathsView.swift */; };
 		A0EFC15724E781DE0082D187 /* LegionNewsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EFC15624E781DE0082D187 /* LegionNewsModel.swift */; };
 		A0F4EE4824F83CA000D7AB84 /* RankingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F4EE4724F83CA000D7AB84 /* RankingsView.swift */; };
 		A0F552DC24D51C2A008C3296 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F552DB24D51C2A008C3296 /* AppDelegate.swift */; };
@@ -49,6 +51,8 @@
 		A043549A24F0355100EA9BF4 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		A043549C24F2118000EA9BF4 /* StatusModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusModel.swift; sourceTree = "<group>"; };
 		A046D02D24E79E24000393E7 /* LegionNewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegionNewsView.swift; sourceTree = "<group>"; };
+		A07CFC4B24F85AB10019FE20 /* TopDeathsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopDeathsModel.swift; sourceTree = "<group>"; };
+		A07CFC4D24F869BF0019FE20 /* TopDeathsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopDeathsView.swift; sourceTree = "<group>"; };
 		A0EFC15624E781DE0082D187 /* LegionNewsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegionNewsModel.swift; sourceTree = "<group>"; };
 		A0F4EE4724F83CA000D7AB84 /* RankingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsView.swift; sourceTree = "<group>"; };
 		A0F552D824D51C2A008C3296 /* The Violet Sector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The Violet Sector.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -103,12 +107,14 @@
 				A0F4EE4724F83CA000D7AB84 /* RankingsView.swift */,
 				A046D02D24E79E24000393E7 /* LegionNewsView.swift */,
 				A041183C24EFBB7F00B309DA /* TopPilotsView.swift */,
+				A07CFC4D24F869BF0019FE20 /* TopDeathsView.swift */,
 				A041183A24EED98300B309DA /* PilotView.swift */,
 				A041182E24EE261700B309DA /* StatusView.swift */,
 				A0F552F224D527F8008C3296 /* TimerView.swift */,
 				A041183024EE4FF200B309DA /* HealthView.swift */,
 				A0EFC15624E781DE0082D187 /* LegionNewsModel.swift */,
 				A041183824EED0B600B309DA /* TopPilotsModel.swift */,
+				A07CFC4B24F85AB10019FE20 /* TopDeathsModel.swift */,
 				A043549C24F2118000EA9BF4 /* StatusModel.swift */,
 				A0F552F424D52888008C3296 /* TimerModel.swift */,
 				A041183624EEC21B00B309DA /* Pilot.swift */,
@@ -214,6 +220,7 @@
 				A041182F24EE261700B309DA /* StatusView.swift in Sources */,
 				A0F4EE4824F83CA000D7AB84 /* RankingsView.swift in Sources */,
 				A041183524EEB2A500B309DA /* Ships.swift in Sources */,
+				A07CFC4C24F85AB10019FE20 /* TopDeathsModel.swift in Sources */,
 				A041183924EED0B600B309DA /* TopPilotsModel.swift in Sources */,
 				A0F552DE24D51C2A008C3296 /* SceneDelegate.swift in Sources */,
 				A0F552F524D52888008C3296 /* TimerModel.swift in Sources */,
@@ -225,6 +232,7 @@
 				A041183724EEC21B00B309DA /* Pilot.swift in Sources */,
 				A0EFC15724E781DE0082D187 /* LegionNewsModel.swift in Sources */,
 				A0F552E024D51C2A008C3296 /* ContentView.swift in Sources */,
+				A07CFC4E24F869BF0019FE20 /* TopDeathsView.swift in Sources */,
 				A041183B24EED98300B309DA /* PilotView.swift in Sources */,
 				A041182D24EBE61400B309DA /* Sectors.swift in Sources */,
 			);
