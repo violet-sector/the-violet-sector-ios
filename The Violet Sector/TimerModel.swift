@@ -19,19 +19,19 @@ final class TimerModel: ObservableObject {
     private var lastUpdate: Int64 = 0
     private var timer: Cancellable?
     private var request: Cancellable?
-
+    
     static let shared = TimerModel()
     private static let resource = "timer.php"
-
+    
     private init() {
         request = Client.shared.fetch(resource: TimerModel.resource, assignTo: \.response, on: self)
     }
-
+    
     private func setup() {
         let currentTime = Int64(Date().timeIntervalSince1970)
         let elapsedTime = response.turnDuration - response.remainingTime
         referenceTime = currentTime - elapsedTime
-        timer = Foundation.Timer.publish(every: 1.0, on: .main, in: .common)
+        timer = Timer.publish(every: 1.0, on: .main, in: .common)
             .autoconnect()
             .sink() {[unowned self] (date) in
                 let currentTime = Int64(date.timeIntervalSince1970)
@@ -48,12 +48,12 @@ final class TimerModel: ObservableObject {
                 }
         }
     }
-
+    
     struct Response: Decodable {
         let turnDuration: Int64
         let referenceTurn: Int64
         let remainingTime: Int64
-
+        
         private enum CodingKeys: String, CodingKey {
             case turnDuration = "tick_length"
             case referenceTurn = "tick"

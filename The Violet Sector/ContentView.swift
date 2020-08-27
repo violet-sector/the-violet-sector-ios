@@ -14,59 +14,30 @@ struct ContentView: View {
     var body: some View {
         TabView() {
             VStack() {
-                TimerView()
-                LegionNewsView()
+                MainView()
                 StatusView()
             }
-            .tabItem({Image(systemName: "desktopcomputer"); Text(verbatim: "Computer").bold()})
+            .tabItem({Image(systemName: "doc.text.fill"); Text(verbatim: "Main").bold()})
             VStack() {
-                TimerView()
-                GeometryReader() {(geometry) in
-                    VStack() {
-                        HStack() {
-                            Button(action: {}, label: {Text("Enemies").bold()})
-                                .frame(width: geometry.size.width / 3.0)
-                            Button(action: {}, label: {Text("Friendlies").bold()})
-                                .frame(width: geometry.size.width / 3.0)
-                            Button(action: {}, label: {Text("Pickups").bold()})
-                                .frame(width: geometry.size.width / 3.0)
-                        }
-                        HStack() {
-                            Button(action: {}, label: {Text("Incoming").bold()})
-                                .frame(width: geometry.size.width / 3.0)
-                            Button(action: {}, label: {Text("Outgoing").bold()})
-                                .frame(width: geometry.size.width / 3.0)
-                        }
-                    }
-                }
-                Spacer()
                 Text(verbatim: "Placeholder")
-                Spacer()
                 StatusView()
             }
-            .tabItem({Image(systemName: "antenna.radiowaves.left.and.right"); Text(verbatim: "Scanners").bold()})
+            .tabItem({Image(systemName: "dot.radiowaves.left.and.right"); Text(verbatim: "Scanners").bold()})
             VStack() {
-                TimerView()
-                Spacer()
                 Text(verbatim: "Placeholder")
-                Spacer()
                 StatusView()
             }
-            .tabItem({Image(systemName: "map"); Text(verbatim: "Navigation").bold()})
+            .tabItem({Image(systemName: "envelope.fill"); Text(verbatim: "Comms").bold()})
             VStack() {
-                TimerView()
-                Spacer()
                 Text(verbatim: "Placeholder")
-                Spacer()
                 StatusView()
             }
-            .tabItem({Image(systemName: "envelope"); Text(verbatim: "Comms").bold()})
+            .tabItem({Image(systemName: "map.fill"); Text(verbatim: "Navigation").bold()})
             VStack() {
-                TimerView()
                 RankingsView()
                 StatusView()
             }
-            .tabItem({Image(systemName: "person"); Text(verbatim: "Rankings").bold()})
+            .tabItem({Image(systemName: "person.fill"); Text(verbatim: "Rankings").bold()})
         }
         .alert(isPresented: $client.showingError, content: {Alert(title: Text("Error Fetching Data"), message: Text(client.error!))})
         .preferredColorScheme(.dark)

@@ -10,12 +10,7 @@ import Foundation
 import Combine
 
 final class LegionNewsModel: ObservableObject {
-    @Published private(set) var isReady = false
-    @Published private(set) var author = "Fleet Headquarters"
-    @Published private(set) var turn: Int64 = 0
-    @Published private(set) var time: Int64 = 0
-    @Published private(set) var text = "No news."
-    private var response: Response? {didSet {update()}}
+    @Published private(set) var response: Response?
     private var timer: Cancellable?
     private var request: Cancellable?
 
@@ -25,25 +20,17 @@ final class LegionNewsModel: ObservableObject {
 
     private init() {
         request = Client.shared.fetch(resource: LegionNewsModel.resource, assignTo: \.response, on: self)
-        timer = Foundation.Timer.publish(every: LegionNewsModel.refreshInterval, on: .main, in: .common)
+        timer = Timer.publish(every: LegionNewsModel.refreshInterval, on: .main, in: .common)
             .autoconnect()
             .sink(receiveValue: {[unowned self] (_) in self.request = Client.shared.fetch(resource: LegionNewsModel.resource, assignTo: \.response, on: self)})
     }
 
-    private func update() {
-        author = response!.content.author
-        turn = response!.content.turn
-        time = response!.content.time
-        text = response!.content.text
-        isReady = true
-    }
-
     struct Response: Decodable {
-        let content: Content
+        let data: Content
         let status: Status
 
         private enum CodingKeys: String, CodingKey {
-            case content = "legion_news"
+            case data = "legion_news"
             case status = "player"
         }
 

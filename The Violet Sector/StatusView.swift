@@ -13,16 +13,15 @@ struct StatusView: View {
 
     var body: some View {
         Group {
-            if model.isReady {
-                VStack(alignment: .leading) {
+            if model.data != nil {
+            VStack() {
                     HStack() {
-                        Text(verbatim: "Moves: \(model.moves)")
-                            .frame(idealWidth: .infinity, alignment: .leading)
-                        HealthView(current: model.currentHealth, max: model.maxHealth, showLabel: true)
-                            .frame(idealWidth: .infinity, alignment: .leading)
+                        Text(verbatim: "\(model.data!.moves) \(model.data!.moves != 1 ? "Moves" : "Move")")
+                        HealthView(current: model.data!.currentHealth, max: model.data!.maxHealth)
+                        Text(verbatim: (model.data!.destinationSector == .none ? "\(model.data!.currentSector)" : "Hypering to \(model.data!.destinationSector)") + (model.data!.isSleeping ? " (zZzZ)" : "") + (model.data!.isCloaked ? " (Cloaked)" : "") + (model.data!.isInvulnerable ? " (Invulnerable)" : ""))
                     }
-                    Text(verbatim: "Sector: " + (model.destinationSector == .none ? "\(model.currentSector)" : "hypering to \(model.destinationSector)") + (model.isSleeping ? " (zZzZ)" : "") + (model.isCloaked ? " (Cloaked)" : "") + (model.isInvulnerable ? " (Invulnerable)" : ""))
-                        .frame(idealWidth: .infinity, alignment: .leading)
+                    .accessibilityElement(children: .combine)
+                TimerView()
                 }
             }
         }

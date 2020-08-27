@@ -10,9 +10,9 @@ import Foundation
 import Combine
 
 final class RankingsModel: ObservableObject {
-    @Published private(set) var isReady = false
-    @Published private(set) var matches: [(offset: Int, element: Pilot)]?
-    private var response: Response? {didSet {update()}}
+    @Published private(set) var matches: [(rank: Int, pilot: Pilot)]?
+    private var response: Response? {didSet {refresh()}}
+    private var rankedPilots: [(rank: Int, pilot: Pilot)]?
     private var pattern = ""
     private var timer: Cancellable?
     private var request: Cancellable?
@@ -23,31 +23,35 @@ final class RankingsModel: ObservableObject {
 
     private init() {
         request = Client.shared.fetch(resource: RankingsModel.resource, assignTo: \.response, on: self)
-        timer = Foundation.Timer.publish(every: RankingsModel.refreshInterval, on: .main, in: .common)
+        timer = Timer.publish(every: RankingsModel.refreshInterval, on: .main, in: .common)
             .autoconnect()
             .sink(receiveValue: {[unowned self] (_) in self.request = Client.shared.fetch(resource: RankingsModel.resource, assignTo: \.response, on: self)})
     }
 
-    private func update() {
-        StatusModel.shared.update(status: response!.status)
+    private func refresh() {
+        guard let response = response else {
+            return
+        }
+        StatusModel.shared.refresh(data: response.status)
+        let pilots = response.pilots.sorted(by: {$0.score > $1.score})
+        rankedPilots = pilots.indices.map({(rank: $0 + 1, pilot: pilots[$0])})
         search(for: pattern)
-        isReady = true
     }
 
     func search(for pattern: String) {
         self.pattern = pattern
         guard !pattern.isEmpty else {
-            matches = response != nil ? [(offset: Int, element: Pilot)](response!.pilots.enumerated()) : nil
+            matches = rankedPilots
             return
         }
-        matches = response?.pilots.enumerated().filter() {(rank) in
-            let tolerance = max(pattern.count, rank.element.name.count) / 3
-            let distance = pattern ~= rank.element.name
+        matches = rankedPilots!.filter() {(rankedPilot) in
+            let tolerance = max(pattern.count, rankedPilot.pilot.name.count) * 2 / 5
+            let distance = pattern ~= rankedPilot.pilot.name
             return distance <= tolerance
         }
     }
 
-    struct Response: Decodable {
+    private struct Response: Decodable {
         let pilots: [Pilot]
         let status: Status
 
@@ -56,4 +60,4 @@ final class RankingsModel: ObservableObject {
             case status = "player"
         }
     }
- }
+}
