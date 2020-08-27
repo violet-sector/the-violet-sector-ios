@@ -15,10 +15,10 @@ struct PilotView: View {
 
     var body: some View {
         NavigationLink(destination: Detail(rank: rank, data: data)) {
-            HStack(spacing: 0.0) {
+            HStack() {
                 if rank > 0 {
                     Text(verbatim: "\(rank)")
-                        .frame(width: 32.0)
+                        .frame(width: 16.0)
                 }
                 GeometryReader() {(geometry) in
                     HStack(spacing: 0.0) {
