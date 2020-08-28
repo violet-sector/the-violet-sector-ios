@@ -17,11 +17,14 @@ struct RankingsView: View {
                 HStack() {
                     Button("Top Pilots", action: {self.tab = .topPilots})
                     Button("Top Deaths", action: {self.tab = .topDeaths})
+                    Button("Top Legions", action: {self.tab = .topLegions})
                 }
                 if tab == .topPilots {
                     TopPilotsView()
                 } else if tab == .topDeaths {
                     TopDeathsView()
+                } else if tab == .topLegions {
+                    TopLegionsView()
                 }
             }
                 .navigationBarTitle("Rankings", displayMode: .inline)
@@ -31,5 +34,6 @@ struct RankingsView: View {
     private enum Tabs {
         case topPilots
         case topDeaths
+        case topLegions
     }
 }
