@@ -25,7 +25,7 @@ final class TopDeathsModel: ObservableObject {
         request = Client.shared.fetch(resource: TopDeathsModel.resource, assignTo: \.response, on: self)
         timer = Timer.publish(every: TopDeathsModel.refreshInterval, on: .main, in: .common)
         .autoconnect()
-            .sink(receiveValue: {(_) in self.request = Client.shared.fetch(resource: TopDeathsModel.resource, assignTo: \.response, on: self)})
+            .sink(receiveValue: {[unowned self] (_) in self.request = Client.shared.fetch(resource: TopDeathsModel.resource, assignTo: \.response, on: self)})
     }
 
     private func refresh() {
