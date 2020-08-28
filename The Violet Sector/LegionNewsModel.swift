@@ -10,7 +10,7 @@ import Foundation
 import Combine
 
 final class LegionNewsModel: ObservableObject {
-    @Published private(set) var response: Response?
+    @Published private(set) var response: Response? {didSet {if response != nil {StatusModel.shared.refresh(data: response!.status)}}}
     private var timer: Cancellable?
     private var request: Cancellable?
 
