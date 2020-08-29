@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A001168424F4EB980023B0B0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A001168324F4EB980023B0B0 /* MainView.swift */; };
+		A034B94F24FAA57E0018D0DC /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A034B94E24FAA57E0018D0DC /* LICENSE */; };
 		A041182B24EBE37100B309DA /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041182A24EBE37100B309DA /* Status.swift */; };
 		A041182D24EBE61400B309DA /* Sectors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041182C24EBE61400B309DA /* Sectors.swift */; };
 		A041182F24EE261700B309DA /* StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041182E24EE261700B309DA /* StatusView.swift */; };
@@ -40,6 +41,7 @@
 
 /* Begin PBXFileReference section */
 		A001168324F4EB980023B0B0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		A034B94E24FAA57E0018D0DC /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		A041182A24EBE37100B309DA /* Status.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
 		A041182C24EBE61400B309DA /* Sectors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sectors.swift; sourceTree = "<group>"; };
 		A041182E24EE261700B309DA /* StatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusView.swift; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 		A0F552CF24D51C2A008C3296 = {
 			isa = PBXGroup;
 			children = (
+				A034B94E24FAA57E0018D0DC /* LICENSE */,
 				A0F552EF24D520C7008C3296 /* README.md */,
 				A0F552DA24D51C2A008C3296 /* The Violet Sector */,
 				A0F552D924D51C2A008C3296 /* Products */,
@@ -206,6 +209,7 @@
 			files = (
 				A0F552E824D51C2B008C3296 /* LaunchScreen.storyboard in Resources */,
 				A0F552E524D51C2B008C3296 /* Preview Assets.xcassets in Resources */,
+				A034B94F24FAA57E0018D0DC /* LICENSE in Resources */,
 				A0F552E224D51C2B008C3296 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
