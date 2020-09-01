@@ -71,5 +71,6 @@ struct PilotView: View {
             }
         }
         .navigationBarTitle("\(data.name)\(data.isOnline ? "*" : "")", displayMode: .inline)
+        .navigationBarItems(trailing: RefreshButtonView())
     }
 }

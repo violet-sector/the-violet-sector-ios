@@ -10,9 +10,9 @@ import Foundation
 import Combine
 
 final class Client: ObservableObject {
-    @Published var error: String? {didSet {if error != nil {showingError = true}}}
     @Published var showingError = false
-    private var lastError: Error?
+    @Published private(set) var error: String? {didSet {if error != nil {showingError = true}}}
+    weak var refreshable: Refreshable? {didSet {if let refreshable = refreshable {refreshable.refresh()}}}
     private let session: URLSession
     private let decoder = JSONDecoder()
 
@@ -32,11 +32,12 @@ final class Client: ObservableObject {
         session = URLSession(configuration: configuration)
     }
 
-    func fetch<Root: AnyObject, Target: Decodable>(resource: String, assignTo keyPath: ReferenceWritableKeyPath<Root, Target>, on root: Root) -> Cancellable {
-        return session.dataTaskPublisher(for: Client.baseURL.appendingPathComponent(resource, isDirectory: false))
-            .tryMap({[unowned self] in try self.decoder.decode(Target.self, from: $0.data)})
+    func fetch<Target: Fetchable>(_ target: Target) -> Cancellable {
+        return session.dataTaskPublisher(for: Client.baseURL.appendingPathComponent(Target.resource, isDirectory: false))
+            .tryMap({[unowned self] in Target.Response?(try self.decoder.decode(Target.Response.self, from: $0.data))})
             .receive(on: RunLoop.main)
-            .sink(receiveCompletion: {[unowned self] in if case let .failure(error) = $0 {self.showError(error)}}, receiveValue: {root[keyPath: keyPath] = $0})
+            .catch({[unowned self] (error) -> Just<Target.Response?> in self.showError(error); return Just(Target.Response?.none)})
+            .assign(to: \.response, on: target)
     }
 
     private func showError(_ error: Error) {
@@ -51,7 +52,7 @@ final class Client: ObservableObject {
         default:
             message = "Unknown error."
         }
-        guard !showingError && (self.error == nil || self.error != message) else {
+        guard !showingError else {
             return
         }
         self.error = message

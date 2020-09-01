@@ -26,6 +26,9 @@
 		A07CFC4E24F869BF0019FE20 /* TopDeathsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07CFC4D24F869BF0019FE20 /* TopDeathsView.swift */; };
 		A07CFC5024F887280019FE20 /* TopLegionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07CFC4F24F887280019FE20 /* TopLegionsModel.swift */; };
 		A07CFC5224F8895A0019FE20 /* TopLegionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07CFC5124F8895A0019FE20 /* TopLegionsView.swift */; };
+		A0C4FF5724FE66F000BA2418 /* Refreshable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C4FF5624FE66F000BA2418 /* Refreshable.swift */; };
+		A0C4FF5924FE7A5100BA2418 /* RefreshButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C4FF5824FE7A5100BA2418 /* RefreshButtonView.swift */; };
+		A0C4FF5B24FED10B00BA2418 /* Fetchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C4FF5A24FED10B00BA2418 /* Fetchable.swift */; };
 		A0EFC15724E781DE0082D187 /* LegionNewsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EFC15624E781DE0082D187 /* LegionNewsModel.swift */; };
 		A0F4EE4824F83CA000D7AB84 /* RankingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F4EE4724F83CA000D7AB84 /* RankingsView.swift */; };
 		A0F552DC24D51C2A008C3296 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F552DB24D51C2A008C3296 /* AppDelegate.swift */; };
@@ -59,6 +62,9 @@
 		A07CFC4D24F869BF0019FE20 /* TopDeathsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopDeathsView.swift; sourceTree = "<group>"; };
 		A07CFC4F24F887280019FE20 /* TopLegionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLegionsModel.swift; sourceTree = "<group>"; };
 		A07CFC5124F8895A0019FE20 /* TopLegionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLegionsView.swift; sourceTree = "<group>"; };
+		A0C4FF5624FE66F000BA2418 /* Refreshable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Refreshable.swift; sourceTree = "<group>"; };
+		A0C4FF5824FE7A5100BA2418 /* RefreshButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshButtonView.swift; sourceTree = "<group>"; };
+		A0C4FF5A24FED10B00BA2418 /* Fetchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fetchable.swift; sourceTree = "<group>"; };
 		A0EFC15624E781DE0082D187 /* LegionNewsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegionNewsModel.swift; sourceTree = "<group>"; };
 		A0F4EE4724F83CA000D7AB84 /* RankingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsView.swift; sourceTree = "<group>"; };
 		A0F552D824D51C2A008C3296 /* The Violet Sector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The Violet Sector.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,6 +123,7 @@
 				A07CFC4D24F869BF0019FE20 /* TopDeathsView.swift */,
 				A07CFC5124F8895A0019FE20 /* TopLegionsView.swift */,
 				A041183A24EED98300B309DA /* PilotView.swift */,
+				A0C4FF5824FE7A5100BA2418 /* RefreshButtonView.swift */,
 				A041182E24EE261700B309DA /* StatusView.swift */,
 				A0F552F224D527F8008C3296 /* TimerView.swift */,
 				A041183024EE4FF200B309DA /* HealthView.swift */,
@@ -132,6 +139,8 @@
 				A041183424EEB2A500B309DA /* Ships.swift */,
 				A041183224EEAF0A00B309DA /* Legions.swift */,
 				A0F552F024D525DA008C3296 /* Client.swift */,
+				A0C4FF5624FE66F000BA2418 /* Refreshable.swift */,
+				A0C4FF5A24FED10B00BA2418 /* Fetchable.swift */,
 				A043549A24F0355100EA9BF4 /* String.swift */,
 				A0F552E124D51C2B008C3296 /* Assets.xcassets */,
 				A0F552E624D51C2B008C3296 /* LaunchScreen.storyboard */,
@@ -227,7 +236,9 @@
 				A041183324EEAF0A00B309DA /* Legions.swift in Sources */,
 				A0F552DC24D51C2A008C3296 /* AppDelegate.swift in Sources */,
 				A043549D24F2118000EA9BF4 /* StatusModel.swift in Sources */,
+				A0C4FF5724FE66F000BA2418 /* Refreshable.swift in Sources */,
 				A041182F24EE261700B309DA /* StatusView.swift in Sources */,
+				A0C4FF5924FE7A5100BA2418 /* RefreshButtonView.swift in Sources */,
 				A0F4EE4824F83CA000D7AB84 /* RankingsView.swift in Sources */,
 				A041183524EEB2A500B309DA /* Ships.swift in Sources */,
 				A07CFC4C24F85AB10019FE20 /* TopDeathsModel.swift in Sources */,
@@ -235,6 +246,7 @@
 				A0F552DE24D51C2A008C3296 /* SceneDelegate.swift in Sources */,
 				A0F552F524D52888008C3296 /* TimerModel.swift in Sources */,
 				A0F552F124D525DA008C3296 /* Client.swift in Sources */,
+				A0C4FF5B24FED10B00BA2418 /* Fetchable.swift in Sources */,
 				A07CFC5224F8895A0019FE20 /* TopLegionsView.swift in Sources */,
 				A041182B24EBE37100B309DA /* Status.swift in Sources */,
 				A001168424F4EB980023B0B0 /* MainView.swift in Sources */,

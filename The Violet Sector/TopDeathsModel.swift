@@ -6,30 +6,28 @@
 //  Copyright © 2020 João Santos. Check out the LICENSE document for details.
 //
 
-import Foundation
 import Combine
 
-final class TopDeathsModel: ObservableObject {
+final class TopDeathsModel: ObservableObject, Refreshable, Fetchable {
     @Published private(set) var matches: [(rank: Int, death: Death)]?
     @Published var term = ""
-    private var response: Response? {didSet {refresh()}}
+    var response: Response? {didSet {update()}}
     private var rankedDeaths: [(rank: Int, death: Death)]?
-    private var timer: Cancellable?
     private var request: Cancellable?
 
     static let shared = TopDeathsModel()
-    private static let resource = "rankings_att.php"
-    private static let refreshInterval = TimeInterval(30.0)
+    static let resource = "rankings_att.php"
 
-    private init() {
-        request = Client.shared.fetch(resource: TopDeathsModel.resource, assignTo: \.response, on: self)
-        timer = Timer.publish(every: TopDeathsModel.refreshInterval, on: .main, in: .common)
-        .autoconnect()
-            .sink(receiveValue: {[unowned self] (_) in self.request = Client.shared.fetch(resource: TopDeathsModel.resource, assignTo: \.response, on: self)})
+    private init() {}
+
+    func refresh() {
+        request = Client.shared.fetch(self)
     }
 
-    private func refresh() {
+    private func update() {
+        request = nil
         guard let response = response else {
+            matches = nil
             return
         }
         StatusModel.shared.refresh(data: response.status)
@@ -50,11 +48,11 @@ final class TopDeathsModel: ObservableObject {
         }
     }
 
-    private struct Response: Decodable {
+    struct Response: Decodable {
         let deaths: [Death]
         let status: Status
 
-        enum CodingKeys: String, CodingKey {
+        private enum CodingKeys: String, CodingKey {
             case deaths = "rankings_att"
             case status = "player"
         }

@@ -28,6 +28,7 @@ struct RankingsView: View {
                 }
             }
                 .navigationBarTitle("Rankings", displayMode: .inline)
+            .navigationBarItems(trailing: RefreshButtonView())
         }
     }
 

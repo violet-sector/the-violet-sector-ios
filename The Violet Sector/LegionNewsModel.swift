@@ -6,23 +6,27 @@
 //  Copyright © 2020 João Santos. Check out the LICENSE document for details.
 //
 
-import Foundation
 import Combine
 
-final class LegionNewsModel: ObservableObject {
-    @Published private(set) var response: Response? {didSet {if response != nil {StatusModel.shared.refresh(data: response!.status)}}}
-    private var timer: Cancellable?
+final class LegionNewsModel: ObservableObject, Refreshable, Fetchable {
+    @Published var response: Response? {didSet {update()}}
     private var request: Cancellable?
 
     static let shared = LegionNewsModel()
-    private static let resource = "legion_news.php"
-    private static let refreshInterval = TimeInterval(30.0)
+    static let resource = "legion_news.php"
 
-    private init() {
-        request = Client.shared.fetch(resource: LegionNewsModel.resource, assignTo: \.response, on: self)
-        timer = Timer.publish(every: LegionNewsModel.refreshInterval, on: .main, in: .common)
-            .autoconnect()
-            .sink(receiveValue: {[unowned self] (_) in self.request = Client.shared.fetch(resource: LegionNewsModel.resource, assignTo: \.response, on: self)})
+    private init() {}
+
+    func refresh() {
+        request = Client.shared.fetch(self)
+    }
+
+    private func update() {
+        request = nil
+        guard let response = response else {
+            return
+        }
+        StatusModel.shared.refresh(data: response.status)
     }
 
     struct Response: Decodable {

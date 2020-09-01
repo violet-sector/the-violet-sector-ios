@@ -13,6 +13,7 @@ struct MainView: View {
         NavigationView() {
             LegionNewsView()
                 .navigationBarTitle("Main", displayMode: .inline)
+                .navigationBarItems(trailing: RefreshButtonView())
         }
     }
 }

@@ -42,5 +42,6 @@ struct TopDeathsView: View {
                 Spacer()
             }
         }
+        .onAppear(perform: {Client.shared.refreshable = self.model})
     }
 }

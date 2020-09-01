@@ -6,28 +6,26 @@
 //  Copyright © 2020 João Santos. Check out the LICENSE document for details.
 //
 
-import Foundation
 import Combine
 
-final class TopLegionsModel: ObservableObject {
+final class TopLegionsModel: ObservableObject, Refreshable, Fetchable {
     @Published private(set) var rankedLegions: [(rank: Int, legion: Response.Content)]?
-    private var response: Response? {didSet {refresh()}}
-    private var timer: Cancellable?
+    var response: Response? {didSet {update()}}
     private var request: Cancellable?
 
     static let shared = TopLegionsModel()
-    private static let resource = "rankings_legions.php"
-    private static let refreshInterval = TimeInterval(30.0)
+    static let resource = "rankings_legions.php"
 
-    private init() {
-        request = Client.shared.fetch(resource: TopLegionsModel.resource, assignTo: \.response, on: self)
-        timer = Timer.publish(every: TopLegionsModel.refreshInterval, on: .main, in: .common)
-            .autoconnect()
-            .sink(receiveValue: {[unowned self] (_) in self.request = Client.shared.fetch(resource: TopLegionsModel.resource, assignTo: \.response, on: self)})
+    private init() {}
+
+    func refresh() {
+        request = Client.shared.fetch(self)
     }
 
-    private func refresh() {
+    private func update() {
+        request = nil
         guard let response = response else {
+            rankedLegions = nil
             return
         }
         StatusModel.shared.refresh(data: response.status)
