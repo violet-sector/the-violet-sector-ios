@@ -31,7 +31,7 @@ struct TopPilotsView: View {
                                     HealthView(current: element.pilot.currentHealth, max: element.pilot.maxHealth)
                                         .percentage()
                                         .frame(width: geometry.size.width * 0.2, alignment: .trailing)
-                                    Text(verbatim: "\(element.pilot.score > 10000 ? "\(element.pilot.score / 1000)k" : "\(element.pilot.score)") (\(element.pilot.level)")
+                                    Text(verbatim: "\(element.pilot.score >= 10000 ? "\(element.pilot.score / 1000)k" : "\(element.pilot.score)") (\(element.pilot.level)")
                                         .frame(width: geometry.size.width * 0.3, alignment: .trailing)
                                 }
                             }
