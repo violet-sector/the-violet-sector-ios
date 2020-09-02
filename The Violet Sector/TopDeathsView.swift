@@ -20,22 +20,28 @@ struct TopDeathsView: View {
                 TextField("Search", text: $model.term, onCommit: {self.model.search()})
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
-                List(model.matches!, id: \.rank) {(rankedDeath) in
-                    HStack() {
-                        Text(verbatim: "\(rankedDeath.rank)")
-                            .frame(width: 16.0, alignment: .trailing)
-                        GeometryReader() {(geometry) in
-                            HStack(spacing: 0.0) {
-                                Text(verbatim: rankedDeath.death.name)
-                                    .frame(width: geometry.size.width * 0.5, alignment: .leading)
-                                Text(verbatim: "\(rankedDeath.death.score)")
-                                    .frame(width: geometry.size.width * 0.3, alignment: .trailing)
-                                Text(verbatim: "\(rankedDeath.death.turn)")
-                                    .frame(width: geometry.size.width * 0.2, alignment: .trailing)
+                if !model.matches!.isEmpty {
+                    List(model.matches!, id: \.rank) {(rankedDeath) in
+                        HStack() {
+                            Text(verbatim: "\(rankedDeath.rank)")
+                                .frame(width: 16.0, alignment: .trailing)
+                            GeometryReader() {(geometry) in
+                                HStack(spacing: 0.0) {
+                                    Text(verbatim: rankedDeath.death.name)
+                                        .frame(width: geometry.size.width * 0.5, alignment: .leading)
+                                    Text(verbatim: "\(rankedDeath.death.score)")
+                                        .frame(width: geometry.size.width * 0.3, alignment: .trailing)
+                                    Text(verbatim: "\(rankedDeath.death.turn)")
+                                        .frame(width: geometry.size.width * 0.2, alignment: .trailing)
+                                }
                             }
                         }
+                        .accessibilityElement(children: .combine)
                     }
-                    .accessibilityElement(children: .combine)
+                } else {
+                    Spacer()
+                    Text(verbatim: "Nothing to show.")
+                    Spacer()
                 }
             } else if model.error != nil {
                 ErrorView(error: model.error!)
