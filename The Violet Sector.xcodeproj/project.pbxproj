@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		A001168424F4EB980023B0B0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A001168324F4EB980023B0B0 /* MainView.swift */; };
 		A034B94F24FAA57E0018D0DC /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A034B94E24FAA57E0018D0DC /* LICENSE */; };
+		A035BE8A24FFA99F00887C33 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A035BE8924FFA99F00887C33 /* ErrorView.swift */; };
 		A041182B24EBE37100B309DA /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041182A24EBE37100B309DA /* Status.swift */; };
 		A041182D24EBE61400B309DA /* Sectors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041182C24EBE61400B309DA /* Sectors.swift */; };
 		A041182F24EE261700B309DA /* StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041182E24EE261700B309DA /* StatusView.swift */; };
@@ -45,6 +46,7 @@
 /* Begin PBXFileReference section */
 		A001168324F4EB980023B0B0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		A034B94E24FAA57E0018D0DC /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		A035BE8924FFA99F00887C33 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		A041182A24EBE37100B309DA /* Status.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
 		A041182C24EBE61400B309DA /* Sectors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sectors.swift; sourceTree = "<group>"; };
 		A041182E24EE261700B309DA /* StatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusView.swift; sourceTree = "<group>"; };
@@ -118,12 +120,13 @@
 				A0F552DF24D51C2A008C3296 /* ContentView.swift */,
 				A001168324F4EB980023B0B0 /* MainView.swift */,
 				A0F4EE4724F83CA000D7AB84 /* RankingsView.swift */,
+				A0C4FF5824FE7A5100BA2418 /* RefreshButtonView.swift */,
 				A046D02D24E79E24000393E7 /* LegionNewsView.swift */,
 				A041183C24EFBB7F00B309DA /* TopPilotsView.swift */,
 				A07CFC4D24F869BF0019FE20 /* TopDeathsView.swift */,
 				A07CFC5124F8895A0019FE20 /* TopLegionsView.swift */,
+				A035BE8924FFA99F00887C33 /* ErrorView.swift */,
 				A041183A24EED98300B309DA /* PilotView.swift */,
-				A0C4FF5824FE7A5100BA2418 /* RefreshButtonView.swift */,
 				A041182E24EE261700B309DA /* StatusView.swift */,
 				A0F552F224D527F8008C3296 /* TimerView.swift */,
 				A041183024EE4FF200B309DA /* HealthView.swift */,
@@ -255,6 +258,7 @@
 				A041183724EEC21B00B309DA /* Pilot.swift in Sources */,
 				A0EFC15724E781DE0082D187 /* LegionNewsModel.swift in Sources */,
 				A0F552E024D51C2A008C3296 /* ContentView.swift in Sources */,
+				A035BE8A24FFA99F00887C33 /* ErrorView.swift in Sources */,
 				A07CFC4E24F869BF0019FE20 /* TopDeathsView.swift in Sources */,
 				A041183B24EED98300B309DA /* PilotView.swift in Sources */,
 				A041182D24EBE61400B309DA /* Sectors.swift in Sources */,

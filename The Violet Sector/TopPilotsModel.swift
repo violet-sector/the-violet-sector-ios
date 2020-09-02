@@ -11,7 +11,7 @@ import Combine
 final class TopPilotsModel: ObservableObject, Refreshable, Fetchable {
     @Published private(set) var matches: [(rank: Int, pilot: Pilot)]?
     @Published var term = ""
-    @Published var error: String?
+    @Published var error: Error?
     var response: Response? {didSet {update()}}
     var request: Cancellable?
     private var rankedPilots: [(rank: Int, pilot: Pilot)]?
@@ -27,7 +27,6 @@ final class TopPilotsModel: ObservableObject, Refreshable, Fetchable {
             matches = nil
             return
         }
-        error = nil
         StatusModel.shared.refresh(data: response.status)
         let pilots = response.pilots.sorted(by: {$0.score > $1.score})
         rankedPilots = pilots.indices.map({(rank: $0 + 1, pilot: pilots[$0])})

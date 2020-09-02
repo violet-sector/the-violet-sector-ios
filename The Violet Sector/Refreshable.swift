@@ -16,6 +16,8 @@ protocol Refreshable: AnyObject {
 
 extension Refreshable where Self: Fetchable {
     func refresh() {
+        response = nil
+        error = nil
         request = Client.shared.fetch(self)
     }
 }

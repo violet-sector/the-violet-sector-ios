@@ -32,9 +32,21 @@ final class Client {
 
     func fetch<Target: Fetchable>(_ target: Target) -> Cancellable {
         return session.dataTaskPublisher(for: Client.baseURL.appendingPathComponent(Target.resource, isDirectory: false))
-            .tryMap({[unowned self] in Target.Response?(try self.decoder.decode(Target.Response.self, from: $0.data))})
+            .tryMap({if $0.response.mimeType == nil || $0.response.mimeType! != "application/json" {throw Errors.invalidContentType}; return $0.data})
+            .decode(type: Target.Response?.self, decoder: decoder)
             .receive(on: RunLoop.main)
-            .catch({(error) -> Just<Target.Response?> in target.handleError(error); return Just(Target.Response?.none)})
+            .catch({(error) -> Just<Target.Response?> in target.error = error; return Just(Target.Response?.none)})
             .assign(to: \.response, on: target)
+    }
+
+    enum Errors: LocalizedError {
+        case invalidContentType
+
+        var errorDescription: String? {
+            switch self {
+            case .invalidContentType:
+                return "Invalid content type."
+            }
+        }
     }
 }

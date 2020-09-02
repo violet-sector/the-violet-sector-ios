@@ -26,9 +26,7 @@ struct LegionNewsView: View {
                     .frame(width: geometry.size.width * 0.9, height: geometry.size.height - 5.0)
                 }
             } else if model.error != nil {
-                Spacer()
-                Text(verbatim: model.error!)
-                Spacer()
+                ErrorView(error: model.error!)
             } else {
                 Spacer()
                 Text(verbatim: "Loading...")

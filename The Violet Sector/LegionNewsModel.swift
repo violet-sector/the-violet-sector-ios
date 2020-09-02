@@ -10,7 +10,7 @@ import Combine
 
 final class LegionNewsModel: ObservableObject, Refreshable, Fetchable {
     @Published var response: Response? {didSet {update()}}
-    @Published var error: String?
+    @Published var error: Error?
     var request: Cancellable?
 
     static let shared = LegionNewsModel()
@@ -23,7 +23,6 @@ final class LegionNewsModel: ObservableObject, Refreshable, Fetchable {
         guard let response = response else {
             return
         }
-        error = nil
         StatusModel.shared.refresh(data: response.status)
     }
 
