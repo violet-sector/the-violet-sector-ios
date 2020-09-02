@@ -9,12 +9,14 @@
 import Combine
 
 final class TopDeathsModel: ObservableObject, Refreshable, Fetchable {
-    @Published private(set) var matches: [(rank: Int, death: Death)]?
+    typealias RankedDeath = (rank: Int, death: Death)
+
+    @Published private(set) var matches: [RankedDeath]?
     @Published var term = ""
     @Published var error: Error?
     var response: Response? {didSet {update()}}
     var request: Cancellable?
-    private var rankedDeaths: [(rank: Int, death: Death)]?
+    private var rankedDeaths: [RankedDeath]?
 
     static let shared = TopDeathsModel()
     static let resource = "rankings_att.php"

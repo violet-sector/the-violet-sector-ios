@@ -9,12 +9,14 @@
 import Combine
 
 final class TopPilotsModel: ObservableObject, Refreshable, Fetchable {
-    @Published private(set) var matches: [(rank: Int, pilot: Pilot)]?
+    typealias RankedPilot = (rank: Int, pilot: Pilot)
+
+    @Published private(set) var matches: [RankedPilot]?
     @Published var term = ""
     @Published var error: Error?
     var response: Response? {didSet {update()}}
     var request: Cancellable?
-    private var rankedPilots: [(rank: Int, pilot: Pilot)]?
+    private var rankedPilots: [RankedPilot]?
 
     static let shared = TopPilotsModel()
     static let resource = "rankings_pilots.php"

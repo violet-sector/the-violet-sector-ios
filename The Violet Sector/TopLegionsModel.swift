@@ -9,7 +9,9 @@
 import Combine
 
 final class TopLegionsModel: ObservableObject, Refreshable, Fetchable {
-    @Published private(set) var rankedLegions: [(rank: Int, legion: Response.Content)]?
+    typealias RankedLegion = (rank: Int, legion: Response.Content)
+
+    @Published private(set) var rankedLegions: [RankedLegion]?
     @Published var error: Error?
     var response: Response? {didSet {update()}}
     var request: Cancellable?
