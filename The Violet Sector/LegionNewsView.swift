@@ -15,6 +15,7 @@ struct LegionNewsView: View {
         VStack() {
             Text(verbatim: "Legion News")
                 .bold()
+                .accessibility(addTraits: .isHeader)
             if model.response != nil {
                 GeometryReader() {(geometry) in
                     ScrollView() {

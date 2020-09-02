@@ -14,7 +14,8 @@ struct TopLegionsView: View {
     var body: some View {
         VStack() {
             Text(verbatim: "Top Legions")
-            .bold()
+                .bold()
+                .accessibility(addTraits: .isHeader)
             if model.rankedLegions != nil {
                 List(model.rankedLegions!, id: \.legion.legion) {(rankedLegion) in
                     HStack() {

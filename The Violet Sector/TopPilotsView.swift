@@ -15,6 +15,7 @@ struct TopPilotsView: View {
         VStack() {
             Text(verbatim: "Top Pilots")
                 .bold()
+                .accessibility(addTraits: .isHeader)
             if model.matches != nil {
                 TextField("Search", text: $model.term, onCommit: {self.model.search()})
                     .autocapitalization(.none)

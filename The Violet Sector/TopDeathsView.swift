@@ -14,7 +14,8 @@ struct TopDeathsView: View {
     var body: some View {
         VStack() {
             Text(verbatim: "Top Deaths")
-            .bold()
+                .bold()
+                .accessibility(addTraits: .isHeader)
             if model.matches != nil {
                 TextField("Search", text: $model.term, onCommit: {self.model.search()})
                     .autocapitalization(.none)
