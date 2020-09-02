@@ -25,7 +25,7 @@ struct TopPilotsView: View {
                         NavigationLink(destination: TargetView(rank: element.rank, data: element.pilot)) {
                             HStack() {
                                 Text(verbatim: "\(element.rank)")
-                                    .frame(width: 16.0)
+                                    .frame(width: 16.0, alignment: .trailing)
                                 GeometryReader() {(geometry) in
                                     HStack(spacing: 0.0) {
                                         (Text(verbatim: "\(element.pilot.name)\(element.pilot.isOnline ? "*" : "") [") + Text(verbatim: "\(element.pilot.legion.description.first!)").bold().foregroundColor(Color(.sRGB, red: element.pilot.legion.color.red, green: element.pilot.legion.color.green, blue: element.pilot.legion.color.blue, opacity: 1.0)) + Text(verbatim: "]"))
