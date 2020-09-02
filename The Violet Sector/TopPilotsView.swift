@@ -43,9 +43,7 @@ struct TopPilotsView: View {
             } else if model.error != nil {
                 ErrorView(error: model.error!)
             } else {
-                Spacer()
-                Text(verbatim: "Loading...")
-                Spacer()
+                LoadingView()
             }
         }
         .onAppear(perform: {Client.shared.refreshable = self.model})

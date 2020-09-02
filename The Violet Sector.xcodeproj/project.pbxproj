@@ -23,6 +23,7 @@
 		A043549B24F0355100EA9BF4 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = A043549A24F0355100EA9BF4 /* String.swift */; };
 		A043549D24F2118000EA9BF4 /* StatusModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A043549C24F2118000EA9BF4 /* StatusModel.swift */; };
 		A046D02E24E79E24000393E7 /* LegionNewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A046D02D24E79E24000393E7 /* LegionNewsView.swift */; };
+		A06FE51024FFC7E300BB0C59 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06FE50F24FFC7E300BB0C59 /* LoadingView.swift */; };
 		A07CFC4C24F85AB10019FE20 /* TopDeathsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07CFC4B24F85AB10019FE20 /* TopDeathsModel.swift */; };
 		A07CFC4E24F869BF0019FE20 /* TopDeathsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07CFC4D24F869BF0019FE20 /* TopDeathsView.swift */; };
 		A07CFC5024F887280019FE20 /* TopLegionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07CFC4F24F887280019FE20 /* TopLegionsModel.swift */; };
@@ -60,6 +61,7 @@
 		A043549A24F0355100EA9BF4 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		A043549C24F2118000EA9BF4 /* StatusModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusModel.swift; sourceTree = "<group>"; };
 		A046D02D24E79E24000393E7 /* LegionNewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegionNewsView.swift; sourceTree = "<group>"; };
+		A06FE50F24FFC7E300BB0C59 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		A07CFC4B24F85AB10019FE20 /* TopDeathsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopDeathsModel.swift; sourceTree = "<group>"; };
 		A07CFC4D24F869BF0019FE20 /* TopDeathsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopDeathsView.swift; sourceTree = "<group>"; };
 		A07CFC4F24F887280019FE20 /* TopLegionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLegionsModel.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				A07CFC4D24F869BF0019FE20 /* TopDeathsView.swift */,
 				A07CFC5124F8895A0019FE20 /* TopLegionsView.swift */,
 				A035BE8924FFA99F00887C33 /* ErrorView.swift */,
+				A06FE50F24FFC7E300BB0C59 /* LoadingView.swift */,
 				A041183A24EED98300B309DA /* PilotView.swift */,
 				A041182E24EE261700B309DA /* StatusView.swift */,
 				A0F552F224D527F8008C3296 /* TimerView.swift */,
@@ -262,6 +265,7 @@
 				A07CFC4E24F869BF0019FE20 /* TopDeathsView.swift in Sources */,
 				A041183B24EED98300B309DA /* PilotView.swift in Sources */,
 				A041182D24EBE61400B309DA /* Sectors.swift in Sources */,
+				A06FE51024FFC7E300BB0C59 /* LoadingView.swift in Sources */,
 				A07CFC5024F887280019FE20 /* TopLegionsModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
