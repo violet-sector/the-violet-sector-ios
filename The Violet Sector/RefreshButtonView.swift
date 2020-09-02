@@ -9,10 +9,8 @@
 import SwiftUI
 
 struct RefreshButtonView: View {
-    @ObservedObject var client = Client.shared
-
     var body: some View {
-        Button(action: {if let refreshable = self.client.refreshable {refreshable.refresh()}}) {
+        Button(action: {if let refreshable = Client.shared.refreshable {refreshable.refresh()}}) {
             Image(systemName: "arrow.clockwise")
             }
         .accessibility(label: Text(verbatim: "Refresh"))

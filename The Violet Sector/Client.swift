@@ -9,9 +9,7 @@
 import Foundation
 import Combine
 
-final class Client: ObservableObject {
-    @Published var showingError = false
-    @Published private(set) var error: String? {didSet {if error != nil {showingError = true}}}
+final class Client {
     weak var refreshable: Refreshable? {didSet {if let refreshable = refreshable {refreshable.refresh()}}}
     private let session: URLSession
     private let decoder = JSONDecoder()
@@ -36,25 +34,7 @@ final class Client: ObservableObject {
         return session.dataTaskPublisher(for: Client.baseURL.appendingPathComponent(Target.resource, isDirectory: false))
             .tryMap({[unowned self] in Target.Response?(try self.decoder.decode(Target.Response.self, from: $0.data))})
             .receive(on: RunLoop.main)
-            .catch({[unowned self] (error) -> Just<Target.Response?> in self.showError(error); return Just(Target.Response?.none)})
+            .catch({(error) -> Just<Target.Response?> in target.handleError(error); return Just(Target.Response?.none)})
             .assign(to: \.response, on: target)
-    }
-
-    private func showError(_ error: Error) {
-        var message = String()
-        switch error {
-        case _ as DecodingError:
-            message = "Error decoding information from the server."
-        case let error as LocalizedError:
-            message = error.errorDescription ?? "Unknown error."
-        case let error as NSError:
-            message = error.localizedDescription
-        default:
-            message = "Unknown error."
-        }
-        guard !showingError else {
-            return
-        }
-        self.error = message
     }
 }

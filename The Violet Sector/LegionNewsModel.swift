@@ -10,22 +10,20 @@ import Combine
 
 final class LegionNewsModel: ObservableObject, Refreshable, Fetchable {
     @Published var response: Response? {didSet {update()}}
-    private var request: Cancellable?
+    @Published var error: String?
+    var request: Cancellable?
 
     static let shared = LegionNewsModel()
     static let resource = "legion_news.php"
 
     private init() {}
 
-    func refresh() {
-        request = Client.shared.fetch(self)
-    }
-
     private func update() {
         request = nil
         guard let response = response else {
             return
         }
+        error = nil
         StatusModel.shared.refresh(data: response.status)
     }
 

@@ -14,6 +14,7 @@ final class TimerModel: ObservableObject, Fetchable {
     @Published private(set) var hours: Int64 = 0
     @Published private(set) var minutes: Int64 = 0
     @Published private(set) var seconds: Int64 = 0
+    @Published var error: String?
     var response: Response? {didSet {setup()}}
     private var referenceTime: Int64 = 0
     private var lastUpdate: Int64 = 0

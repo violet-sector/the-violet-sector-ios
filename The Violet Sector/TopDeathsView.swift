@@ -36,6 +36,10 @@ struct TopDeathsView: View {
                     }
                     .accessibilityElement(children: .combine)
                 }
+            } else if model.error != nil {
+                Spacer()
+                Text(verbatim: model.error!)
+                Spacer()
             } else {
                 Spacer()
                 Text(verbatim: "Loading...")

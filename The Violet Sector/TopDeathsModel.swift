@@ -11,18 +11,15 @@ import Combine
 final class TopDeathsModel: ObservableObject, Refreshable, Fetchable {
     @Published private(set) var matches: [(rank: Int, death: Death)]?
     @Published var term = ""
+    @Published var error: String?
     var response: Response? {didSet {update()}}
+    var request: Cancellable?
     private var rankedDeaths: [(rank: Int, death: Death)]?
-    private var request: Cancellable?
 
     static let shared = TopDeathsModel()
     static let resource = "rankings_att.php"
 
     private init() {}
-
-    func refresh() {
-        request = Client.shared.fetch(self)
-    }
 
     private func update() {
         request = nil
@@ -30,6 +27,7 @@ final class TopDeathsModel: ObservableObject, Refreshable, Fetchable {
             matches = nil
             return
         }
+        error = nil
         StatusModel.shared.refresh(data: response.status)
         let deaths = response.deaths.sorted(by: {$0.score > $1.score})
         rankedDeaths = deaths.indices.map({(rank: $0 + 1, death: deaths[$0])})

@@ -6,6 +6,16 @@
 //  Copyright © 2020 João Santos. Check out the LICENSE document for details.
 //
 
+import Combine
+
 protocol Refreshable: AnyObject {
+    var request: Cancellable? {get set}
+
     func refresh()
+}
+
+extension Refreshable where Self: Fetchable {
+    func refresh() {
+        request = Client.shared.fetch(self)
+    }
 }

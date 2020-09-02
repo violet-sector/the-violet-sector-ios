@@ -10,17 +10,14 @@ import Combine
 
 final class TopLegionsModel: ObservableObject, Refreshable, Fetchable {
     @Published private(set) var rankedLegions: [(rank: Int, legion: Response.Content)]?
+    @Published var error: String?
     var response: Response? {didSet {update()}}
-    private var request: Cancellable?
+    var request: Cancellable?
 
     static let shared = TopLegionsModel()
     static let resource = "rankings_legions.php"
 
     private init() {}
-
-    func refresh() {
-        request = Client.shared.fetch(self)
-    }
 
     private func update() {
         request = nil
@@ -28,6 +25,7 @@ final class TopLegionsModel: ObservableObject, Refreshable, Fetchable {
             rankedLegions = nil
             return
         }
+        error = nil
         StatusModel.shared.refresh(data: response.status)
         let legions = response.data.sorted(by: {$0.score > $1.score})
         rankedLegions = legions.indices.map({(rank: $0 + 1, legion: legions[$0])})
