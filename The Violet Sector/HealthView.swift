@@ -11,14 +11,14 @@ import SwiftUI
 struct HealthView: View {
     let current: UInt
     let max: UInt
-    private let options: Options
+    private let asPercentage: Bool
     private let color: Color
 
     var body: some View {
         guard current > 0 else {
             return Text("Destroyed").bold().foregroundColor(color)
         }
-        if !options.contains(.asPercentage) {
+        if !asPercentage {
             return Text(verbatim: "\(current)").bold().foregroundColor(color).bold() + Text("/\(max)")
         }
         return Text("\(current * 100 / max)%").foregroundColor(color)
@@ -27,7 +27,7 @@ struct HealthView: View {
     init(current: UInt, max: UInt) {
         self.current = current
         self.max = max
-        options = Options()
+        asPercentage = false
         switch current {
         case 0:
             color = Color(.sRGB, red: 0.25, green: 0.25, blue: 0.25, opacity: 1.0)
@@ -40,22 +40,14 @@ struct HealthView: View {
         }
     }
 
-    private init(original: HealthView, options: Options) {
+    private init(original: HealthView, asPercentage: Bool) {
         current = original.current
         max = original.max
-        self.options = options
+        self.asPercentage = asPercentage
         color = original.color
     }
 
     func percentage() -> HealthView {
-        var options = self.options
-        options.insert(.asPercentage)
-        return HealthView(original: self, options: options)
-    }
-
-    private struct Options: OptionSet {
-        let rawValue: UInt8
-
-        static let asPercentage = Options(rawValue: 1 << 1)
+        return HealthView(original: self, asPercentage: true)
     }
 }
