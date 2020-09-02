@@ -1,5 +1,5 @@
 //
-//  PilotView.swift
+//  TargetView.swift
 //  The Violet Sector
 //
 //  Created by João Santos on 20/08/2020.
@@ -8,14 +8,14 @@
 
 import SwiftUI
 
-struct PilotView: View {
+struct TargetView: View {
     var rank: Int
-    var data: Pilot
+    var data: Target
 
     var body: some View {
         GeometryReader() {(geometry) in
             VStack() {
-                Text(verbatim: "\(self.data.ship)")
+                Text(verbatim: "\(self.data.ship)\(self.data.isCloaked ?? false ? " (Cloaked)" : "")")
                 if self.rank > 0 {
                     HStack(spacing: 20.0) {
                         Text(verbatim: "Rank")
@@ -53,20 +53,24 @@ struct PilotView: View {
                         .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .leading)
                 }
                 .accessibilityElement(children: .combine)
-                HStack(spacing: 20.0) {
-                    Text(verbatim: "Kills")
-                        .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .trailing)
-                    Text(verbatim: "\(self.data.kills)")
-                        .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .leading)
+                if self.data.kills != nil {
+                    HStack(spacing: 20.0) {
+                        Text(verbatim: "Kills")
+                            .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .trailing)
+                        Text(verbatim: "\(self.data.kills!)")
+                            .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .leading)
+                    }
+                    .accessibilityElement(children: .combine)
                 }
-                .accessibilityElement(children: .combine)
-                HStack(spacing: 20.0) {
-                    Text(verbatim: "Deaths")
-                        .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .trailing)
-                    Text(verbatim: "\(self.data.deaths)")
-                        .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .leading)
+                if self.data.deaths != nil {
+                    HStack(spacing: 20.0) {
+                        Text(verbatim: "Deaths")
+                            .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .trailing)
+                        Text(verbatim: "\(self.data.deaths!)")
+                            .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .leading)
+                    }
+                    .accessibilityElement(children: .combine)
                 }
-                .accessibilityElement(children: .combine)
                 Spacer()
             }
         }

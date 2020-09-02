@@ -9,7 +9,7 @@
 import Combine
 
 final class TopPilotsModel: ObservableObject, Refreshable, Fetchable {
-    typealias RankedPilot = (rank: Int, pilot: Pilot)
+    typealias RankedPilot = (rank: Int, pilot: Target)
 
     @Published private(set) var matches: [RankedPilot]?
     @Published var term = ""
@@ -48,7 +48,7 @@ final class TopPilotsModel: ObservableObject, Refreshable, Fetchable {
     }
 
     struct Response: Decodable {
-        let pilots: [Pilot]
+        let pilots: [Target]
         let status: Status
 
         private enum CodingKeys: String, CodingKey {

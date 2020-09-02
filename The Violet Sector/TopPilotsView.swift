@@ -22,7 +22,7 @@ struct TopPilotsView: View {
                     .disableAutocorrection(true)
                 if !model.matches!.isEmpty {
                     List(model.matches!, id: \.pilot.name) {(element) in
-                        NavigationLink(destination: PilotView(rank: element.rank, data: element.pilot)) {
+                        NavigationLink(destination: TargetView(rank: element.rank, data: element.pilot)) {
                             HStack() {
                                 Text(verbatim: "\(element.rank)")
                                     .frame(width: 16.0)

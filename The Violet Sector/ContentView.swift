@@ -17,7 +17,7 @@ struct ContentView: View {
             }
             .tabItem({Image(systemName: "doc.text.fill"); Text(verbatim: "Main").bold()})
             VStack() {
-                Text(verbatim: "Placeholder")
+ScannersView()
                 StatusView()
             }
             .tabItem({Image(systemName: "dot.radiowaves.left.and.right"); Text(verbatim: "Scanners").bold()})
