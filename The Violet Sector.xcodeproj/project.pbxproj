@@ -24,12 +24,15 @@
 		A043549D24F2118000EA9BF4 /* StatusModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A043549C24F2118000EA9BF4 /* StatusModel.swift */; };
 		A046D02E24E79E24000393E7 /* LegionNewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A046D02D24E79E24000393E7 /* LegionNewsView.swift */; };
 		A06FE51024FFC7E300BB0C59 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06FE50F24FFC7E300BB0C59 /* LoadingView.swift */; };
+		A079FF6A2501EE8F00FA1B13 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A079FF692501EE8F00FA1B13 /* MapView.swift */; };
+		A079FF6E250280B900FA1B13 /* NavComView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A079FF6D250280B900FA1B13 /* NavComView.swift */; };
 		A07CFC4C24F85AB10019FE20 /* TopDeathsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07CFC4B24F85AB10019FE20 /* TopDeathsModel.swift */; };
 		A07CFC4E24F869BF0019FE20 /* TopDeathsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07CFC4D24F869BF0019FE20 /* TopDeathsView.swift */; };
 		A07CFC5024F887280019FE20 /* TopLegionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07CFC4F24F887280019FE20 /* TopLegionsModel.swift */; };
 		A07CFC5224F8895A0019FE20 /* TopLegionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07CFC5124F8895A0019FE20 /* TopLegionsView.swift */; };
 		A082E12425003BDC008DCD47 /* ScannersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A082E12325003BDC008DCD47 /* ScannersView.swift */; };
 		A082E126250042FB008DCD47 /* TargetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A082E125250042FB008DCD47 /* TargetsView.swift */; };
+		A0BFCC402500A13F0024C842 /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BFCC3F2500A13F0024C842 /* MapModel.swift */; };
 		A0C4FF5724FE66F000BA2418 /* Refreshable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C4FF5624FE66F000BA2418 /* Refreshable.swift */; };
 		A0C4FF5924FE7A5100BA2418 /* RefreshButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C4FF5824FE7A5100BA2418 /* RefreshButtonView.swift */; };
 		A0C4FF5B24FED10B00BA2418 /* Fetchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C4FF5A24FED10B00BA2418 /* Fetchable.swift */; };
@@ -65,12 +68,15 @@
 		A043549C24F2118000EA9BF4 /* StatusModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusModel.swift; sourceTree = "<group>"; };
 		A046D02D24E79E24000393E7 /* LegionNewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegionNewsView.swift; sourceTree = "<group>"; };
 		A06FE50F24FFC7E300BB0C59 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		A079FF692501EE8F00FA1B13 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		A079FF6D250280B900FA1B13 /* NavComView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavComView.swift; sourceTree = "<group>"; };
 		A07CFC4B24F85AB10019FE20 /* TopDeathsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopDeathsModel.swift; sourceTree = "<group>"; };
 		A07CFC4D24F869BF0019FE20 /* TopDeathsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopDeathsView.swift; sourceTree = "<group>"; };
 		A07CFC4F24F887280019FE20 /* TopLegionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLegionsModel.swift; sourceTree = "<group>"; };
 		A07CFC5124F8895A0019FE20 /* TopLegionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLegionsView.swift; sourceTree = "<group>"; };
 		A082E12325003BDC008DCD47 /* ScannersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannersView.swift; sourceTree = "<group>"; };
 		A082E125250042FB008DCD47 /* TargetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetsView.swift; sourceTree = "<group>"; };
+		A0BFCC3F2500A13F0024C842 /* MapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
 		A0C4FF5624FE66F000BA2418 /* Refreshable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Refreshable.swift; sourceTree = "<group>"; };
 		A0C4FF5824FE7A5100BA2418 /* RefreshButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshButtonView.swift; sourceTree = "<group>"; };
 		A0C4FF5A24FED10B00BA2418 /* Fetchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fetchable.swift; sourceTree = "<group>"; };
@@ -128,10 +134,12 @@
 				A0F552DF24D51C2A008C3296 /* ContentView.swift */,
 				A001168324F4EB980023B0B0 /* MainView.swift */,
 				A082E12325003BDC008DCD47 /* ScannersView.swift */,
+				A079FF6D250280B900FA1B13 /* NavComView.swift */,
 				A0F4EE4724F83CA000D7AB84 /* RankingsView.swift */,
 				A0C4FF5824FE7A5100BA2418 /* RefreshButtonView.swift */,
 				A046D02D24E79E24000393E7 /* LegionNewsView.swift */,
 				A082E125250042FB008DCD47 /* TargetsView.swift */,
+				A079FF692501EE8F00FA1B13 /* MapView.swift */,
 				A041183C24EFBB7F00B309DA /* TopPilotsView.swift */,
 				A07CFC4D24F869BF0019FE20 /* TopDeathsView.swift */,
 				A07CFC5124F8895A0019FE20 /* TopLegionsView.swift */,
@@ -143,6 +151,7 @@
 				A041183024EE4FF200B309DA /* HealthView.swift */,
 				A0EFC15624E781DE0082D187 /* LegionNewsModel.swift */,
 				A0C7BFC825001ACA00D8E5B0 /* TargetsModel.swift */,
+				A0BFCC3F2500A13F0024C842 /* MapModel.swift */,
 				A041183824EED0B600B309DA /* TopPilotsModel.swift */,
 				A07CFC4B24F85AB10019FE20 /* TopDeathsModel.swift */,
 				A07CFC4F24F887280019FE20 /* TopLegionsModel.swift */,
@@ -253,12 +262,14 @@
 				A043549D24F2118000EA9BF4 /* StatusModel.swift in Sources */,
 				A0C4FF5724FE66F000BA2418 /* Refreshable.swift in Sources */,
 				A041182F24EE261700B309DA /* StatusView.swift in Sources */,
+				A079FF6A2501EE8F00FA1B13 /* MapView.swift in Sources */,
 				A0C4FF5924FE7A5100BA2418 /* RefreshButtonView.swift in Sources */,
 				A0F4EE4824F83CA000D7AB84 /* RankingsView.swift in Sources */,
 				A041183524EEB2A500B309DA /* Ships.swift in Sources */,
 				A07CFC4C24F85AB10019FE20 /* TopDeathsModel.swift in Sources */,
 				A041183924EED0B600B309DA /* TopPilotsModel.swift in Sources */,
 				A0F552DE24D51C2A008C3296 /* SceneDelegate.swift in Sources */,
+				A079FF6E250280B900FA1B13 /* NavComView.swift in Sources */,
 				A0F552F524D52888008C3296 /* TimerModel.swift in Sources */,
 				A082E12425003BDC008DCD47 /* ScannersView.swift in Sources */,
 				A0F552F124D525DA008C3296 /* Client.swift in Sources */,
@@ -272,6 +283,7 @@
 				A0EFC15724E781DE0082D187 /* LegionNewsModel.swift in Sources */,
 				A0C7BFC925001ACA00D8E5B0 /* TargetsModel.swift in Sources */,
 				A0F552E024D51C2A008C3296 /* ContentView.swift in Sources */,
+				A0BFCC402500A13F0024C842 /* MapModel.swift in Sources */,
 				A035BE8A24FFA99F00887C33 /* ErrorView.swift in Sources */,
 				A07CFC4E24F869BF0019FE20 /* TopDeathsView.swift in Sources */,
 				A082E126250042FB008DCD47 /* TargetsView.swift in Sources */,

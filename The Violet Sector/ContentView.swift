@@ -27,7 +27,7 @@ ScannersView()
             }
             .tabItem({Image(systemName: "envelope.fill"); Text(verbatim: "Comms").bold()})
             VStack() {
-                Text(verbatim: "Placeholder")
+                NavComView()
                 StatusView()
             }
             .tabItem({Image(systemName: "map.fill"); Text(verbatim: "Navigation").bold()})
