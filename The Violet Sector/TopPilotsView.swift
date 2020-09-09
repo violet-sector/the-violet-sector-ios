@@ -1,10 +1,4 @@
-//
-//  TopPilotsView.swift
-//  The Violet Sector
-//
-//  Created by João Santos on 21/08/2020.
-//  Copyright © 2020 João Santos. Check out the LICENSE document for details.
-//
+// Created by João Santos for project The Violet Sector.
 
 import SwiftUI
 
