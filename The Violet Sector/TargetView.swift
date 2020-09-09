@@ -9,6 +9,7 @@ struct TargetView: View {
     var body: some View {
         GeometryReader() {(geometry) in
             VStack() {
+                Image("\(self.data.ship)")
                 Text(verbatim: "\(self.data.ship)\(self.data.isCloaked ?? false ? " (Cloaked)" : "")")
                 if self.rank > 0 {
                     HStack(spacing: 20.0) {

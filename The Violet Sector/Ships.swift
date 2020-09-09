@@ -82,12 +82,30 @@ enum Ships: UInt, Decodable, CustomStringConvertible {
             return "Dark Speed Bomber"
         case .tibranRegeneratingBomber:
             return "Single Seated Tibran Bomber"
-        case .ajaxianRepairer, .boraxianRepairer, .krilgorianRepairer, .tibranRepairer:
-            return "Repair Ship"
-        case .ajaxianCarrier, .boraxianCarrier, .krilgorianCarrier, .tibranCarrier:
-            return "Carrier"
-        case .ajaxianCruiser, .boraxianCruiser, .krilgorianCruiser, .tibranCruiser:
-            return "Cruiser"
+        case .ajaxianRepairer:
+            return "Ajaxian Repair Ship"
+        case .boraxianRepairer:
+            return "Boraxian Repair Ship"
+        case .krilgorianRepairer:
+            return "Krilgorian Repair Ship"
+        case .tibranRepairer:
+            return "Tibran Repair Ship"
+        case .ajaxianCarrier:
+            return "Ajaxian Carrier"
+        case .boraxianCarrier:
+            return "Boraxian Carrier"
+        case .krilgorianCarrier:
+            return "Krilgorian Carrier"
+        case .tibranCarrier:
+            return "Tibran Carrier"
+        case .ajaxianCruiser:
+            return "Ajaxian Cruiser"
+        case .boraxianCruiser:
+            return "Boraxian Cruiser"
+        case .krilgorianCruiser:
+            return "Krilgorian Cruiser"
+        case .tibranCruiser:
+            return "Tibran Cruiser"
         }
     }
 }
