@@ -15,7 +15,7 @@ struct TopLegionsView: View {
                     List(model.rankedLegions!, id: \.legion.legion) {(rankedLegion) in
                         HStack() {
                             Text(verbatim: "\(rankedLegion.rank)")
-                                .frame(width: 16.0, alignment: .trailing)
+                                .frame(width: 32.0, alignment: .trailing)
                             GeometryReader() {(geometry) in
                                 HStack(spacing: 0.0) {
                                     Text(verbatim: "\(rankedLegion.legion.legion)")

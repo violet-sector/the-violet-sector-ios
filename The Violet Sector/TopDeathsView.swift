@@ -18,7 +18,7 @@ struct TopDeathsView: View {
                     List(model.matches!, id: \.rank) {(rankedDeath) in
                         HStack() {
                             Text(verbatim: "\(rankedDeath.rank)")
-                                .frame(width: 16.0, alignment: .trailing)
+                                .frame(width: 32.0, alignment: .trailing)
                             GeometryReader() {(geometry) in
                                 HStack(spacing: 0.0) {
                                     Text(verbatim: rankedDeath.death.name)
