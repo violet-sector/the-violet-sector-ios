@@ -22,7 +22,7 @@ struct TargetsView: View {
                         NavigationLink(destination: TargetView(rank: 0, data: target)) {
                             GeometryReader() {(geometry) in
                                 HStack(spacing: 0.0) {
-                                    (Text(verbatim: "\(target.name)\(target.isOnline ? "*" : "") [") + Text(verbatim: "\(target.legion.description.first!)").bold().foregroundColor(Color(.sRGB, red: target.legion.color.red, green: target.legion.color.green, blue: target.legion.color.blue, opacity: 1.0)) + Text(verbatim: "]"))
+                                    (Text(verbatim: "\(target.name)\(target.isOnline ? "*" : "") [") + Text(verbatim: "\(target.legion.description.first!)").bold().foregroundColor(Color("\(target.legion)")) + Text(verbatim: "]"))
                                         .frame(width: geometry.size.width * 0.5, alignment: .leading)
                                     HealthView(current: target.currentHealth, max: target.maxHealth)
                                         .percentage()

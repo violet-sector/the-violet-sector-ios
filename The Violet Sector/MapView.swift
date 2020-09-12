@@ -176,8 +176,7 @@ struct MapView: View {
             for sectorValue in ClosedRange(uncheckedBounds: (lower: Sectors.home1.rawValue, upper: Sectors.uncharted.rawValue)) {
                 let sector = Sectors(rawValue: sectorValue)!
                 if data.domination[sector] == nil {
-                    let emptyColor = Legions.none.color
-                    drawSolidSector(color: UIColor(red: CGFloat(emptyColor.red), green: CGFloat(emptyColor.green), blue: CGFloat(emptyColor.blue), alpha: 1.0), sector: sector)
+                    drawSolidSector(color: UIColor.white, sector: sector)
                 }
             }
         }
@@ -188,8 +187,7 @@ struct MapView: View {
                     continue
                 }
                 let legion = legions.first!
-                let legionColor = legion.color
-                drawSolidSector(color: UIColor(red: CGFloat(legionColor.red), green: CGFloat(legionColor.green), blue: CGFloat(legionColor.blue), alpha: 1.0), sector: sector)
+                drawSolidSector(color: UIColor(named: "\(legion)") ?? UIColor.white, sector: sector)
             }
         }
 
@@ -203,8 +201,7 @@ struct MapView: View {
                 let rotation = CGAffineTransform(rotationAngle: angleIncrement)
                 let translation = CGAffineTransform(translationX: coordinates.x, y: coordinates.y)
                 for legion in legions {
-                    let legionColor = legion.color
-                    let color = UIColor(red: CGFloat(legionColor.red), green: CGFloat(legionColor.green), blue: CGFloat(legionColor.blue), alpha: 1.0)
+                    let color = UIColor(named: "\(legion)") ?? UIColor.white
                     color.setFill()
                     let slicePath = UIBezierPath()
                     slicePath.move(to: CGPoint(x: 0.0, y: 0.0))
