@@ -17,18 +17,6 @@ final class TopPilotsModel: ObservableObject, Refreshable, Fetchable {
 
     private init() {}
 
-    private func update() {
-        request = nil
-        guard let response = response else {
-            matches = nil
-            return
-        }
-        StatusModel.shared.refresh(data: response.status)
-        let pilots = response.pilots.sorted(by: {$0.score > $1.score})
-        rankedPilots = pilots.indices.map({(rank: $0 + 1, pilot: pilots[$0])})
-        search()
-    }
-
     func search() {
         guard !term.isEmpty else {
             matches = rankedPilots
@@ -39,6 +27,19 @@ final class TopPilotsModel: ObservableObject, Refreshable, Fetchable {
             let distance = term ~= rankedPilot.pilot.name
             return distance <= tolerance
         }
+    }
+
+    private func update() {
+        request = nil
+        guard let response = response else {
+            matches = nil
+            return
+        }
+        StatusModel.shared.refresh(data: response.status)
+        let pilots = response.pilots.sorted(by: {$0.score > $1.score})
+        rankedPilots = pilots.indices.map({(rank: $0 + 1, pilot: pilots[$0])})
+        matches = rankedPilots
+        term = ""
     }
 
     struct Response: Decodable {

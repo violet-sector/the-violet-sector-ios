@@ -17,18 +17,6 @@ final class TopDeathsModel: ObservableObject, Refreshable, Fetchable {
 
     private init() {}
 
-    private func update() {
-        request = nil
-        guard let response = response else {
-            matches = nil
-            return
-        }
-        StatusModel.shared.refresh(data: response.status)
-        let deaths = response.deaths.sorted(by: {$0.score > $1.score})
-        rankedDeaths = deaths.indices.map({(rank: $0 + 1, death: deaths[$0])})
-        search()
-    }
-
     func search() {
         guard !term.isEmpty else {
             matches = rankedDeaths
@@ -39,6 +27,19 @@ final class TopDeathsModel: ObservableObject, Refreshable, Fetchable {
             let distance = term ~= rankedDeath.death.name
             return distance <= tolerance
         }
+    }
+
+    private func update() {
+        request = nil
+        guard let response = response else {
+            matches = nil
+            return
+        }
+        StatusModel.shared.refresh(data: response.status)
+        let deaths = response.deaths.sorted(by: {$0.score > $1.score})
+        rankedDeaths = deaths.indices.map({(rank: $0 + 1, death: deaths[$0])})
+        matches = rankedDeaths
+        term = ""
     }
 
     struct Response: Decodable {
