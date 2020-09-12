@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A001168424F4EB980023B0B0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A001168324F4EB980023B0B0 /* MainView.swift */; };
+		A02B994E2509AF380093DF90 /* SectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02B994D2509AF380093DF90 /* SectorView.swift */; };
 		A035BE8A24FFA99F00887C33 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A035BE8924FFA99F00887C33 /* ErrorView.swift */; };
 		A041182B24EBE37100B309DA /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041182A24EBE37100B309DA /* Status.swift */; };
 		A041182D24EBE61400B309DA /* Sectors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041182C24EBE61400B309DA /* Sectors.swift */; };
@@ -51,6 +52,7 @@
 
 /* Begin PBXFileReference section */
 		A001168324F4EB980023B0B0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		A02B994D2509AF380093DF90 /* SectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorView.swift; sourceTree = "<group>"; };
 		A035BE8924FFA99F00887C33 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		A041182A24EBE37100B309DA /* Status.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
 		A041182C24EBE61400B309DA /* Sectors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sectors.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 				A035BE8924FFA99F00887C33 /* ErrorView.swift */,
 				A06FE50F24FFC7E300BB0C59 /* LoadingView.swift */,
 				A041183A24EED98300B309DA /* TargetView.swift */,
+				A02B994D2509AF380093DF90 /* SectorView.swift */,
 				A041182E24EE261700B309DA /* StatusView.swift */,
 				A0F552F224D527F8008C3296 /* TimerView.swift */,
 				A041183024EE4FF200B309DA /* HealthView.swift */,
@@ -216,10 +219,10 @@
 			};
 			buildConfigurationList = A0F552D324D51C2A008C3296 /* Build configuration list for PBXProject "The Violet Sector" */;
 			compatibilityVersion = "Xcode 9.3";
-			developmentRegion = en;
+			developmentRegion = en-GB;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
+				en-GB,
 				Base,
 			);
 			mainGroup = A0F552CF24D51C2A008C3296;
@@ -284,6 +287,7 @@
 				A07CFC4E24F869BF0019FE20 /* TopDeathsView.swift in Sources */,
 				A082E126250042FB008DCD47 /* TargetsView.swift in Sources */,
 				A041183B24EED98300B309DA /* TargetView.swift in Sources */,
+				A02B994E2509AF380093DF90 /* SectorView.swift in Sources */,
 				A041182D24EBE61400B309DA /* Sectors.swift in Sources */,
 				A06FE51024FFC7E300BB0C59 /* LoadingView.swift in Sources */,
 				A07CFC5024F887280019FE20 /* TopLegionsModel.swift in Sources */,

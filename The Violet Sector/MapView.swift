@@ -4,11 +4,16 @@ import SwiftUI
 
 struct MapView: View {
     @ObservedObject var model = MapModel.shared
+    @State private var selectedSector: Sectors?
 
     var body: some View {
-        Group() {
+        VStack() {
             if model.response != nil {
-                ScrollableMap(data: model.response!)
+                ScrollableMap(data: model.response!, selectedSector: $selectedSector)
+                if selectedSector != nil {
+                    NavigationLink(destination: SectorView(sector: selectedSector!, legions: model.response!.domination[selectedSector!] ?? []), tag: selectedSector!, selection: $selectedSector, label: {EmptyView()})
+                        .hidden()
+                }
             } else if model.error != nil {
                 ErrorView(error: model.error!)
             } else {
@@ -20,9 +25,10 @@ struct MapView: View {
 
     private struct ScrollableMap: UIViewRepresentable {
         let data: MapModel.Response
+        @Binding var selectedSector: Sectors?
 
-        func makeUIView(context _: Context) -> UIScrollView {
-            let imageView = makeAccessibleMap()
+        func makeUIView(context: Context) -> UIScrollView {
+            let imageView = makeInteractiveMap(coordinator: context.coordinator)
             let scrollView = ScrollView()
             scrollView.contentSize = imageView.frame.size
             scrollView.addSubview(imageView)
@@ -32,31 +38,75 @@ struct MapView: View {
 
         func updateUIView(_: UIScrollView, context _: Context) {}
 
-        private func makeAccessibleMap() -> UIImageView {
+        func makeCoordinator() -> Coordinator {
+            return Coordinator(handler: {self.selectedSector = $0})
+        }
+
+        private func makeInteractiveMap(coordinator: Coordinator) -> UIImageView {
             let image = drawMap()
             let imageView = UIImageView(image: image)
-            imageView.accessibilityElements = []
-            for sectorValue in ClosedRange(uncheckedBounds: (lower: Sectors.home1.rawValue, upper: Sectors.uncharted.rawValue)) {
+            var elements = [Any]()
+            elements.reserveCapacity(Int(Sectors.uncharted.rawValue - Sectors.none.rawValue))
+            for sectorValue in Sectors.home1.rawValue...Sectors.uncharted.rawValue {
                 let sector = Sectors(rawValue: sectorValue)!
-                let element = AccessibleSector(accessibilityContainer: imageView, sector: sector, domination: data.domination[sector], containsPlayer: sector == data.status.currentSector && data.status.destinationSector == .none, canBeHyperedTo: data.gates.contains(sector), isBeingHyperedTo: sector == data.status.destinationSector)
-                imageView.accessibilityElements!.append(element)
+                let coordinates = sector.coordinates
+                let element = AccessibilityElement(accessibilityContainer: imageView)
+                element.sector = sector
+                if sector != .asteroids {
+                    element.accessibilityFrameInContainerSpace = CGRect(x: coordinates.x - 20.0, y: coordinates.y - 20.0, width: 40.0, height: 40.0)
+                } else {
+                    element.accessibilityFrameInContainerSpace = CGRect(x: coordinates.x - 75.0, y: coordinates.y - 43.0, width: 150.0, height: 86.0)
+                }
+                element.accessibilityLabel = "\(sector)."
+                if let legions = data.domination[sector] {
+                    if legions.count == 1 {
+                        element.accessibilityHint = " Dominated by \(legions.first!)s."
+                    } else {
+                        element.accessibilityHint = " Contested by "
+                        let legions = legions.sorted(by: {$0.rawValue < $1.rawValue})
+                        if legions.count == 2 {
+                            element.accessibilityHint! += "\(legions.first!)s and \(legions.last!)s."
+                        } else {
+                            for legion in legions {
+                                if legion != legions.last! {
+                                    element.accessibilityHint! += "\(legion)s, "
+                                } else {
+                                    element.accessibilityHint! += "and \(legion)s."
+                                }
+                            }
+                        }
+                    }
+                }
+                if data.gates.contains(sector) {
+                    element.accessibilityHint = element.accessibilityHint != nil ? element.accessibilityHint! + " You can hyper to this sector." : "You can hyper to this sector."
+                }
+                if sector == data.status.currentSector && data.status.destinationSector == .none {
+                    element.accessibilityHint = element.accessibilityHint != nil ? element.accessibilityHint! + " You are currently in this sector." : "You are currently in this sector."
+                }
+                if sector == data.status.destinationSector {
+                    element.accessibilityHint = element.accessibilityHint != nil ? element.accessibilityHint! + " You are hypering to this sector." : "You are hypering to this sector."
+                }
+                elements.append(element)
             }
+            imageView.accessibilityElements = elements
+            imageView.isUserInteractionEnabled = true
+            imageView.addGestureRecognizer(coordinator.gestureRecognizer)
             if !data.gates.isEmpty {
                 let hyperRotor = UIAccessibilityCustomRotor(name: "Available hypergates") {(predicate) in
-                    let element = predicate.currentItem.targetElement as! AccessibleSector
+                    let element = predicate.currentItem.targetElement as! AccessibilityElement
                     let sector = element.sector
                     let openGates = self.data.gates.sorted(by: {$0.rawValue < $1.rawValue})
                     if predicate.searchDirection == .next {
                         let index = openGates.firstIndex(where: {$0.rawValue > sector.rawValue}) ?? 0
                         let sector = openGates[index]
-                        let elementIndex = imageView.accessibilityElements!.firstIndex(where: {($0 as! AccessibleSector).sector == sector})!
-                        let element = imageView.accessibilityElements![elementIndex] as! AccessibleSector
+                        let elementIndex = imageView.accessibilityElements!.firstIndex(where: {($0 as! AccessibilityElement).sector == sector})!
+                        let element = imageView.accessibilityElements![elementIndex] as! AccessibilityElement
                         return UIAccessibilityCustomRotorItemResult(targetElement: element, targetRange: nil)
                     } else {
                         let index = openGates.lastIndex(where: {$0.rawValue < sector.rawValue}) ?? openGates.count - 1
                         let sector = openGates[index]
-                        let elementIndex = imageView.accessibilityElements!.firstIndex(where: {($0 as! AccessibleSector).sector == sector})!
-                        let element = imageView.accessibilityElements![elementIndex] as! AccessibleSector
+                        let elementIndex = imageView.accessibilityElements!.firstIndex(where: {($0 as! AccessibilityElement).sector == sector})!
+                        let element = imageView.accessibilityElements![elementIndex] as! AccessibilityElement
                         return UIAccessibilityCustomRotorItemResult(targetElement: element, targetRange: nil)
                     }
                 }
@@ -319,48 +369,37 @@ struct MapView: View {
             }
         }
 
-        private final class AccessibleSector: UIAccessibilityElement {
-            let sector: Sectors
+        final class Coordinator: NSObject {
+            let handler: (_: Sectors) -> Void
+            let gestureRecognizer: UITapGestureRecognizer
 
-            init(accessibilityContainer container: Any, sector: Sectors, domination: Set<Legions>?, containsPlayer: Bool, canBeHyperedTo: Bool, isBeingHyperedTo: Bool) {
-                self.sector = sector
-                super.init(accessibilityContainer: container)
-                let coordinates = sector.coordinates
-                if sector != .asteroids {
-                    accessibilityFrameInContainerSpace = CGRect(x: coordinates.x - 15.0, y: coordinates.y - 15.0, width: 30.0, height: 30.0)
-                } else {
-                    accessibilityFrameInContainerSpace = CGRect(x: coordinates.x - 75.0, y: coordinates.y - 43.0, width: 150.0, height: 86.0)
-                }
-                accessibilityLabel = "\(sector)."
-                if let legions = domination {
-                    if legions.count == 1 {
-                        accessibilityHint = " Dominated by \(legions.first!)s."
-                    } else {
-                        accessibilityHint = " Contested by "
-                        let legions = legions.sorted(by: {$0.rawValue < $1.rawValue})
-                        if legions.count == 2 {
-                            accessibilityHint! += "\(legions.first!)s and \(legions.last!)s."
-                        } else {
-                            for legion in legions {
-                                if legion != legions.last! {
-                                    accessibilityHint! += "\(legion)s, "
-                                } else {
-                                    accessibilityHint! += "and \(legion)s."
-                                }
-                            }
-                        }
+            init(handler: @escaping (_: Sectors) -> Void) {
+                self.handler = handler
+                gestureRecognizer = UITapGestureRecognizer()
+                super.init()
+                gestureRecognizer.addTarget(self, action: #selector(tap))
+            }
+
+            @objc private func tap() {
+                print(gestureRecognizer.location(in: gestureRecognizer.view))
+                for element in gestureRecognizer.view!.accessibilityElements! {
+                    let element = element as! AccessibilityElement
+                    let rect = element.accessibilityFrameInContainerSpace
+                    let point = gestureRecognizer.location(in: gestureRecognizer.view)
+                    guard point.x >= rect.origin.x && point.y >= rect.origin.y else {
+                        continue
                     }
-                }
-                if canBeHyperedTo {
-                    accessibilityHint = accessibilityHint != nil ? accessibilityHint! + " You can hyper to this sector." : "You can hyper to this sector."
-                }
-                if containsPlayer {
-                    accessibilityHint = accessibilityHint != nil ? accessibilityHint! + " You are currently in this sector." : "You are currently in this sector."
-                }
-                if isBeingHyperedTo {
-                    accessibilityHint = accessibilityHint != nil ? accessibilityHint! + " You are hypering to this sector." : "You are hypering to this sector."
+                    guard point.x - rect.origin.x < rect.size.width && point.y - rect.origin.y < rect.size.height else {
+                        continue
+                    }
+                    handler(element.sector)
+                    return
                 }
             }
+        }
+
+        private final class AccessibilityElement: UIAccessibilityElement {
+            var sector = Sectors.none
         }
     }
 }

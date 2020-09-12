@@ -1,0 +1,31 @@
+# Significant Sentient Population
+
+977 million
+
+# Allegiance
+
+Mostly Ajaxian, system owned by the AUQF
+
+# Hazards
+
+In combination with gravitational effects, stopping in for a quick bite to eat at the local 'fly through' (something no pilot can resist) may result in weird outcomes. Try to avoid the "3 Suns Surprise".
+
+# History
+
+With its sister ship travelling to Apollo Sector, the Ajaxian ship "Virtuous" laden with diplomats, lawyers and missionaries, arrived in the new sector in the year 2057. Upon arrival the first striking feature was the sector's three massive suns and hence the name, "The Three Suns" as given by the Ajaxian crew. Not very imaginative, but when considering the net IQ of the occupants of the ship, as good as could be expected.
+
+Hoping to find some form of sentient alien life to 'enlighten' and play big brother to, the passengers of the "Virtuous" were soon just as disappointed as the crew of the "Righteous" however where the crew of the ship to Apollo Sector at least had a chance, the ship to the Three Suns, never had a chance. The massive gravitational pull of the suns in combination with their erratic orbits means that there are absolutely no planets in the sector. Anything that tries to orbit around the suns eventually becomes star food.
+
+With talk of pending lawsuits, the dejected crew decided to head home rather than waste their time hanging around.
+
+Whilst the Ajaxian legion continued with its space exploration program , The Three Suns remained pretty much abandoned, merely a transit sector with at best just a few thousand researchers hanging about in small research stations orbiting the periphery of the sector. Meanwhile the Ajaxian fast food mega corporations, after decades of pretending to compete against one another finally gave up trying to maintain the illusion and formed the "Ajaxian Union of Quality Foods" (AUQF), registered it as a political party and selected candidates to run for office. With a clever advertising campaign and suggestive selling accompanying every single fast food purchase it was no real surprise when the AUQF became the third most well represented party in the Ajaxian government. Although as any DLF member will tell you, the mega corporations pretty much had control of parliament anyway due to the fact that they funded the election campaigns of most individuals running for office.
+
+Having long since reached the limit of growth on Ajaxus, the AUQF, desperate to find new markets, or a new gimmick to try and boost sales turned their eyes towards space. With Apollo declared a 'Heritage', Tripe too radioactive and Garen unsuitable, the next most logical option was The Three Suns. The fact that it had no planets posed no problem to the AUQF which being pushed hard by its three most powerful members, (McDaffy's, Tuckey's Nanogrown Chicken and Koola Cola) proceeded to enter the sector and set up massive chains of restaurants and orbiting solar powered nanotech factories for 'growing' food. Each sun took the name of one of the major 3 players and in the multitude of outlets orbiting around the suns, the space based drive through was born. The year was 2130.
+
+Being the major player in Ajaxian politics, it was no problem for the AUQF to claim the sector in the first place and as space became a busier and busier place, The Three Suns with its ready source of energy and matter, soon became the primary centre for producing fast food and exporting it to 'restaurants' all throughout the galaxy for reheating. With alien worlds and colonies opening up for business the AUQF began to turn its attention away from Ajaxus a little and finally in 2202 after having long since moved its HQ to the sector finally declared independence from Ajaxus. No one on the home planet really cared, because they still had their fast food fix there, and other power players in Ajaxian politics eagerly endorsed the move because it meant the AUQF had to vacate Ajaxian politics, freeing up the positions for everyone else to squabble over.
+
+Today the sector is the thriving heart of the galactic fast food empire. Independent, fast food giants from all legions have their HQ's there and frequently go to war against each other with their own private fleets. But generally the sector is peaceful due to the fact that it's in the best interests of everyone's profits to be that way. Nearly 50% of the entire galactic population is addicted to foodstuffs and beverages produced in and exported from this sector with many of them requiring a daily fix. This combined with the fact that space rations are nearly completely inedible ensures that every single pilot passing through the sector stops in for a bite to eat at one of the floating 'fly through' restaurants.
+
+Modern fast food giants, tired of the bad press associated with what is labelled 'junk food' have tried to clean up their image by producing convenient 'health' foods such as deep fried brussel sprouts. Forever experimenting with ways to make health foods taste appealing the corporations lace them with all manner of chemicals and additives and use pilots as their guinea pigs. Knowing that most pilots aren't particularly concerned about their health, and probably aren't going to live that long anyway, pilots have the "3 Suns Surprise" available on the menu, a free dish which if selected, eaten and the effects reported, earns the pilot 50% off on their next purchase. Pilots being cheapskates naturally take the "Surprise" ensuring that there is no shortage of guinea pigs for the ever growing planetary consumer market.
+
+Eating the daily "Surprise" has unpredictable effects. Sometimes pilots will feel ill and attack / repair incredibly badly as a result, other times the myriad chemicals in the food will induce a temporary bout of dull headed aggression the result being that all pilots want to attack like crazy and aren't really interested in defending. As a consequence pilots hit and are hit more effectively. Overconsuming the "3 Suns Surprise" may induce hallucinations or extreme sickness from the toxicity of the chemicals in the food which leads pilots to make mistakes often damaging their own craft in the process.

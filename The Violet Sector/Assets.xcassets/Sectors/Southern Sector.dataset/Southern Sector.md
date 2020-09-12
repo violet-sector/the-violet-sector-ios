@@ -1,0 +1,23 @@
+# Significant Sentient Population
+
+320 million indigenous 'Angels'
+
+# Allegiance
+
+Usually biased towards Krilgorian.
+
+# Hazards
+
+In combination with gravitational effects, the 'Angels' are able to induce visions in pilots' minds. They often seem to do this just for fun and the visions have differing outcomes.
+
+# History
+
+The second sector to be explored after the first recovery of the Krilgorian space program, the gate to this sector was rediscovered from Krilgore in the year 2010 and the light battle craft "Southern Sabot" sent through to explore immediately. The sector was found to contain a gigantic blue sun and a large amount of planets. 42 to be exact, many of which held atmospheres and bore life. Unfortunately as the crew of the "Southern Sabot" surveyed planets, took samples and sent the data home, they inadvertently discovered the source of the virus that had nearly wiped out the Krilgorian race so long ago. Although able to deal with that particular strain the problem was it had cousins, thousands of them and the crew became infected. Horrified, the Krilgorian Space Agency ordered the crew to self destruct, an order the crew disobeyed electing instead to hyper home desperately hoping Krilgorian medical technology could save them. Upon arriving in the home sector they were met by a squadron of interceptors which proceeded to attack and destroy the "Southern Sabot" before self destructing themselves on the off chance that infected debris from the ship may have come into contact with them. Multiple nuclear missiles were then fired from afar into the possible contamination zone to utterly cleanse it of any biological matter that may have survived.
+
+The sector was then named Southern Sector after the luckless ship that discovered it and strict Krilgorian regulations put in place regarding quarantine of any ships inbound from the sector and an absolute ban on even approaching anywhere near any of the planets.
+
+As it stands, Krils will not mine, colonise, attack or even approach any of the planets for fear of infection. Any other Legion's who try to mine, land or colonise find themselves being destroyed by Krils who are paranoid about any biological matter from the sector finding it's way to Krilgore. So whilst the space around them may be fought for regularly, the planets remain pretty much untouched.
+
+The most interesting of the planets is the completely ocean covered, "Atlantia". This is the home of the Angels, a highly intelligent population of undersea creatures resembling butterflies with glowing skin, illuminated yellow eyes and strange wing like appendages growing from their backs. Actually no one can really be sure what the indigenous life of the planet DOES in fact look like because everything that is known about the creatures has been learned from pilots in the sector having 'visions'. No expedition has ever been sent to make an accurate survey of the planet, firstly because Krilgorians will destroy anyone who tries, but more importantly because the Angels won't allow it. Any pilot who gets too close to the planet finds themselves the victim of night terrors and terrifying visions. It seems the Angels (the name they call themselves) are able to communicate telepathically and place images and concepts directly into the minds of conscious or sleeping pilots in the form of visions or dreams. They don't possess any technology (so they say) because they don't need it and don't feel any urge to physically explore space because effectively their telepathic abilities allow them to do it from home. This is a relief to the Galactic Council and its members because should they decide to enter the battle for domination, no one could stop them.
+
+The Angels are a playful lot and love to interfere with the minds of pilots in the sector. Sometimes a pilot will be in the middle of an attack / repair run when Angel inspired visions will interfere in various ways, such as changing the image of the enemy ship in the pilot's mind to that of a large bowl of spaghetti or so forth, making it very difficult to make an effective run. Other times, the angels will interfere to make everything seem so much clearer, enhancing the pilot's natural talent and bringing about greater success in attack and repair. Additionally, the angels may occasionally decide to interfere with a pilot's standard procedures, creating visions that lead him/her to do crazy things and damage their own ship.

@@ -1,0 +1,3 @@
+Veteran pilots insist that there is an uncharted sector. We would like to officially state that there is no such sector. We have no reason to lie about this. It's not as if we want to have an entire sector just for ourselves so that we can go there from time-to-time for some R&R away from the peons. No no, why would we want to do that?
+
+So please stop looking for the Uncharted Sector. We don't want you to find it, I MEAN...
