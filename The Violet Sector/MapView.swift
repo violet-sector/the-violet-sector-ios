@@ -49,6 +49,9 @@ struct MapView: View {
             elements.reserveCapacity(Int(Sectors.uncharted.rawValue - Sectors.none.rawValue))
             for sectorValue in Sectors.home1.rawValue...Sectors.uncharted.rawValue {
                 let sector = Sectors(rawValue: sectorValue)!
+                guard sector != .uncharted || data.status.currentSector == .uncharted || data.status.destinationSector == .uncharted || data.gates.contains(.uncharted) || data.domination[.uncharted] != nil else {
+                    continue
+                }
                 let coordinates = sector.coordinates
                 let element = AccessibilityElement(accessibilityContainer: imageView)
                 element.sector = sector
@@ -173,11 +176,14 @@ struct MapView: View {
         }
 
         private func drawEmptySectors() {
-            for sectorValue in ClosedRange(uncheckedBounds: (lower: Sectors.home1.rawValue, upper: Sectors.uncharted.rawValue)) {
+            for sectorValue in Sectors.home1.rawValue...Sectors.violet.rawValue {
                 let sector = Sectors(rawValue: sectorValue)!
                 if data.domination[sector] == nil {
                     drawSolidSector(color: UIColor.white, sector: sector)
                 }
+            }
+            if (data.status.currentSector == .uncharted || data.status.destinationSector == .uncharted || data.gates.contains(.uncharted)) && data.domination[.uncharted] == nil {
+                drawSolidSector(color: UIColor.white, sector: .uncharted)
             }
         }
 
@@ -298,8 +304,11 @@ struct MapView: View {
             paragraphStyle.alignment = .center
             let font = UIFont(name: "Arial", size: 10.0)!
             let attributes = [NSAttributedString.Key.font: font, NSAttributedString.Key.foregroundColor: UIColor.yellow, NSAttributedString.Key.backgroundColor: UIColor.black, NSAttributedString.Key.paragraphStyle: paragraphStyle]
-            for sectorValue in ClosedRange(uncheckedBounds: (lower: Sectors.home1.rawValue, upper: Sectors.uncharted.rawValue)) {
+            for sectorValue in Sectors.home1.rawValue...Sectors.uncharted.rawValue {
                 let sector = Sectors(rawValue: sectorValue)!
+                guard sector != .uncharted || data.status.currentSector == .uncharted || data.status.destinationSector == .uncharted || data.gates.contains(.uncharted) || data.domination[.uncharted] != nil else {
+                    continue
+                }
                 let sectorLabel = "\(sector)" as NSString
                 var point = CGPoint(x: sector.coordinates.x, y: sector.coordinates.y - 20.0)
                 var size = CGSize(width: 60.0, height: 60.0)
