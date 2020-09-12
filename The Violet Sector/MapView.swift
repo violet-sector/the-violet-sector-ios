@@ -381,7 +381,6 @@ struct MapView: View {
             }
 
             @objc private func tap() {
-                print(gestureRecognizer.location(in: gestureRecognizer.view))
                 for element in gestureRecognizer.view!.accessibilityElements! {
                     let element = element as! AccessibilityElement
                     let rect = element.accessibilityFrameInContainerSpace
