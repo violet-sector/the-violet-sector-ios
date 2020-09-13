@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		A001168424F4EB980023B0B0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A001168324F4EB980023B0B0 /* MainView.swift */; };
+		A01744A7250D71A8009315F6 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01744A6250D71A8009315F6 /* RootView.swift */; };
+		A01744A9250D97F0009315F6 /* EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01744A8250D97F0009315F6 /* EntryView.swift */; };
 		A02B994E2509AF380093DF90 /* SectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02B994D2509AF380093DF90 /* SectorView.swift */; };
 		A035BE8A24FFA99F00887C33 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A035BE8924FFA99F00887C33 /* ErrorView.swift */; };
 		A041182B24EBE37100B309DA /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041182A24EBE37100B309DA /* Status.swift */; };
@@ -41,7 +43,7 @@
 		A0F4EE4824F83CA000D7AB84 /* RankingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F4EE4724F83CA000D7AB84 /* RankingsView.swift */; };
 		A0F552DC24D51C2A008C3296 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F552DB24D51C2A008C3296 /* AppDelegate.swift */; };
 		A0F552DE24D51C2A008C3296 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F552DD24D51C2A008C3296 /* SceneDelegate.swift */; };
-		A0F552E024D51C2A008C3296 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F552DF24D51C2A008C3296 /* ContentView.swift */; };
+		A0F552E024D51C2A008C3296 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F552DF24D51C2A008C3296 /* GameView.swift */; };
 		A0F552E224D51C2B008C3296 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0F552E124D51C2B008C3296 /* Assets.xcassets */; };
 		A0F552E524D51C2B008C3296 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0F552E424D51C2B008C3296 /* Preview Assets.xcassets */; };
 		A0F552E824D51C2B008C3296 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0F552E624D51C2B008C3296 /* LaunchScreen.storyboard */; };
@@ -52,6 +54,8 @@
 
 /* Begin PBXFileReference section */
 		A001168324F4EB980023B0B0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		A01744A6250D71A8009315F6 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		A01744A8250D97F0009315F6 /* EntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryView.swift; sourceTree = "<group>"; };
 		A02B994D2509AF380093DF90 /* SectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorView.swift; sourceTree = "<group>"; };
 		A035BE8924FFA99F00887C33 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		A041182A24EBE37100B309DA /* Status.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
@@ -86,7 +90,7 @@
 		A0F552D824D51C2A008C3296 /* The Violet Sector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The Violet Sector.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0F552DB24D51C2A008C3296 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A0F552DD24D51C2A008C3296 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		A0F552DF24D51C2A008C3296 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A0F552DF24D51C2A008C3296 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		A0F552E124D51C2B008C3296 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A0F552E424D51C2B008C3296 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		A0F552E724D51C2B008C3296 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -130,7 +134,9 @@
 			children = (
 				A0F552DB24D51C2A008C3296 /* AppDelegate.swift */,
 				A0F552DD24D51C2A008C3296 /* SceneDelegate.swift */,
-				A0F552DF24D51C2A008C3296 /* ContentView.swift */,
+				A01744A6250D71A8009315F6 /* RootView.swift */,
+				A01744A8250D97F0009315F6 /* EntryView.swift */,
+				A0F552DF24D51C2A008C3296 /* GameView.swift */,
 				A001168324F4EB980023B0B0 /* MainView.swift */,
 				A082E12325003BDC008DCD47 /* ScannersView.swift */,
 				A079FF6D250280B900FA1B13 /* NavComView.swift */,
@@ -219,10 +225,10 @@
 			};
 			buildConfigurationList = A0F552D324D51C2A008C3296 /* Build configuration list for PBXProject "The Violet Sector" */;
 			compatibilityVersion = "Xcode 9.3";
-			developmentRegion = en-GB;
+			developmentRegion = "en-GB";
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en-GB,
+				"en-GB",
 				Base,
 			);
 			mainGroup = A0F552CF24D51C2A008C3296;
@@ -267,6 +273,7 @@
 				A041183524EEB2A500B309DA /* Ships.swift in Sources */,
 				A07CFC4C24F85AB10019FE20 /* TopDeathsModel.swift in Sources */,
 				A041183924EED0B600B309DA /* TopPilotsModel.swift in Sources */,
+				A01744A9250D97F0009315F6 /* EntryView.swift in Sources */,
 				A0F552DE24D51C2A008C3296 /* SceneDelegate.swift in Sources */,
 				A079FF6E250280B900FA1B13 /* NavComView.swift in Sources */,
 				A0F552F524D52888008C3296 /* TimerModel.swift in Sources */,
@@ -281,13 +288,14 @@
 				A041183724EEC21B00B309DA /* Target.swift in Sources */,
 				A0EFC15724E781DE0082D187 /* LegionNewsModel.swift in Sources */,
 				A0C7BFC925001ACA00D8E5B0 /* TargetsModel.swift in Sources */,
-				A0F552E024D51C2A008C3296 /* ContentView.swift in Sources */,
+				A0F552E024D51C2A008C3296 /* GameView.swift in Sources */,
 				A0BFCC402500A13F0024C842 /* MapModel.swift in Sources */,
 				A035BE8A24FFA99F00887C33 /* ErrorView.swift in Sources */,
 				A07CFC4E24F869BF0019FE20 /* TopDeathsView.swift in Sources */,
 				A082E126250042FB008DCD47 /* TargetsView.swift in Sources */,
 				A041183B24EED98300B309DA /* TargetView.swift in Sources */,
 				A02B994E2509AF380093DF90 /* SectorView.swift in Sources */,
+				A01744A7250D71A8009315F6 /* RootView.swift in Sources */,
 				A041182D24EBE61400B309DA /* Sectors.swift in Sources */,
 				A06FE51024FFC7E300BB0C59 /* LoadingView.swift in Sources */,
 				A07CFC5024F887280019FE20 /* TopLegionsModel.swift in Sources */,

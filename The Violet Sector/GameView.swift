@@ -2,7 +2,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct GameView: View {
     var body: some View {
         TabView() {
             VStack() {
@@ -31,7 +31,5 @@ ScannersView()
             }
             .tabItem({Image(systemName: "person.fill"); Text(verbatim: "Rankings").bold()})
         }
-        .preferredColorScheme(.dark)
-        .accentColor(Color(.sRGB, red: 0.4, green: 0.5, blue: 1.0, opacity: 1.0))
     }
 }
