@@ -50,9 +50,11 @@ final class Client: ObservableObject {
 
     struct Settings: Decodable {
         let news: String
+        let isOuterRimEnabled: Bool
 
         private enum CodingKeys: String, CodingKey {
             case news = "NEWS"
+            case isOuterRimEnabled = "OUTER_RING"
         }
     }
 

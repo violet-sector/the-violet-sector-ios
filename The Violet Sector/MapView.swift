@@ -48,6 +48,9 @@ struct MapView: View {
             var elements = [Any]()
             elements.reserveCapacity(Int(Sectors.uncharted.rawValue - Sectors.none.rawValue))
             for sectorValue in Sectors.home1.rawValue...Sectors.uncharted.rawValue {
+                guard Client.shared.settings!.isOuterRimEnabled || !(Sectors.outer1.rawValue...Sectors.outer8.rawValue ~= sectorValue) else {
+                    continue
+                }
                 let sector = Sectors(rawValue: sectorValue)!
                 guard sector != .uncharted || data.status.currentSector == .uncharted || data.status.destinationSector == .uncharted || data.gates.contains(.uncharted) || data.domination[.uncharted] != nil else {
                     continue
@@ -102,13 +105,13 @@ struct MapView: View {
                     if predicate.searchDirection == .next {
                         let index = openGates.firstIndex(where: {$0.rawValue > sector.rawValue}) ?? 0
                         let sector = openGates[index]
-                        let elementIndex = imageView.accessibilityElements!.firstIndex(where: {($0 as! AccessibilityElement).sector == sector})!
+                        let elementIndex = imageView.accessibilityElements!.firstIndex(where: {($0 as! AccessibilityElement).sector == sector}) ?? 0
                         let element = imageView.accessibilityElements![elementIndex] as! AccessibilityElement
                         return UIAccessibilityCustomRotorItemResult(targetElement: element, targetRange: nil)
                     } else {
                         let index = openGates.lastIndex(where: {$0.rawValue < sector.rawValue}) ?? openGates.count - 1
                         let sector = openGates[index]
-                        let elementIndex = imageView.accessibilityElements!.firstIndex(where: {($0 as! AccessibilityElement).sector == sector})!
+                        let elementIndex = imageView.accessibilityElements!.firstIndex(where: {($0 as! AccessibilityElement).sector == sector}) ?? 0
                         let element = imageView.accessibilityElements![elementIndex] as! AccessibilityElement
                         return UIAccessibilityCustomRotorItemResult(targetElement: element, targetRange: nil)
                     }
@@ -138,12 +141,14 @@ struct MapView: View {
         private func drawGates() {
             UIColor.white.setStroke()
             UIColor.black.setFill()
-            let outerGatesPath = UIBezierPath(ovalIn: CGRect(x: Sectors.outer7.coordinates.x, y: Sectors.outer1.coordinates.y, width: Sectors.outer3.coordinates.x - Sectors.outer7.coordinates.x, height: Sectors.outer5.coordinates.y - Sectors.outer1.coordinates.y))
-            for sectorValue in ClosedRange(uncheckedBounds: (lower: Sectors.outer1.rawValue, upper: Sectors.outer4.rawValue)) {
-                outerGatesPath.move(to: Sectors(rawValue: sectorValue)!.coordinates)
-                outerGatesPath.addLine(to: Sectors(rawValue: sectorValue + 4)!.coordinates)
+            if Client.shared.settings!.isOuterRimEnabled {
+                let outerGatesPath = UIBezierPath(ovalIn: CGRect(x: Sectors.outer7.coordinates.x, y: Sectors.outer1.coordinates.y, width: Sectors.outer3.coordinates.x - Sectors.outer7.coordinates.x, height: Sectors.outer5.coordinates.y - Sectors.outer1.coordinates.y))
+                for sectorValue in ClosedRange(uncheckedBounds: (lower: Sectors.outer1.rawValue, upper: Sectors.outer4.rawValue)) {
+                    outerGatesPath.move(to: Sectors(rawValue: sectorValue)!.coordinates)
+                    outerGatesPath.addLine(to: Sectors(rawValue: sectorValue + 4)!.coordinates)
+                }
+                outerGatesPath.stroke()
             }
-            outerGatesPath.stroke()
             let innerGatesPath = UIBezierPath(ovalIn: CGRect(x: Sectors.home4.coordinates.x, y: Sectors.home1.coordinates.y, width: Sectors.home2.coordinates.x - Sectors.home4.coordinates.x, height: Sectors.home3.coordinates.y - Sectors.home1.coordinates.y))
             for sectorValue in ClosedRange(uncheckedBounds: (lower: Sectors.giant1.rawValue, upper: Sectors.giant4.rawValue)) {
                 innerGatesPath.move(to: Sectors(rawValue: sectorValue)!.coordinates)
@@ -177,6 +182,9 @@ struct MapView: View {
 
         private func drawEmptySectors() {
             for sectorValue in Sectors.home1.rawValue...Sectors.violet.rawValue {
+                guard Client.shared.settings!.isOuterRimEnabled || !(Sectors.outer1.rawValue...Sectors.outer8.rawValue ~= sectorValue) else {
+                    continue
+                }
                 let sector = Sectors(rawValue: sectorValue)!
                 if data.domination[sector] == nil {
                     drawSolidSector(color: UIColor.white, sector: sector)
@@ -305,6 +313,9 @@ struct MapView: View {
             let font = UIFont(name: "Arial", size: 10.0)!
             let attributes = [NSAttributedString.Key.font: font, NSAttributedString.Key.foregroundColor: UIColor.yellow, NSAttributedString.Key.backgroundColor: UIColor.black, NSAttributedString.Key.paragraphStyle: paragraphStyle]
             for sectorValue in Sectors.home1.rawValue...Sectors.uncharted.rawValue {
+                guard Client.shared.settings!.isOuterRimEnabled || !(Sectors.outer1.rawValue...Sectors.outer8.rawValue ~= sectorValue) else {
+                    continue
+                }
                 let sector = Sectors(rawValue: sectorValue)!
                 guard sector != .uncharted || data.status.currentSector == .uncharted || data.status.destinationSector == .uncharted || data.gates.contains(.uncharted) || data.domination[.uncharted] != nil else {
                     continue
