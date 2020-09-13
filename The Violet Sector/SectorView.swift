@@ -11,23 +11,25 @@ struct SectorView: View {
             ScrollView() {
                 VStack(alignment: .leading, spacing: 10.0) {
                     ForEach(self.paragraphs.indices, id: \.self) {(paragraphIndex) in
-                        ForEach(self.paragraphs[paragraphIndex].indices, id: \.self) {(statementIndex) in
-                            Group() {
-                                if self.paragraphs[paragraphIndex][statementIndex].first! == "#" {
-                                    Text(verbatim: "\(self.paragraphs[paragraphIndex][statementIndex].drop(while: {$0 == "#" || $0 == " "}))")
-                                        .bold()
-                                        .multilineTextAlignment(.leading)
-                                        .accessibility(addTraits: .isHeader)
-                                } else if self.paragraphs[paragraphIndex][statementIndex].first! == "*" {
-                                    HStack(alignment: .top, spacing: 0.0) {
-                                        Text(verbatim: " • ")
-                                        Text(verbatim: "\(self.paragraphs[paragraphIndex][statementIndex].drop(while: {$0 == "*" || $0 == " "}))")
+                        VStack(alignment: .leading, spacing: 0.0) {
+                            ForEach(self.paragraphs[paragraphIndex].indices, id: \.self) {(statementIndex) in
+                                Group() {
+                                    if self.paragraphs[paragraphIndex][statementIndex].first! == "#" {
+                                        Text(verbatim: "\(self.paragraphs[paragraphIndex][statementIndex].drop(while: {$0 == "#" || $0 == " "}))")
+                                            .bold()
+                                            .multilineTextAlignment(.leading)
+                                            .accessibility(addTraits: .isHeader)
+                                    } else if self.paragraphs[paragraphIndex][statementIndex].first! == "*" {
+                                        HStack(alignment: .top, spacing: 0.0) {
+                                            Text(verbatim: " • ")
+                                            Text(verbatim: "\(self.paragraphs[paragraphIndex][statementIndex].drop(while: {$0 == "*" || $0 == " "}))")
+                                                .multilineTextAlignment(.leading)
+                                        }
+                                        .accessibilityElement(children: .combine)
+                                    } else {
+                                        Text(verbatim: "\(self.paragraphs[paragraphIndex][statementIndex])")
                                             .multilineTextAlignment(.leading)
                                     }
-                                    .accessibilityElement(children: .combine)
-                                } else {
-                                    Text(verbatim: "\(self.paragraphs[paragraphIndex][statementIndex])")
-                                        .multilineTextAlignment(.leading)
                                 }
                             }
                         }
