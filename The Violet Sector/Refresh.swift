@@ -2,7 +2,7 @@
 
 import SwiftUI
 
-struct RefreshButtonView: View {
+struct Refresh: View {
     var body: some View {
         Button(action: {if let refreshable = Client.shared.refreshable {refreshable.refresh()}}) {
             Image(systemName: "arrow.clockwise")

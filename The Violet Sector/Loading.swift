@@ -2,7 +2,7 @@
 
 import SwiftUI
 
-struct LoadingView: View {
+struct Loading: View {
     var body: some View {
         VStack() {
             Spacer()

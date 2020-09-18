@@ -2,7 +2,7 @@
 
 import SwiftUI
 
-struct RootView: View {
+struct Root: View {
     @ObservedObject var client = Client.shared
     @State private var hasEntered = false
 
@@ -10,14 +10,14 @@ struct RootView: View {
         Group() {
             if client.settings != nil {
                 if hasEntered {
-                    GameView()
+                    Game()
                 } else {
-                    EntryView(hasEntered: $hasEntered)
+                    Entry(hasEntered: $hasEntered)
                 }
             } else if client.error != nil {
-                ErrorView(error: client.error!)
+                FriendlyError(error: client.error!)
             } else {
-                LoadingView()
+                Loading()
             }
         }
     }

@@ -2,7 +2,7 @@
 
 import SwiftUI
 
-struct HealthView: View {
+struct Health: View {
     let current: UInt
     let max: UInt
     private let asPercentage: Bool
@@ -34,14 +34,14 @@ struct HealthView: View {
         }
     }
 
-    private init(original: HealthView, asPercentage: Bool) {
+    private init(original: Health, asPercentage: Bool) {
         current = original.current
         max = original.max
         self.asPercentage = asPercentage
         color = original.color
     }
 
-    func percentage() -> HealthView {
-        return HealthView(original: self, asPercentage: true)
+    func percentage() -> Health {
+        return Health(original: self, asPercentage: true)
     }
 }

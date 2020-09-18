@@ -2,7 +2,7 @@
 
 import SwiftUI
 
-struct ScannersView: View {
+struct Scanners: View {
     @State private var tab = Tabs.incoming
 
     var body: some View {
@@ -13,13 +13,13 @@ struct ScannersView: View {
                     Button("Outgoing", action: {self.tab = .outgoing})
                 }
                 if tab == .incoming {
-                    TargetsView(model: TargetsModel.Incoming.shared)
+                    Targets(resource: "scans_incoming.php", title: "Incoming")
                 } else if tab == .outgoing {
-                    TargetsView(model: TargetsModel.Outgoing.shared)
+                    Targets(resource: "scans_outgoing.php", title: "Outgoing")
                 }
             }
             .navigationBarTitle("Scanners", displayMode: .inline)
-            .navigationBarItems(trailing: RefreshButtonView())
+            .navigationBarItems(trailing: Refresh())
         }
     }
 

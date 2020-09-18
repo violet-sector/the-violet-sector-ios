@@ -2,7 +2,7 @@
 
 import SwiftUI
 
-struct RankingsView: View {
+struct Rankings: View {
     @State private var tab = Tabs.topPilots
 
     var body: some View {
@@ -14,15 +14,15 @@ struct RankingsView: View {
                     Button("Top Legions", action: {self.tab = .topLegions})
                 }
                 if tab == .topPilots {
-                    TopPilotsView()
+                    TopPilots()
                 } else if tab == .topDeaths {
-                    TopDeathsView()
+                    TopDeaths()
                 } else if tab == .topLegions {
-                    TopLegionsView()
+                    TopLegions()
                 }
             }
-                .navigationBarTitle("Rankings", displayMode: .inline)
-            .navigationBarItems(trailing: RefreshButtonView())
+            .navigationBarTitle("Rankings", displayMode: .inline)
+            .navigationBarItems(trailing: Refresh())
         }
     }
 

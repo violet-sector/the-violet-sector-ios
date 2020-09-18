@@ -2,7 +2,7 @@
 
 import SwiftUI
 
-struct ErrorView: View {
+struct FriendlyError: View {
     private let description: String
 
     var body: some View {

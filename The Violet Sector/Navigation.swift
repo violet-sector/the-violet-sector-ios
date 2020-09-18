@@ -2,12 +2,12 @@
 
 import SwiftUI
 
-struct NavComView: View {
+struct Navigation: View {
     var body: some View {
         NavigationView() {
-            MapView()
+            Map()
                 .navigationBarTitle("Navigation")
-                .navigationBarItems(trailing: RefreshButtonView())
+                .navigationBarItems(trailing: Refresh())
         }
     }
 }

@@ -4,16 +4,18 @@ import Foundation
 import Combine
 
 final class Client: ObservableObject {
-    @Published private(set) var settings: Settings?
-    @Published private(set) var error: Error? {didSet {guard error != nil else {return}; RunLoop.main.schedule(after: RunLoop.SchedulerTimeType(Date(timeIntervalSinceNow: 10.0)), tolerance: RunLoop.SchedulerTimeType.Stride(.infinity), options: nil, {[unowned self] in self.fetchSettings()})}}
-    weak var refreshable: Refreshable? {didSet {if let refreshable = refreshable {refreshable.refresh()}}}
+    @Published private(set) var settings: Settings? {didSet {guard settings == nil else {return}; retryFetchSettings()}}
+    @Published private(set) var error: Error?
+    var refreshable: Refreshable?
     private let session: URLSession
     private var request: Cancellable?
+    private var timer: Cancellable?
     private let decoder = JSONDecoder()
 
     static let shared = Client()
-    private static let baseURL = URL(string: "https://www.violetsector.com/json/")!
+    private static let baseURL = URL(string: "https://www.xce.pt/")!
     private static let settingsResource = "config.php"
+    private static let settingsFetchRetry = TimeInterval(10.0)
 
     private init() {
         let configuration = URLSessionConfiguration.ephemeral
@@ -29,23 +31,26 @@ final class Client: ObservableObject {
         fetchSettings()
     }
 
-    func fetch<Target: Fetchable>(_ target: Target) -> Cancellable {
-        return session.dataTaskPublisher(for: Client.baseURL.appendingPathComponent(Target.resource, isDirectory: false))
+    func fetch<Root, Response: Decodable>(_ resource: String, setResponse response: ReferenceWritableKeyPath<Root, Response?>, setFailure failure: ReferenceWritableKeyPath<Root, Error?>, on root: Root) -> Cancellable {
+        return session.dataTaskPublisher(for: Client.baseURL.appendingPathComponent(resource, isDirectory: false))
             .tryMap({if $0.response.mimeType == nil || $0.response.mimeType! != "application/json" {throw Errors.invalidContentType}; return $0.data})
-            .decode(type: Target.Response?.self, decoder: decoder)
+            .decode(type: Response?.self, decoder: decoder)
             .receive(on: RunLoop.main)
-            .catch({(error) -> Just<Target.Response?> in target.error = error; return Just(Target.Response?.none)})
-            .assign(to: \.response, on: target)
+            .catch({(error) -> Just<Response?> in root[keyPath: failure] = error; return Just(Response?.none)})
+            .assign(to: response, on: root)
     }
 
     private func fetchSettings() {
+        settings = nil
         error = nil
-        request = session.dataTaskPublisher(for: Client.baseURL.appendingPathComponent(Client.settingsResource, isDirectory: false))
-            .tryMap({if $0.response.mimeType == nil || $0.response.mimeType! != "application/json" {throw Errors.invalidContentType}; return $0.data})
-            .decode(type: Client.Settings?.self, decoder: decoder)
-            .receive(on: RunLoop.main)
-            .catch({[unowned self] (error) -> Just<Client.Settings?> in self.error = error; return Just(Client.Settings?.none)})
-            .assign(to: \.settings, on: self)
+        request = fetch(Client.settingsResource, setResponse: \.settings, setFailure: \.error, on: self)
+    }
+
+    private func retryFetchSettings() {
+        timer = Foundation.Timer.publish(every: 10.0, on: .main, in: .default)
+            .autoconnect()
+            .first()
+            .sink(receiveValue: {[unowned self] (_) in self.retryFetchSettings()})
     }
 
     struct Settings: Decodable {

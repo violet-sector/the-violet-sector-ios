@@ -2,12 +2,12 @@
 
 import SwiftUI
 
-struct MainView: View {
+struct Main: View {
     var body: some View {
         NavigationView() {
-            LegionNewsView()
+            LegionNews()
                 .navigationBarTitle("Main", displayMode: .inline)
-                .navigationBarItems(trailing: RefreshButtonView())
+                .navigationBarItems(trailing: Refresh())
         }
     }
 }

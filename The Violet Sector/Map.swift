@@ -2,29 +2,60 @@
 
 import SwiftUI
 
-struct MapView: View {
-    @ObservedObject var model = MapModel.shared
+struct Map: View {
+    @ObservedObject private var model = Model<Data>(resource: "navcom_map.php")
     @State private var selectedSector: Sectors?
 
     var body: some View {
         VStack() {
-            if model.response != nil {
-                ScrollableMap(data: model.response!, selectedSector: $selectedSector)
+            if model.data != nil {
+                ScrollableMap(data: model.data!, selectedSector: $selectedSector)
                 if selectedSector != nil {
-                    NavigationLink(destination: SectorView(sector: selectedSector!, legions: model.response!.domination[selectedSector!] ?? []), tag: selectedSector!, selection: $selectedSector, label: {EmptyView()})
+                    NavigationLink(destination: SectorDetails(sector: selectedSector!, legions: model.data!.domination[selectedSector!] ?? []), tag: selectedSector!, selection: $selectedSector, label: {EmptyView()})
                         .hidden()
                 }
             } else if model.error != nil {
-                ErrorView(error: model.error!)
+                FriendlyError(error: model.error!)
             } else {
-                LoadingView()
+                Loading()
             }
+            Status(data: model.data?.status)
         }
-        .onAppear(perform: {Client.shared.refreshable = self.model})
+    }
+
+    private struct Data: Decodable {
+        let domination: [Sectors: Set<Legions>]
+        let gates: Set<Sectors>
+        let status: Status.Data
+
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            let decodedDomination = try container.decode([String: Set<Legions>].self, forKey: .domination)
+            var domination = [Sectors: Set<Legions>]()
+            domination.reserveCapacity(domination.count)
+            for (key: key, value: value) in decodedDomination {
+                guard let convertedKey = UInt(key) else {
+                    continue
+                }
+                guard let sector = Sectors(rawValue: convertedKey) else {
+                    continue
+                }
+                domination[sector] = value
+            }
+            self.domination = domination
+            gates = try container.decode(Set<Sectors>.self, forKey: .gates)
+            status = try container.decode(Status.Data.self, forKey: .status)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domination = "domination_info"
+            case gates = "destinations"
+            case status = "player"
+        }
     }
 
     private struct ScrollableMap: UIViewRepresentable {
-        let data: MapModel.Response
+        let data: Data
         @Binding var selectedSector: Sectors?
 
         func makeUIView(context: Context) -> UIScrollView {
