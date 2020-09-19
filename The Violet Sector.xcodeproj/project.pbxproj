@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		A001168424F4EB980023B0B0 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A001168324F4EB980023B0B0 /* Main.swift */; };
-		A01744A7250D71A8009315F6 /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01744A6250D71A8009315F6 /* Root.swift */; };
-		A01744A9250D97F0009315F6 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01744A8250D97F0009315F6 /* Entry.swift */; };
 		A01744AF2512EB5F009315F6 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01744AE2512EB5F009315F6 /* Model.swift */; };
 		A02B994E2509AF380093DF90 /* SectorDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02B994D2509AF380093DF90 /* SectorDetails.swift */; };
 		A035BE8A24FFA99F00887C33 /* FriendlyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A035BE8924FFA99F00887C33 /* FriendlyError.swift */; };
@@ -28,25 +26,21 @@
 		A079FF6E250280B900FA1B13 /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A079FF6D250280B900FA1B13 /* Navigation.swift */; };
 		A07CFC4E24F869BF0019FE20 /* TopDeaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07CFC4D24F869BF0019FE20 /* TopDeaths.swift */; };
 		A07CFC5224F8895A0019FE20 /* TopLegions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07CFC5124F8895A0019FE20 /* TopLegions.swift */; };
+		A08198AB25150D0700A81399 /* TheVioletSector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08198AA25150D0700A81399 /* TheVioletSector.swift */; };
 		A082E12425003BDC008DCD47 /* Scanners.swift in Sources */ = {isa = PBXBuildFile; fileRef = A082E12325003BDC008DCD47 /* Scanners.swift */; };
 		A082E126250042FB008DCD47 /* Targets.swift in Sources */ = {isa = PBXBuildFile; fileRef = A082E125250042FB008DCD47 /* Targets.swift */; };
+		A09156C52515C2D90090C4FF /* Title.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09156C42515C2D90090C4FF /* Title.swift */; };
 		A0C4FF5724FE66F000BA2418 /* Refreshable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C4FF5624FE66F000BA2418 /* Refreshable.swift */; };
 		A0C4FF5924FE7A5100BA2418 /* Refresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C4FF5824FE7A5100BA2418 /* Refresh.swift */; };
 		A0F4EE4824F83CA000D7AB84 /* Rankings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F4EE4724F83CA000D7AB84 /* Rankings.swift */; };
-		A0F552DC24D51C2A008C3296 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F552DB24D51C2A008C3296 /* AppDelegate.swift */; };
-		A0F552DE24D51C2A008C3296 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F552DD24D51C2A008C3296 /* SceneDelegate.swift */; };
-		A0F552E024D51C2A008C3296 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F552DF24D51C2A008C3296 /* Game.swift */; };
 		A0F552E224D51C2B008C3296 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0F552E124D51C2B008C3296 /* Assets.xcassets */; };
 		A0F552E524D51C2B008C3296 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0F552E424D51C2B008C3296 /* Preview Assets.xcassets */; };
-		A0F552E824D51C2B008C3296 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0F552E624D51C2B008C3296 /* LaunchScreen.storyboard */; };
 		A0F552F124D525DA008C3296 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F552F024D525DA008C3296 /* Client.swift */; };
 		A0F552F324D527F8008C3296 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F552F224D527F8008C3296 /* Timer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		A001168324F4EB980023B0B0 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
-		A01744A6250D71A8009315F6 /* Root.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
-		A01744A8250D97F0009315F6 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
 		A01744AE2512EB5F009315F6 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		A02B994D2509AF380093DF90 /* SectorDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorDetails.swift; sourceTree = "<group>"; };
 		A035BE8924FFA99F00887C33 /* FriendlyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendlyError.swift; sourceTree = "<group>"; };
@@ -65,18 +59,16 @@
 		A079FF6D250280B900FA1B13 /* Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigation.swift; sourceTree = "<group>"; };
 		A07CFC4D24F869BF0019FE20 /* TopDeaths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopDeaths.swift; sourceTree = "<group>"; };
 		A07CFC5124F8895A0019FE20 /* TopLegions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLegions.swift; sourceTree = "<group>"; };
+		A08198AA25150D0700A81399 /* TheVioletSector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheVioletSector.swift; sourceTree = "<group>"; };
 		A082E12325003BDC008DCD47 /* Scanners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scanners.swift; sourceTree = "<group>"; };
 		A082E125250042FB008DCD47 /* Targets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Targets.swift; sourceTree = "<group>"; };
+		A09156C42515C2D90090C4FF /* Title.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Title.swift; sourceTree = "<group>"; };
 		A0C4FF5624FE66F000BA2418 /* Refreshable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Refreshable.swift; sourceTree = "<group>"; };
 		A0C4FF5824FE7A5100BA2418 /* Refresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Refresh.swift; sourceTree = "<group>"; };
 		A0F4EE4724F83CA000D7AB84 /* Rankings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rankings.swift; sourceTree = "<group>"; };
 		A0F552D824D51C2A008C3296 /* The Violet Sector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The Violet Sector.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A0F552DB24D51C2A008C3296 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A0F552DD24D51C2A008C3296 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		A0F552DF24D51C2A008C3296 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		A0F552E124D51C2B008C3296 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A0F552E424D51C2B008C3296 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		A0F552E724D51C2B008C3296 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A0F552E924D51C2B008C3296 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A0F552EF24D520C7008C3296 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A0F552F024D525DA008C3296 /* Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
@@ -114,11 +106,7 @@
 		A0F552DA24D51C2A008C3296 /* The Violet Sector */ = {
 			isa = PBXGroup;
 			children = (
-				A0F552DB24D51C2A008C3296 /* AppDelegate.swift */,
-				A0F552DD24D51C2A008C3296 /* SceneDelegate.swift */,
-				A01744A6250D71A8009315F6 /* Root.swift */,
-				A01744A8250D97F0009315F6 /* Entry.swift */,
-				A0F552DF24D51C2A008C3296 /* Game.swift */,
+				A08198AA25150D0700A81399 /* TheVioletSector.swift */,
 				A001168324F4EB980023B0B0 /* Main.swift */,
 				A082E12325003BDC008DCD47 /* Scanners.swift */,
 				A079FF6D250280B900FA1B13 /* Navigation.swift */,
@@ -137,6 +125,7 @@
 				A041182E24EE261700B309DA /* Status.swift */,
 				A0F552F224D527F8008C3296 /* Timer.swift */,
 				A041183024EE4FF200B309DA /* Health.swift */,
+				A09156C42515C2D90090C4FF /* Title.swift */,
 				A01744AE2512EB5F009315F6 /* Model.swift */,
 				A041183624EEC21B00B309DA /* Target.swift */,
 				A041182C24EBE61400B309DA /* Sectors.swift */,
@@ -146,7 +135,6 @@
 				A0C4FF5624FE66F000BA2418 /* Refreshable.swift */,
 				A043549A24F0355100EA9BF4 /* String.swift */,
 				A0F552E124D51C2B008C3296 /* Assets.xcassets */,
-				A0F552E624D51C2B008C3296 /* LaunchScreen.storyboard */,
 				A0F552E924D51C2B008C3296 /* Info.plist */,
 				A0F552E324D51C2B008C3296 /* Preview Content */,
 			);
@@ -188,7 +176,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1160;
-				LastUpgradeCheck = 1160;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "João Santos";
 				TargetAttributes = {
 					A0F552D724D51C2A008C3296 = {
@@ -219,7 +207,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A0F552E824D51C2B008C3296 /* LaunchScreen.storyboard in Resources */,
 				A0F552E524D51C2B008C3296 /* Preview Assets.xcassets in Resources */,
 				A0F552E224D51C2B008C3296 /* Assets.xcassets in Resources */,
 			);
@@ -236,48 +223,34 @@
 				A041183124EE4FF200B309DA /* Health.swift in Sources */,
 				A0F552F324D527F8008C3296 /* Timer.swift in Sources */,
 				A041183324EEAF0A00B309DA /* Legions.swift in Sources */,
-				A0F552DC24D51C2A008C3296 /* AppDelegate.swift in Sources */,
 				A0C4FF5724FE66F000BA2418 /* Refreshable.swift in Sources */,
 				A041182F24EE261700B309DA /* Status.swift in Sources */,
 				A079FF6A2501EE8F00FA1B13 /* Map.swift in Sources */,
 				A0C4FF5924FE7A5100BA2418 /* Refresh.swift in Sources */,
 				A0F4EE4824F83CA000D7AB84 /* Rankings.swift in Sources */,
 				A041183524EEB2A500B309DA /* Ships.swift in Sources */,
-				A01744A9250D97F0009315F6 /* Entry.swift in Sources */,
-				A0F552DE24D51C2A008C3296 /* SceneDelegate.swift in Sources */,
 				A079FF6E250280B900FA1B13 /* Navigation.swift in Sources */,
 				A082E12425003BDC008DCD47 /* Scanners.swift in Sources */,
 				A0F552F124D525DA008C3296 /* Client.swift in Sources */,
 				A07CFC5224F8895A0019FE20 /* TopLegions.swift in Sources */,
 				A001168424F4EB980023B0B0 /* Main.swift in Sources */,
 				A041183D24EFBB7F00B309DA /* TopPilots.swift in Sources */,
+				A09156C52515C2D90090C4FF /* Title.swift in Sources */,
 				A046D02E24E79E24000393E7 /* LegionNews.swift in Sources */,
+				A08198AB25150D0700A81399 /* TheVioletSector.swift in Sources */,
 				A041183724EEC21B00B309DA /* Target.swift in Sources */,
-				A0F552E024D51C2A008C3296 /* Game.swift in Sources */,
 				A01744AF2512EB5F009315F6 /* Model.swift in Sources */,
 				A035BE8A24FFA99F00887C33 /* FriendlyError.swift in Sources */,
 				A07CFC4E24F869BF0019FE20 /* TopDeaths.swift in Sources */,
 				A082E126250042FB008DCD47 /* Targets.swift in Sources */,
 				A041183B24EED98300B309DA /* TargetDetails.swift in Sources */,
 				A02B994E2509AF380093DF90 /* SectorDetails.swift in Sources */,
-				A01744A7250D71A8009315F6 /* Root.swift in Sources */,
 				A041182D24EBE61400B309DA /* Sectors.swift in Sources */,
 				A06FE51024FFC7E300BB0C59 /* Loading.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		A0F552E624D51C2B008C3296 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A0F552E724D51C2B008C3296 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		A0F552EA24D51C2B008C3296 /* Debug */ = {
@@ -306,6 +279,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -330,7 +304,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -366,6 +340,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -384,7 +359,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

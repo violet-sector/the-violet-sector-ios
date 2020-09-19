@@ -7,15 +7,15 @@ struct Map: View {
     @State private var selectedSector: Sectors?
 
     var body: some View {
-        VStack() {
-            if model.data != nil {
-                ScrollableMap(data: model.data!, selectedSector: $selectedSector)
+        VStack(spacing: 10.0) {
+            if let data = model.data {
+                ScrollableMap(data: data, selectedSector: $selectedSector)
                 if selectedSector != nil {
                     NavigationLink(destination: SectorDetails(sector: selectedSector!, legions: model.data!.domination[selectedSector!] ?? []), tag: selectedSector!, selection: $selectedSector, label: {EmptyView()})
                         .hidden()
                 }
-            } else if model.error != nil {
-                FriendlyError(error: model.error!)
+            } else if let error = model.error {
+                FriendlyError(error: error)
             } else {
                 Loading()
             }
@@ -70,7 +70,7 @@ struct Map: View {
         func updateUIView(_: UIScrollView, context _: Context) {}
 
         func makeCoordinator() -> Coordinator {
-            return Coordinator(handler: {self.selectedSector = $0})
+            return Coordinator(handler: {selectedSector = $0})
         }
 
         private func makeInteractiveMap(coordinator: Coordinator) -> UIImageView {
@@ -132,7 +132,7 @@ struct Map: View {
                 let hyperRotor = UIAccessibilityCustomRotor(name: "Available hypergates") {(predicate) in
                     let element = predicate.currentItem.targetElement as! AccessibilityElement
                     let sector = element.sector
-                    let openGates = self.data.gates.sorted(by: {$0.rawValue < $1.rawValue})
+                    let openGates = data.gates.sorted(by: {$0.rawValue < $1.rawValue})
                     if predicate.searchDirection == .next {
                         let index = openGates.firstIndex(where: {$0.rawValue > sector.rawValue}) ?? 0
                         let sector = openGates[index]
@@ -158,14 +158,14 @@ struct Map: View {
                 UIColor.black.setFill()
                 let backgroundPath = UIBezierPath(rect: CGRect(x: 0.0, y: 0.0, width: 510.0, height: 675.0))
                 backgroundPath.fill()
-                self.drawGates()
-                self.drawPlayerLocation()
-                self.drawOpenGates()
-                self.drawEmptySectors()
-                self.drawDominatedSectors()
-                self.drawContestedSectors()
-                self.drawHyperArrow()
-                self.drawSectorLabels()
+                drawGates()
+                drawPlayerLocation()
+                drawOpenGates()
+                drawEmptySectors()
+                drawDominatedSectors()
+                drawContestedSectors()
+                drawHyperArrow()
+                drawSectorLabels()
             }
         }
 
@@ -408,7 +408,7 @@ struct Map: View {
                     return
                 }
                 lastSize = bounds.size
-                let mapView = self.subviews.first! as! UIImageView
+                let mapView = subviews.first! as! UIImageView
                 let mapImage = mapView.image!
                 let scale = min(min(bounds.size.width / mapImage.size.width, bounds.size.height / mapImage.size.height), 1.0)
                 maximumZoomScale = 1.0

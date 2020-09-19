@@ -13,16 +13,18 @@ struct Rankings: View {
                     Button("Top Deaths", action: {self.tab = .topDeaths})
                     Button("Top Legions", action: {self.tab = .topLegions})
                 }
-                if tab == .topPilots {
+                switch tab {
+                case .topPilots:
                     TopPilots()
-                } else if tab == .topDeaths {
+                case .topDeaths:
                     TopDeaths()
-                } else if tab == .topLegions {
+                case .topLegions:
                     TopLegions()
                 }
             }
-            .navigationBarTitle("Rankings", displayMode: .inline)
-            .navigationBarItems(trailing: Refresh())
+            .navigationBarTitle("Rankings")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar(content: {Refresh()})
         }
     }
 

@@ -10,4 +10,4 @@ To test while the game is not running you can change the `baseURL` constant in `
 
 ## Compatibility
 
-At the moment this project requires iOS 13.0 or later, but at some point I will likely change the requirement to iOS 14.0 or later to take advantage of the newest enhancements to SwiftUI.
+At the moment this project requires iOS 14.0 or later, but I might change the requirement to a later version to take advantage of the newest enhancements to SwiftUI.

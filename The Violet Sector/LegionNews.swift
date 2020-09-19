@@ -6,22 +6,18 @@ struct LegionNews: View {
     @ObservedObject private var model = Model<Data>(resource: "legion_news.php")
 
     var body: some View {
-        VStack() {
-            Text(verbatim: "Legion News")
-                .bold()
-                .accessibility(addTraits: .isHeader)
-            if model.data != nil {
-                GeometryReader() {(geometry) in
-                    ScrollView() {
-                        Text(verbatim: "Set by \(self.model.data!.content.author) on turn \(self.model.data!.content.turn) (\(DateFormatter.localizedString(from: Date(timeIntervalSince1970: TimeInterval(self.model.data!.content.time)), dateStyle: .short, timeStyle: .short)))\n\n\(self.model.data!.content.text)")
-                            .frame(maxWidth: geometry.size.width * 0.9, maxHeight: .infinity, alignment: .topLeading)
-                    }
-                    .padding(1.0)
-                    .border(Color.primary)
-                    .frame(width: geometry.size.width * 0.9, height: geometry.size.height - 5.0)
+        VStack(spacing: 10.0) {
+            Title("Legion News")
+            if let content = model.data?.content {
+                ScrollView() {
+                    Text(verbatim: "Set by \(content.author) on turn \(content.turn) (\(DateFormatter.localizedString(from: Date(timeIntervalSince1970: TimeInterval(content.time)), dateStyle: .short, timeStyle: .short)))\n\n\(content.text)")
+                        .multilineTextAlignment(.leading)
                 }
-            } else if model.error != nil {
-                FriendlyError(error: model.error!)
+                .padding(5.0)
+                .border(Color.primary)
+                .frame(width: 240.0)
+            } else if let error = model.error {
+                FriendlyError(error: error)
             } else {
                 Loading()
             }

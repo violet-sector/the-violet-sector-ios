@@ -7,22 +7,20 @@ struct TopDeaths: View {
     @State private var search = ""
 
     var body: some View {
-        let enumeratedPilots = model.data?.content.sorted(by: {$0.score > $1.score}).enumerated().filter({search.isEmpty || $0.element.name ~= search})
-        return VStack() {
-            Text(verbatim: "Top Deaths")
-                .bold()
-                .accessibility(addTraits: .isHeader)
-            if enumeratedPilots != nil {
+        VStack(spacing: 10.0) {
+            Title("Top Deaths")
+            if let content = model.data?.content {
                 HStack {
                     TextField("Search", text: $search)
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
                         .frame(width: 200.0)
                     Button(action: {self.search = ""}, label: {Image(systemName: "xmark.circle")})
-                        .accessibility(label: Text(verbatim: "Clear"))
+                        .accessibilityLabel("Clear")
                 }
-                if !enumeratedPilots!.isEmpty {
-                    List(enumeratedPilots!, id: \.offset) {(enumeratedPilot) in
+                let enumeratedPilots = content.sorted(by: {$0.score > $1.score}).enumerated().filter({search.isEmpty || $0.element.name ~= search})
+                if !enumeratedPilots.isEmpty {
+                    List(enumeratedPilots, id: \.offset) {(enumeratedPilot) in
                             HStack() {
                                 Text(verbatim: "\(enumeratedPilot.offset + 1)")
                                     .frame(width: 32.0, alignment: .trailing)
@@ -44,8 +42,8 @@ struct TopDeaths: View {
                     Text(verbatim: "Nothing to show.")
                     Spacer()
                 }
-            } else if model.error != nil {
-                FriendlyError(error: model.error!)
+            } else if let error = model.error {
+                FriendlyError(error: error)
             } else {
                 Loading()
             }

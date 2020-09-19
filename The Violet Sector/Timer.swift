@@ -2,7 +2,6 @@
 
 import SwiftUI
 import Combine
-import Foundation
 
 struct Timer: View {
     @ObservedObject private var model = Model.shared
@@ -27,6 +26,8 @@ struct Timer: View {
         private var referenceTurn: Int64 = 0
         private var turnDuration: Int64 = 0
         private var lastErrorTime: Int64 = 0
+        private var deltaTime: Int64 = 0
+        private var serverHoursSince1970: Int64 = 0
 
         static let shared = Model()
 
@@ -48,7 +49,10 @@ struct Timer: View {
             }
             turnDuration = data.turnDuration
             referenceTurn = data.referenceTurn
-            referenceTime = Int64(Date().timeIntervalSince1970) - (turnDuration - data.remainingTime)
+            let currentTime = Int64(Date().timeIntervalSince1970)
+            referenceTime = currentTime - (turnDuration - data.remainingTime)
+            deltaTime = currentTime - data.serverTime
+            serverHoursSince1970 = data.serverTime / 60 / 60
             timer = Foundation.Timer.publish(every: 1.0, on: .main, in: .default)
                 .autoconnect()
                 .sink() {[unowned self] (date) in
@@ -62,7 +66,7 @@ struct Timer: View {
                     self.minutes = remainingTime / 60
                     remainingTime %= 60
                     self.seconds = remainingTime
-                    if currentTime - self.referenceTime >= 60 * 60 && currentTime - self.lastErrorTime >= 5 {
+                    if (currentTime - self.deltaTime) / 60 / 60 > self.serverHoursSince1970 && currentTime - self.lastErrorTime >= 5 {
                         self.refresh()
                     }
             }
@@ -72,11 +76,13 @@ struct Timer: View {
             let turnDuration: Int64
             let referenceTurn: Int64
             let remainingTime: Int64
+            let serverTime: Int64
 
             private enum CodingKeys: String, CodingKey {
                 case turnDuration = "tick_length"
                 case referenceTurn = "tick"
                 case remainingTime = "secs_left"
+                case serverTime = "now"
             }
         }
     }

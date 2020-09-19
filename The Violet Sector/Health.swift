@@ -9,13 +9,13 @@ struct Health: View {
     private let color: Color
 
     var body: some View {
-        guard current > 0 else {
-            return Text("Destroyed").bold().foregroundColor(color)
+        if current == 0 {
+            Text("Destroyed").bold().foregroundColor(color)
+        } else if !asPercentage {
+            Text(verbatim: "\(current)").bold().foregroundColor(color).bold() + Text("/\(max)")
+        } else {
+        Text("\(current * 100 / max)%").foregroundColor(color)
         }
-        if !asPercentage {
-            return Text(verbatim: "\(current)").bold().foregroundColor(color).bold() + Text("/\(max)")
-        }
-        return Text("\(current * 100 / max)%").foregroundColor(color)
     }
 
     init(current: UInt, max: UInt) {

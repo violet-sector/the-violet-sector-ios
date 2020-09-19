@@ -6,7 +6,8 @@ struct Loading: View {
     var body: some View {
         VStack() {
             Spacer()
-            Text(verbatim: "Loading...")
+            ProgressView()
+                .scaleEffect(10.0)
             Spacer()
         }
     }

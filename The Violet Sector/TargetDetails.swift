@@ -7,16 +7,16 @@ struct TargetDetails: View {
     var data: Target
 
     var body: some View {
-        VStack() {
+        VStack(spacing: 10.0) {
             GeometryReader() {(geometry) in
                 VStack() {
-                    Image("\(self.data.ship)")
-                    Text(verbatim: "\(self.data.ship)\(self.data.isCloaked ?? false ? " (Cloaked)" : "")")
-                    if self.rank > 0 {
+                    Image("\(data.ship)")
+                    Text(verbatim: "\(data.ship)\(data.isCloaked ?? false ? " (Cloaked)" : "")")
+                    if rank > 0 {
                         HStack(spacing: 20.0) {
                             Text(verbatim: "Rank")
                                 .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .trailing)
-                            Text(verbatim: "\(self.rank)")
+                            Text(verbatim: "\(rank)")
                                 .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .leading)
                         }
                         .accessibilityElement(children: .combine)
@@ -24,45 +24,45 @@ struct TargetDetails: View {
                     HStack(spacing: 20.0) {
                         Text(verbatim: "Legion")
                             .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .trailing)
-                        Text(verbatim: "\(self.data.legion)")
+                        Text(verbatim: "\(data.legion)")
                             .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .leading)
                     }
                     .accessibilityElement(children: .combine)
                     HStack(spacing: 20.0) {
                         Text(verbatim: "Hitpoints")
                             .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .trailing)
-                        Health(current: self.data.currentHealth, max: self.data.maxHealth)
+                        Health(current: data.currentHealth, max: data.maxHealth)
                             .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .leading)
                     }
                     .accessibilityElement(children: .combine)
                     HStack(spacing: 20.0) {
                         Text(verbatim: "Score")
                             .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .trailing)
-                        Text(verbatim: "\(self.data.score)")
+                        Text(verbatim: "\(data.score)")
                             .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .leading)
                     }
                     .accessibilityElement(children: .combine)
                     HStack(spacing: 20.0) {
                         Text(verbatim: "Level")
                             .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .trailing)
-                        Text(verbatim: "\(self.data.level)")
+                        Text(verbatim: "\(data.level)")
                             .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .leading)
                     }
                     .accessibilityElement(children: .combine)
-                    if self.data.kills != nil {
+                    if let kills = data.kills {
                         HStack(spacing: 20.0) {
                             Text(verbatim: "Kills")
                                 .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .trailing)
-                            Text(verbatim: "\(self.data.kills!)")
+                            Text(verbatim: "\(kills)")
                                 .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .leading)
                         }
                         .accessibilityElement(children: .combine)
                     }
-                    if self.data.deaths != nil {
+                    if let deaths = data.deaths {
                         HStack(spacing: 20.0) {
                             Text(verbatim: "Deaths")
                                 .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .trailing)
-                            Text(verbatim: "\(self.data.deaths!)")
+                            Text(verbatim: "\(deaths)")
                                 .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .leading)
                         }
                         .accessibilityElement(children: .combine)
@@ -72,6 +72,7 @@ struct TargetDetails: View {
             }
             Status()
         }
-        .navigationBarTitle("\(data.name)\(data.isOnline ? "*" : "")", displayMode: .inline)
+        .navigationBarTitle("\(data.name)\(data.isOnline ? "*" : "")")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }

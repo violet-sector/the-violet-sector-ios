@@ -7,19 +7,21 @@ struct Scanners: View {
 
     var body: some View {
         NavigationView() {
-            VStack() {
+            VStack(spacing: 10.0) {
                 HStack() {
                     Button("Incoming", action: {self.tab = .incoming})
                     Button("Outgoing", action: {self.tab = .outgoing})
                 }
-                if tab == .incoming {
+                switch tab {
+                case .incoming:
                     Targets(resource: "scans_incoming.php", title: "Incoming")
-                } else if tab == .outgoing {
+                case .outgoing:
                     Targets(resource: "scans_outgoing.php", title: "Outgoing")
                 }
             }
-            .navigationBarTitle("Scanners", displayMode: .inline)
-            .navigationBarItems(trailing: Refresh())
+            .navigationBarTitle("Scanners")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar(content: {Refresh()})
         }
     }
 

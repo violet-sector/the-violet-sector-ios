@@ -7,21 +7,17 @@ struct Status: View {
     private static var savedData: Data?
 
     var body: some View {
-        Group {
-            if data != nil {
-                VStack() {
-                    HStack() {
-                        Text(verbatim: "\(data!.moves) \(data!.moves != 1 ? "Moves" : "Move")")
-                        Health(current: data!.currentHealth, max: data!.maxHealth)
-                            .percentage()
-                        Text(verbatim: (data!.destinationSector == .none ? "\(data!.currentSector)" : "Hypering to \(data!.destinationSector)") + (data!.isSleeping ? " (zZzZ)" : "") + (data!.isCloaked ? " (Cloaked)" : "") + (data!.isInvulnerable ? " (Invulnerable)" : ""))
-                    }
-                    .accessibilityElement(children: .combine)
-                    Timer()
+        VStack() {
+            if let data = data {
+                HStack() {
+                    Text(verbatim: "\(data.moves) \(data.moves != 1 ? "Moves" : "Move")")
+                    Health(current: data.currentHealth, max: data.maxHealth)
+                        .percentage()
+                    Text(verbatim: (data.destinationSector == .none ? "\(data.currentSector)" : "Hypering to \(data.destinationSector)") + (data.isSleeping ? " (zZzZ)" : "") + (data.isCloaked ? " (Cloaked)" : "") + (data.isInvulnerable ? " (Invulnerable)" : ""))
                 }
-            } else {
-                Timer()
+                .accessibilityElement(children: .combine)
             }
+            Timer()
         }
     }
 

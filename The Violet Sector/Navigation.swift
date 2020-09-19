@@ -7,7 +7,8 @@ struct Navigation: View {
         NavigationView() {
             Map()
                 .navigationBarTitle("Navigation")
-                .navigationBarItems(trailing: Refresh())
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar(content: {Refresh()})
         }
     }
 }

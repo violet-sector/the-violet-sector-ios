@@ -3,17 +3,15 @@
 import SwiftUI
 
 struct Targets: View {
-    let title: String
     @ObservedObject private var model: Model<Data>
+    let title: String
 
     var body: some View {
-        VStack() {
-            Text(verbatim: title)
-                .bold()
-                .accessibility(addTraits: .isHeader)
-            if model.data != nil {
-                if !model.data!.content.isEmpty {
-                    List(model.data!.content.sorted(by: {$0.score < $1.score}), id: \.name) {(target) in
+        VStack(spacing: 10.0) {
+            Title(title)
+            if let content = model.data?.content {
+                if !content.isEmpty {
+                    List(content.sorted(by: {$0.score < $1.score}), id: \.name) {(target) in
                         NavigationLink(destination: TargetDetails(rank: 0, data: target)) {
                             GeometryReader() {(geometry) in
                                 HStack(spacing: 0.0) {
@@ -34,8 +32,8 @@ struct Targets: View {
                     Text(verbatim: "Nothing to show.")
                     Spacer()
                 }
-            } else if model.error != nil {
-                FriendlyError(error: model.error!)
+            } else if let error = model.error {
+                FriendlyError(error: error)
             } else {
                 Loading()
             }

@@ -6,8 +6,9 @@ struct Main: View {
     var body: some View {
         NavigationView() {
             LegionNews()
-                .navigationBarTitle("Main", displayMode: .inline)
-                .navigationBarItems(trailing: Refresh())
+                .navigationBarTitle("Main")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar(content: {Refresh()})
         }
     }
 }
