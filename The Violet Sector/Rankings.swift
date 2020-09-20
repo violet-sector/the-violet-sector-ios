@@ -7,7 +7,7 @@ struct Rankings: View {
 
     var body: some View {
         NavigationView() {
-            VStack() {
+            VStack(spacing: 10.0) {
                 HStack() {
                     Button("Top Pilots", action: {self.tab = .topPilots})
                     Button("Top Deaths", action: {self.tab = .topDeaths})

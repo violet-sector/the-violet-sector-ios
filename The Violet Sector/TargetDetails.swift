@@ -7,7 +7,7 @@ struct TargetDetails: View {
     var data: Target
 
     var body: some View {
-        VStack(spacing: 10.0) {
+        VStack() {
             GeometryReader() {(geometry) in
                 VStack() {
                     Image("\(data.ship)")
