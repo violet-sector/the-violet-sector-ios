@@ -33,7 +33,7 @@ final class Client: ObservableObject {
 
     func fetch<Root, Response: Decodable>(_ resource: String, setResponse response: ReferenceWritableKeyPath<Root, Response?>, setFailure failure: ReferenceWritableKeyPath<Root, Error?>, on root: Root) -> Cancellable {
         return session.dataTaskPublisher(for: Self.baseURL.appendingPathComponent(resource, isDirectory: false))
-            .tryMap({if $0.response.mimeType == nil || $0.response.mimeType! != "application/json" {throw Errors.invalidContentType}; return $0.data})
+            .tryMap({let response = $0.response as! HTTPURLResponse; if response.statusCode != 200 {throw Errors.serverError(response.statusCode)} else if response.mimeType == nil {throw Errors.noContentType} else if response.mimeType! != "application/json" {throw Errors.invalidContentType(response.mimeType!)}; return $0.data})
             .decode(type: Response?.self, decoder: decoder)
             .receive(on: RunLoop.main)
             .catch({(error) -> Just<Response?> in root[keyPath: failure] = error; return Just(Response?.none)})
@@ -64,12 +64,18 @@ final class Client: ObservableObject {
     }
 
     enum Errors: LocalizedError {
-        case invalidContentType
+        case serverError(Int)
+        case noContentType
+        case invalidContentType(String)
 
         var errorDescription: String? {
             switch self {
-            case .invalidContentType:
-                return "Invalid content type."
+            case let .serverError(code):
+                return "Server error (\(code))."
+            case .noContentType:
+                return "No content type specified."
+            case let .invalidContentType(contentType):
+                return "Invalid content type (\(contentType))."
             }
         }
     }
