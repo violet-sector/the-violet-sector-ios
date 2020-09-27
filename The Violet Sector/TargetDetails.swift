@@ -10,7 +10,9 @@ struct TargetDetails: View {
         VStack() {
             GeometryReader() {(geometry) in
                 VStack() {
-                    Image("Ships/\(data.ship)")
+                    if data.ship != .planet {
+                        Image("Ships/\(data.ship)")
+                    }
                     Text(verbatim: "\(data.ship)\(data.isCloaked ?? false ? " (Cloaked)" : "")")
                     if rank > 0 {
                         HStack(spacing: 20.0) {
