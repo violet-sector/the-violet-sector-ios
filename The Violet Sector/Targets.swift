@@ -15,7 +15,7 @@ struct Targets: View {
                         NavigationLink(destination: TargetDetails(rank: 0, data: target)) {
                             GeometryReader() {(geometry) in
                                 HStack(spacing: 0.0) {
-                                    (Text(verbatim: "\(target.name)\(target.isOnline ? "*" : "") [") + Text(verbatim: "\(target.legion.description.first!)").bold().foregroundColor(Color("\(target.legion)")) + Text(verbatim: "]"))
+                                    (Text(verbatim: "\(target.name)\(target.isOnline ? "*" : "") [") + Text(verbatim: "\(target.legion.description.first!)").bold().foregroundColor(Color("Legions/\(target.legion)")) + Text(verbatim: "]"))
                                         .frame(width: geometry.size.width * 0.5, alignment: .leading)
                                     Health(current: target.currentHealth, max: target.maxHealth)
                                         .percentage()

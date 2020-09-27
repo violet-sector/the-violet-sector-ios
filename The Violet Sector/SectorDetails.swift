@@ -68,7 +68,7 @@ struct SectorDetails: View {
                     }
                 }
             }
-            let asset = NSDataAsset(name: "\(sector)")!
+            let asset = NSDataAsset(name: "Sectors/\(sector)")!
             let data = asset.data
             let text = domination != nil ? "# Domination\n\n\(domination!)\n\n" + String(data: data, encoding: .utf8)! : String(data: data, encoding: .utf8)!
             let statements = text.split(separator: "\n", omittingEmptySubsequences: false)

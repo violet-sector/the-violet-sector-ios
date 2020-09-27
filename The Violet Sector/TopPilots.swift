@@ -27,7 +27,7 @@ struct TopPilots: View {
                                     .frame(width: 32.0, alignment: .trailing)
                                 GeometryReader() {(geometry) in
                                     HStack(spacing: 0.0) {
-                                        (Text(verbatim: "\(enumeratedPilot.element.name)\(enumeratedPilot.element.isOnline ? "*" : "") [") + Text(verbatim: "\(enumeratedPilot.element.legion.description.first!)").bold().foregroundColor(Color("\(enumeratedPilot.element.legion)")) + Text(verbatim: "]"))
+                                        (Text(verbatim: "\(enumeratedPilot.element.name)\(enumeratedPilot.element.isOnline ? "*" : "") [") + Text(verbatim: "\(enumeratedPilot.element.legion.description.first!)").bold().foregroundColor(Color("Legions/\(enumeratedPilot.element.legion)")) + Text(verbatim: "]"))
                                             .frame(width: geometry.size.width * 0.5, alignment: .leading)
                                         Health(current: enumeratedPilot.element.currentHealth, max: enumeratedPilot.element.maxHealth)
                                             .percentage()

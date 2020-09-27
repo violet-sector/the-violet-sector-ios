@@ -232,7 +232,7 @@ struct Map: View {
                     continue
                 }
                 let legion = legions.first!
-                drawSolidSector(color: UIColor(named: "\(legion)") ?? UIColor.white, sector: sector)
+                drawSolidSector(color: UIColor(named: "Legions/\(legion)") ?? UIColor.white, sector: sector)
             }
         }
 
@@ -246,7 +246,7 @@ struct Map: View {
                 let rotation = CGAffineTransform(rotationAngle: angleIncrement)
                 let translation = CGAffineTransform(translationX: coordinates.x, y: coordinates.y)
                 for legion in legions {
-                    let color = UIColor(named: "\(legion)") ?? UIColor.white
+                    let color = UIColor(named: "Legions/\(legion)") ?? UIColor.white
                     color.setFill()
                     let slicePath = UIBezierPath()
                     slicePath.move(to: CGPoint(x: 0.0, y: 0.0))
