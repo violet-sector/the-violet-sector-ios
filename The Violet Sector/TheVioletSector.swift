@@ -12,15 +12,15 @@ import SwiftUI
                 if isAuthenticated {
                     TabView() {
                         Main()
-                            .tabItem({Image(systemName: "doc.text.fill"); Text(verbatim: "Main").bold()})
+                            .tabItem({Image(systemName: "doc.text.fill").accessibilityHidden(true); Text(verbatim: "Main").bold()})
                         Scanners()
-                            .tabItem({Image(systemName: "dot.radiowaves.left.and.right"); Text(verbatim: "Scanners").bold()})
+                            .tabItem({Image(systemName: "dot.radiowaves.left.and.right").accessibilityHidden(true); Text(verbatim: "Scanners").bold()})
                         Text(verbatim: "Placeholder")
-                            .tabItem({Image(systemName: "envelope.fill"); Text(verbatim: "Comms").bold()})
+                            .tabItem({Image(systemName: "envelope.fill").accessibilityHidden(true); Text(verbatim: "Comms").bold()})
                         Navigation()
-                            .tabItem({Image(systemName: "map.fill"); Text(verbatim: "Navigation").bold()})
+                            .tabItem({Image(systemName: "map.fill").accessibilityHidden(true); Text(verbatim: "Navigation").bold()})
                         Rankings()
-                            .tabItem({Image(systemName: "person.fill"); Text(verbatim: "Rankings").bold()})
+                            .tabItem({Image(systemName: "person.fill").accessibilityHidden(true); Text(verbatim: "Rankings").bold()})
                     }
                 } else {
                     VStack(spacing: 10.0) {

@@ -11,7 +11,7 @@ struct TargetDetails: View {
             GeometryReader() {(geometry) in
                 VStack() {
                     if data.ship != .planet {
-                        Image("Ships/\(data.ship)")
+                        Image(decorative: "Ships/\(data.ship)")
                     }
                     Text(verbatim: "\(data.ship)\(data.isCloaked ?? false ? " (Cloaked)" : "")")
                     if rank > 0 {
