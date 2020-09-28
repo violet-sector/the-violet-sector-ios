@@ -4,7 +4,7 @@ import Foundation
 import Combine
 
 final class Client: ObservableObject {
-    @Published private(set) var settings: Settings? {didSet {guard settings == nil else {return}; retryFetchSettings()}}
+    @Published private(set) var settings: Settings?
     @Published private(set) var error: Error?
     var refreshable: Refreshable?
     private let session: URLSession
@@ -47,14 +47,18 @@ final class Client: ObservableObject {
     private func fetchSettings() {
         settings = nil
         error = nil
-        request = fetch(Self.settingsResource, setResponse: \.settings, setFailure: \.error, on: self)
+        request = session.dataTaskPublisher(for: Self.baseURL.appendingPathComponent(Self.settingsResource, isDirectory: false))
+            .tryMap({let response = $0.response as! HTTPURLResponse; if response.statusCode != 200 {throw Errors.serverError(response.statusCode)} else if response.mimeType == nil {throw Errors.noContentType} else if response.mimeType! != "application/json" {throw Errors.invalidContentType(response.mimeType!)}; return $0.data})
+            .decode(type: Settings.self, decoder: decoder)
+            .receive(on: RunLoop.main)
+            .sink(receiveCompletion: {[unowned self] in if case let .failure(error) = $0 {self.error = error; self.retryFetchSettings()}}, receiveValue: {[unowned self] in self.settings = $0; self.error = nil; self.timer = nil})
     }
 
     private func retryFetchSettings() {
         timer = Foundation.Timer.publish(every: Self.settingsFetchRetry, on: .main, in: .default)
             .autoconnect()
             .first()
-            .sink(receiveValue: {[unowned self] (_) in self.retryFetchSettings()})
+            .sink(receiveValue: {[unowned self] (_) in self.fetchSettings()})
     }
 
     struct Settings: Decodable {
