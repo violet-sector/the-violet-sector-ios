@@ -4,6 +4,7 @@ import SwiftUI
 
 struct Map: View {
     @ObservedObject private var model = Model<Data>(resource: "navcom_map.php")
+    @ObservedObject private var action = Action(resource: "navcom_hyper.php")
     @State private var selectedSector: Sectors?
 
     var body: some View {
@@ -11,7 +12,7 @@ struct Map: View {
             if let data = model.data {
                 ScrollableMap(data: data, selectedSector: $selectedSector)
                 if selectedSector != nil {
-                    NavigationLink(destination: SectorDetails(sector: selectedSector!, legions: model.data!.domination[selectedSector!] ?? []), tag: selectedSector!, selection: $selectedSector, label: {EmptyView()})
+                    NavigationLink(destination: SectorDetails(sector: selectedSector!, legions: model.data!.domination[selectedSector!] ?? [], isOpenGate: model.data!.gates.contains(selectedSector!), action: action), tag: selectedSector!, selection: $selectedSector, label: {EmptyView()})
                         .hidden()
                 }
             } else if let error = model.error {
@@ -21,11 +22,12 @@ struct Map: View {
             }
             Status(data: model.data?.status)
         }
+        .onAppear(perform: {Client.shared.refreshable = model})
     }
 
     private struct Data: Decodable {
         let domination: [Sectors: Set<Legions>]
-        let gates: Set<Sectors>
+        let gates: [Sectors]
         let status: Status.Data
 
         init(from decoder: Decoder) throws {
@@ -43,8 +45,16 @@ struct Map: View {
                 domination[sector] = value
             }
             self.domination = domination
-            gates = try container.decode(Set<Sectors>.self, forKey: .gates)
+            gates = try container.decodeIfPresent([Destination].self, forKey: .gates)?.map({$0.id}) ?? []
             status = try container.decode(Status.Data.self, forKey: .status)
+        }
+
+        private struct Destination: Decodable {
+            let id: Sectors
+
+            private enum CodingKeys: String, CodingKey {
+                case id = "id"
+            }
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -29,6 +29,8 @@
 		A08198AB25150D0700A81399 /* TheVioletSector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08198AA25150D0700A81399 /* TheVioletSector.swift */; };
 		A082E12425003BDC008DCD47 /* Scanners.swift in Sources */ = {isa = PBXBuildFile; fileRef = A082E12325003BDC008DCD47 /* Scanners.swift */; };
 		A082E126250042FB008DCD47 /* Targets.swift in Sources */ = {isa = PBXBuildFile; fileRef = A082E125250042FB008DCD47 /* Targets.swift */; };
+		A08E6B6625F091570057E8D7 /* Hyper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E6B6525F091570057E8D7 /* Hyper.swift */; };
+		A08E6B6A25F0EDAC0057E8D7 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E6B6925F0EDAC0057E8D7 /* Action.swift */; };
 		A09156C52515C2D90090C4FF /* Title.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09156C42515C2D90090C4FF /* Title.swift */; };
 		A0C4FF5724FE66F000BA2418 /* Refreshable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C4FF5624FE66F000BA2418 /* Refreshable.swift */; };
 		A0C4FF5924FE7A5100BA2418 /* Refresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C4FF5824FE7A5100BA2418 /* Refresh.swift */; };
@@ -62,6 +64,8 @@
 		A08198AA25150D0700A81399 /* TheVioletSector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheVioletSector.swift; sourceTree = "<group>"; };
 		A082E12325003BDC008DCD47 /* Scanners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scanners.swift; sourceTree = "<group>"; };
 		A082E125250042FB008DCD47 /* Targets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Targets.swift; sourceTree = "<group>"; };
+		A08E6B6525F091570057E8D7 /* Hyper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hyper.swift; sourceTree = "<group>"; };
+		A08E6B6925F0EDAC0057E8D7 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		A09156C42515C2D90090C4FF /* Title.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Title.swift; sourceTree = "<group>"; };
 		A0C4FF5624FE66F000BA2418 /* Refreshable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Refreshable.swift; sourceTree = "<group>"; };
 		A0C4FF5824FE7A5100BA2418 /* Refresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Refresh.swift; sourceTree = "<group>"; };
@@ -122,11 +126,13 @@
 				A06FE50F24FFC7E300BB0C59 /* Loading.swift */,
 				A041183A24EED98300B309DA /* TargetDetails.swift */,
 				A02B994D2509AF380093DF90 /* SectorDetails.swift */,
+				A08E6B6525F091570057E8D7 /* Hyper.swift */,
 				A041182E24EE261700B309DA /* Status.swift */,
 				A0F552F224D527F8008C3296 /* Timer.swift */,
 				A041183024EE4FF200B309DA /* Health.swift */,
 				A09156C42515C2D90090C4FF /* Title.swift */,
 				A01744AE2512EB5F009315F6 /* Model.swift */,
+				A08E6B6925F0EDAC0057E8D7 /* Action.swift */,
 				A041183624EEC21B00B309DA /* Target.swift */,
 				A041182C24EBE61400B309DA /* Sectors.swift */,
 				A041183424EEB2A500B309DA /* Ships.swift */,
@@ -223,6 +229,8 @@
 				A041183124EE4FF200B309DA /* Health.swift in Sources */,
 				A0F552F324D527F8008C3296 /* Timer.swift in Sources */,
 				A041183324EEAF0A00B309DA /* Legions.swift in Sources */,
+				A08E6B6625F091570057E8D7 /* Hyper.swift in Sources */,
+				A08E6B6A25F0EDAC0057E8D7 /* Action.swift in Sources */,
 				A0C4FF5724FE66F000BA2418 /* Refreshable.swift in Sources */,
 				A041182F24EE261700B309DA /* Status.swift in Sources */,
 				A079FF6A2501EE8F00FA1B13 /* Map.swift in Sources */,

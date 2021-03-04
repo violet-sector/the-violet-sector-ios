@@ -40,6 +40,7 @@ struct TopLegions: View {
             }
             Status(data: model.data?.status)
         }
+        .onAppear(perform: {Client.shared.refreshable = model})
     }
 
     private struct Data: Decodable {

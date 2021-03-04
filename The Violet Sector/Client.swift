@@ -6,18 +6,14 @@ import Combine
 final class Client: ObservableObject {
     @Published private(set) var settings: Settings?
     @Published private(set) var error: Error?
-    var refreshable: Refreshable?
+    var refreshable: Refreshable? {didSet {guard let refreshable = refreshable else {return}; refreshable.refresh()}}
     private let session: URLSession
     private var request: Cancellable?
     private var timer: Cancellable?
     private let decoder = JSONDecoder()
 
     static let shared = Client()
-    #if !DEBUG
-    private static let baseURL = URL(string: "https://www.violetsector.com/json/")!
-    #else
-    private static let baseURL = URL(string: "https://www.xce.pt/")!
-    #endif
+    private static let baseURL = "https://www.violetsector.com/json/"
     private static let settingsResource = "config.php"
     private static let settingsFetchRetry = TimeInterval(10.0)
 
@@ -35,8 +31,24 @@ final class Client: ObservableObject {
         fetchSettings()
     }
 
-    func fetch<Root, Response: Decodable>(_ resource: String, setResponse response: ReferenceWritableKeyPath<Root, Response?>, setFailure failure: ReferenceWritableKeyPath<Root, Error?>, on root: Root) -> Cancellable {
-        return session.dataTaskPublisher(for: Self.baseURL.appendingPathComponent(resource, isDirectory: false))
+    func fetch<Root, Response: Decodable>(_ resource: String, postData data: Data? = nil, setResponse response: ReferenceWritableKeyPath<Root, Response?>, setFailure failure: ReferenceWritableKeyPath<Root, Error?>, on root: Root) -> Cancellable {
+        #if DEBUG
+        let resource = resource + "?rpirw=true"
+        #endif
+        let url = URL(string: Self.baseURL + resource)!
+        var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 5.0)
+        if let data = data {
+        request.httpMethod = "POST"
+        request.httpBody = data
+            request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+            request.setValue(Self.baseURL, forHTTPHeaderField: "Referer")
+        }
+            request.httpShouldHandleCookies = false
+            request.allowsCellularAccess = true
+            request.allowsConstrainedNetworkAccess = true
+            request.allowsExpensiveNetworkAccess = true
+            request.networkServiceType = .responsiveData
+        return session.dataTaskPublisher(for: request)
             .tryMap({let response = $0.response as! HTTPURLResponse; if response.statusCode != 200 {throw Errors.serverError(response.statusCode)} else if response.mimeType == nil {throw Errors.noContentType} else if response.mimeType! != "application/json" {throw Errors.invalidContentType(response.mimeType!)}; return $0.data})
             .decode(type: Response?.self, decoder: decoder)
             .receive(on: RunLoop.main)
@@ -47,7 +59,7 @@ final class Client: ObservableObject {
     private func fetchSettings() {
         settings = nil
         error = nil
-        request = session.dataTaskPublisher(for: Self.baseURL.appendingPathComponent(Self.settingsResource, isDirectory: false))
+        request = session.dataTaskPublisher(for: URL(string: Self.baseURL + Self.settingsResource)!)
             .tryMap({let response = $0.response as! HTTPURLResponse; if response.statusCode != 200 {throw Errors.serverError(response.statusCode)} else if response.mimeType == nil {throw Errors.noContentType} else if response.mimeType! != "application/json" {throw Errors.invalidContentType(response.mimeType!)}; return $0.data})
             .decode(type: Settings.self, decoder: decoder)
             .receive(on: RunLoop.main)

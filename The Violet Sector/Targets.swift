@@ -39,6 +39,7 @@ struct Targets: View {
             }
             Status(data: model.data?.status)
         }
+        .onAppear(perform: {Client.shared.refreshable = model})
     }
 
     init(resource: String, title: String) {
