@@ -25,7 +25,9 @@ import SwiftUI
                 } else {
                     VStack(spacing: 10.0) {
                         Spacer()
-                        Title("News")
+                        Text(verbatim: "News")
+                            .bold()
+                            .accessibilityAddTraits(.isHeader)
                         ScrollView() {
                             Text(verbatim: settings.news)
                                 .multilineTextAlignment(.leading)
@@ -39,10 +41,27 @@ import SwiftUI
                     }
                 }
             } else if let error = client.error {
-                FriendlyError(error: error)
+                Text(verbatim: "Error Fetching Data")
+                    .bold()
+                    .accessibilityAddTraits(.isHeader)
+                Text(verbatim: Self.describeError(error))
             } else {
-                Loading()
+                ProgressView()
+                    .scaleEffect(10.0)
             }
+        }
+    }
+
+    static private func describeError(_ error: Error) -> String {
+        switch error {
+        case _ as DecodingError:
+            return "Unable to decode resource."
+        case let error as LocalizedError:
+            return error.errorDescription ?? "Unknown error."
+        case let error as NSError:
+            return error.localizedDescription
+        default:
+            return "Unknown error."
         }
     }
 }

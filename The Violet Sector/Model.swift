@@ -10,6 +10,7 @@ final class Model<Data: Decodable>: ObservableObject, Refreshable {
 
     init(resource: String) {
         self.resource = resource
+        refresh()
     }
 
     func refresh() {

@@ -3,26 +3,17 @@
 import SwiftUI
 
 struct Map: View {
-    @ObservedObject private var model = Model<Data>(resource: "navcom_map.php")
     @ObservedObject private var action = Action(resource: "navcom_hyper.php")
     @State private var selectedSector: Sectors?
 
     var body: some View {
-        VStack(spacing: 10.0) {
-            if let data = model.data {
-                ScrollableMap(data: data, selectedSector: $selectedSector)
-                if selectedSector != nil {
-                    NavigationLink(destination: SectorDetails(sector: selectedSector!, legions: model.data!.domination[selectedSector!] ?? [], isOpenGate: model.data!.gates.contains(selectedSector!), action: action), tag: selectedSector!, selection: $selectedSector, label: {EmptyView()})
-                        .hidden()
-                }
-            } else if let error = model.error {
-                FriendlyError(error: error)
-            } else {
-                Loading()
+        Page(title: "Navigation", resource: "navcom_map.php") {(_ data: Data) in
+            ScrollableMap(data: data, selectedSector: $selectedSector)
+            if selectedSector != nil {
+                NavigationLink(destination: SectorDetails(sector: selectedSector!, legions: data.domination[selectedSector!] ?? [], isOpenGate: data.gates.contains(selectedSector!), action: action), tag: selectedSector!, selection: $selectedSector, label: {EmptyView()})
+                    .hidden()
             }
-            Status(data: model.data?.status)
         }
-        .onAppear(perform: {Client.shared.refreshable = model})
     }
 
     private struct Data: Decodable {

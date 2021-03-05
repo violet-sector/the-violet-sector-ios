@@ -3,27 +3,16 @@
 import SwiftUI
 
 struct LegionNews: View {
-    @ObservedObject private var model = Model<Data>(resource: "legion_news.php")
-
     var body: some View {
-        VStack(spacing: 10.0) {
-            Title("Legion News")
-            if let content = model.data?.content {
-                ScrollView() {
-                    Text(verbatim: "Set by \(content.author) on turn \(content.turn) (\(DateFormatter.localizedString(from: Date(timeIntervalSince1970: TimeInterval(content.time)), dateStyle: .short, timeStyle: .short)))\n\n\(content.text)")
-                        .multilineTextAlignment(.leading)
-                }
-                .padding(5.0)
-                .border(Color.primary)
-                .frame(width: 240.0)
-            } else if let error = model.error {
-                FriendlyError(error: error)
-            } else {
-                Loading()
+        Page(title: "Legion News", resource: "legion_news.php") {(_ data: Data) in
+            ScrollView() {
+                Text(verbatim: "Set by \(data.content.author) on turn \(data.content.turn) (\(DateFormatter.localizedString(from: Date(timeIntervalSince1970: TimeInterval(data.content.time)), dateStyle: .short, timeStyle: .short)))\n\n\(data.content.text)")
+                    .multilineTextAlignment(.leading)
             }
-            Status(data: model.data?.status)
+            .padding(5.0)
+            .border(Color.primary)
+            .frame(width: 240.0)
         }
-        .onAppear(perform: {Client.shared.refreshable = model})
     }
 
     private struct Data: Decodable {

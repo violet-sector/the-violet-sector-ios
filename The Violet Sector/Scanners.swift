@@ -4,7 +4,7 @@ import SwiftUI
 
 struct Scanners: View {
     @State private var tab = Tabs.incoming
-
+    
     var body: some View {
         NavigationView() {
             VStack(spacing: 10.0) {
@@ -14,9 +14,9 @@ struct Scanners: View {
                 }
                 switch tab {
                 case .incoming:
-                    Targets(resource: "scans_incoming.php", title: "Incoming")
+                    Targets(title: "Incoming", resource: "scans_incoming.php")
                 case .outgoing:
-                    Targets(resource: "scans_outgoing.php", title: "Outgoing")
+                    Targets(title: "Outgoing", resource: "scans_outgoing.php")
                 }
             }
             .navigationBarTitle("Scanners")
@@ -24,7 +24,7 @@ struct Scanners: View {
             .toolbar(content: {Refresh()})
         }
     }
-
+    
     private enum Tabs {
         case incoming
         case outgoing
