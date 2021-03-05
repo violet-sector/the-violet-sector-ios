@@ -38,16 +38,16 @@ final class Client: ObservableObject {
         let url = URL(string: Self.baseURL + resource)!
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 5.0)
         if let data = data {
-        request.httpMethod = "POST"
-        request.httpBody = data
+            request.httpMethod = "POST"
+            request.httpBody = data
             request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
             request.setValue(Self.baseURL, forHTTPHeaderField: "Referer")
         }
-            request.httpShouldHandleCookies = false
-            request.allowsCellularAccess = true
-            request.allowsConstrainedNetworkAccess = true
-            request.allowsExpensiveNetworkAccess = true
-            request.networkServiceType = .responsiveData
+        request.httpShouldHandleCookies = false
+        request.allowsCellularAccess = true
+        request.allowsConstrainedNetworkAccess = true
+        request.allowsExpensiveNetworkAccess = true
+        request.networkServiceType = .responsiveData
         return session.dataTaskPublisher(for: request)
             .tryMap({let response = $0.response as! HTTPURLResponse; if response.statusCode != 200 {throw Errors.serverError(response.statusCode)} else if response.mimeType == nil {throw Errors.noContentType} else if response.mimeType! != "application/json" {throw Errors.invalidContentType(response.mimeType!)}; return $0.data})
             .decode(type: Response?.self, decoder: decoder)

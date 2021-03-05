@@ -14,12 +14,11 @@ struct SectorDetails: View {
             ScrollView() {
                 Description(sector: sector, legions: legions)
             }
-                        Status()
+            Status()
         }
         .navigationBarTitle(Text(verbatim: "\(sector)"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(content: {Hyper(canHyper: isOpenGate, action: {presentationMode.wrappedValue.dismiss(); action.trigger(query: ["destination": String(sector.rawValue)])})})
-//        .alert(isPresented: $displayingHyperConfirmation, content: {Alert(title: Text(verbatim: "Hyper to \(sector)?"), primaryButton: .default(Text(verbatim: "Yes"), action: {}), secondaryButton: .cancel(Text(verbatim: "No")))})
     }
 
     private struct Description: View {
