@@ -7,7 +7,7 @@ struct Map: View {
     @State private var selectedSector: Sectors?
 
     var body: some View {
-        Page(title: "Navigation", resource: "navcom_map.php") {(_ data: Data) in
+        Page(title: "Map", resource: "navcom_map.php") {(_ data: Data) in
             ScrollableMap(data: data, selectedSector: $selectedSector)
             if selectedSector != nil {
                 NavigationLink(destination: SectorDetails(sector: selectedSector!, legions: data.domination[selectedSector!] ?? [], isOpenGate: data.gates.contains(selectedSector!), action: action), tag: selectedSector!, selection: $selectedSector, label: {EmptyView()})
@@ -18,12 +18,12 @@ struct Map: View {
 
     private struct Data: Decodable {
         let domination: [Sectors: Set<Legions>]
-        let gates: [Sectors]
+        let gates: Set<Sectors>
         let status: Status.Data
 
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            let decodedDomination = try container.decode([String: Set<Legions>].self, forKey: .domination)
+            let decodedDomination = try container.decodeIfPresent([String: Set<Legions>].self, forKey: .domination) ?? [:]
             var domination = [Sectors: Set<Legions>]()
             domination.reserveCapacity(domination.count)
             for (key: key, value: value) in decodedDomination {
@@ -36,16 +36,8 @@ struct Map: View {
                 domination[sector] = value
             }
             self.domination = domination
-            gates = try container.decodeIfPresent([Destination].self, forKey: .gates)?.map({$0.id}) ?? []
+            gates = try container.decodeIfPresent(Set<Sectors>.self, forKey: .gates) ?? []
             status = try container.decode(Status.Data.self, forKey: .status)
-        }
-
-        private struct Destination: Decodable {
-            let id: Sectors
-
-            private enum CodingKeys: String, CodingKey {
-                case id = "id"
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
