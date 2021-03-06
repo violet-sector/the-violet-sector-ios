@@ -5,7 +5,7 @@ import SwiftUI
 struct Main: View {
     var body: some View {
         NavigationView() {
-            LegionNews()
+            Computer()
                 .navigationBarTitle("Main")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar(content: {Refresh()})
