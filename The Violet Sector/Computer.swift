@@ -89,7 +89,7 @@ struct Computer: View {
         }
         private enum CodingKeys: String, CodingKey {
             case news = "legion_news"
-            case scrap = "scrap"
+            case scrap = "scrap_in_sector"
             case base = "base_status"
             case council = "council_info"
             case status = "player"
