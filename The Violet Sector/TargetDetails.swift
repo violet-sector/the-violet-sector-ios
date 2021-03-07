@@ -14,62 +14,18 @@ struct TargetDetails: View {
                         Image(decorative: "Ships/\(data.ship)")
                     }
                     Text(verbatim: "\(data.ship)\(data.isCloaked ?? false ? " (Cloaked)" : "")")
-                    if rank > 0 {
-                        HStack(spacing: 20.0) {
-                            Text(verbatim: "Rank")
-                                .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .trailing)
-                            Text(verbatim: "\(rank)")
-                                .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .leading)
-                        }
-                        .accessibilityElement(children: .combine)
+                    let details: [(name: String, value: Text?)] = [
+                        (name: "Rank", value: rank > 0 ? Text(verbatim: String(rank)) : nil),
+                        (name: "Legion", value: Text(verbatim: data.legion.description)),
+                        (name: "Hitpoints", value: Text(health: data.currentHealth, maxHealth: data.maxHealth, asPercentage: false)),
+                        (name: "Score", value: Text(verbatim: String(data.score))),
+                        (name: "Level", value: Text(verbatim: String(data.level))),
+                        (name: "Kills", value: data.kills != nil ? Text(verbatim: String(data.kills!)) : nil),
+                        (name: "Deaths", value: data.deaths != nil ? Text(verbatim: String(data.deaths!)) : nil)
+                    ]
+                    GeometryReader() {(geometry) in
+                        Details(details: details, geometry: geometry)
                     }
-                    HStack(spacing: 20.0) {
-                        Text(verbatim: "Legion")
-                            .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .trailing)
-                        Text(verbatim: "\(data.legion)")
-                            .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .leading)
-                    }
-                    .accessibilityElement(children: .combine)
-                    HStack(spacing: 20.0) {
-                        Text(verbatim: "Hitpoints")
-                            .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .trailing)
-                        Health(current: data.currentHealth, max: data.maxHealth)
-                            .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .leading)
-                    }
-                    .accessibilityElement(children: .combine)
-                    HStack(spacing: 20.0) {
-                        Text(verbatim: "Score")
-                            .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .trailing)
-                        Text(verbatim: "\(data.score)")
-                            .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .leading)
-                    }
-                    .accessibilityElement(children: .combine)
-                    HStack(spacing: 20.0) {
-                        Text(verbatim: "Level")
-                            .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .trailing)
-                        Text(verbatim: "\(data.level)")
-                            .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .leading)
-                    }
-                    .accessibilityElement(children: .combine)
-                    if let kills = data.kills {
-                        HStack(spacing: 20.0) {
-                            Text(verbatim: "Kills")
-                                .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .trailing)
-                            Text(verbatim: "\(kills)")
-                                .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .leading)
-                        }
-                        .accessibilityElement(children: .combine)
-                    }
-                    if let deaths = data.deaths {
-                        HStack(spacing: 20.0) {
-                            Text(verbatim: "Deaths")
-                                .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .trailing)
-                            Text(verbatim: "\(deaths)")
-                                .frame(width: geometry.size.width * 0.5 - 10.0, alignment: .leading)
-                        }
-                        .accessibilityElement(children: .combine)
-                    }
-                    Spacer()
                 }
             }
             Status()

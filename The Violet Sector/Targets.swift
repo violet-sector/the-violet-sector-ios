@@ -15,8 +15,7 @@ struct Targets: View {
                             HStack(spacing: 0.0) {
                                 (Text(verbatim: "\(target.name)\(target.isOnline ? "*" : "") [") + Text(verbatim: "\(target.legion.description.first!)").bold().foregroundColor(Color("Legions/\(target.legion)")) + Text(verbatim: "]"))
                                     .frame(width: geometry.size.width * 0.5, alignment: .leading)
-                                Health(current: target.currentHealth, max: target.maxHealth)
-                                    .percentage()
+                                Text(health: target.currentHealth, maxHealth: target.maxHealth, asPercentage: true)
                                     .frame(width: geometry.size.width * 0.2, alignment: .trailing)
                                 Text(verbatim: "\(target.score >= 10000 ? "\(target.score / 1000)k" : "\(target.score)") (\(target.level)")
                                     .frame(width: geometry.size.width * 0.3, alignment: .trailing)

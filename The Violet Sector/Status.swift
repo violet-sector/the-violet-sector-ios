@@ -5,14 +5,13 @@ import SwiftUI
 struct Status: View {
     var data: Data?
     private static var savedData: Data?
-
+    
     var body: some View {
         VStack() {
             if let data = data {
                 HStack() {
                     Text(verbatim: "\(data.moves) \(data.moves != 1 ? "Moves" : "Move")")
-                    Health(current: data.currentHealth, max: data.maxHealth)
-                        .percentage()
+                    Text(health: data.currentHealth, maxHealth: data.maxHealth, asPercentage: true)
                     Text(verbatim: (data.destinationSector == .none ? "\(data.currentSector)" : "Hypering to \(data.destinationSector)") + (data.isSleeping ? " (zZzZ)" : "") + (data.isCloaked ? " (Cloaked)" : "") + (data.isInvulnerable ? " (Invulnerable)" : ""))
                 }
                 .accessibilityElement(children: .combine)
@@ -20,7 +19,7 @@ struct Status: View {
             Timer()
         }
     }
-
+    
     init(data: Data? = nil) {
         if let data = data {
             self.data = data
@@ -29,7 +28,7 @@ struct Status: View {
             self.data = Status.savedData
         }
     }
-
+    
     struct Data: Decodable {
         let name: String
         let currentHealth: UInt
@@ -41,7 +40,7 @@ struct Status: View {
         let isCloaked: Bool
         let isInvulnerable: Bool
         let isSleeping: Bool
-
+        
         private enum CodingKeys: String, CodingKey {
             case name = "tvs_username"
             case currentHealth = "hp"
