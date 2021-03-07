@@ -3,19 +3,9 @@
 import SwiftUI
 
 struct TopDeaths: View {
-    @State private var search = ""
-
     var body: some View {
         Page(title: "Top Deaths", resource: "rankings_att.php") {(_ data: Data) in
-            HStack {
-                TextField("Search", text: $search)
-                    .autocapitalization(.none)
-                    .disableAutocorrection(true)
-                    .frame(width: 200.0)
-                Button(action: {self.search = ""}, label: {Image(systemName: "xmark.circle")})
-                    .accessibilityLabel("Clear")
-            }
-            let enumeratedPilots = data.content.sorted(by: {$0.score > $1.score}).enumerated().filter({search.isEmpty || $0.element.name ~= search})
+            let enumeratedPilots = Array(data.content.sorted(by: {$0.score > $1.score}).enumerated())
             if !enumeratedPilots.isEmpty {
                 List(enumeratedPilots, id: \.offset) {(enumeratedPilot) in
                     HStack() {

@@ -3,12 +3,13 @@
 import SwiftUI
 
 struct TopPilots: View {
+    @State private var searchInput = ""
     @State private var search = ""
 
     var body: some View {
         Page(title: "Top Pilots", resource: "rankings_pilots.php") {(_ data: Data) in
             HStack {
-                TextField("Search", text: $search)
+                TextField("Search", text: $searchInput, onCommit: {search = searchInput})
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
                     .frame(width: 200.0)
