@@ -6,7 +6,7 @@ import Combine
 final class Client: ObservableObject {
     @Published private(set) var settings: Settings?
     @Published private(set) var error: Error?
-    var refreshable: Refreshable? {didSet {guard let refreshable = refreshable else {return}; refreshable.refresh()}}
+    var refreshable: Refreshable? {didSet {guard let refreshable = refreshable else {return}; refreshable.refresh(force: false)}}
     private let session: URLSession
     private var request: Cancellable?
     private var timer: Cancellable?
@@ -21,7 +21,7 @@ final class Client: ObservableObject {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.networkServiceType = .responsiveData
         configuration.allowsCellularAccess = true
-        configuration.waitsForConnectivity = true
+        configuration.waitsForConnectivity = false
         configuration.httpCookieAcceptPolicy = .never
         configuration.httpShouldSetCookies = false
         configuration.requestCachePolicy = .reloadIgnoringLocalAndRemoteCacheData

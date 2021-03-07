@@ -3,7 +3,7 @@
 import Combine
 
 final class Action: ObservableObject {
-    @Published private(set) var data: Response? {didSet {request = nil; Client.shared.refreshable!.refresh()}}
+    @Published private(set) var data: Response? {didSet {request = nil; Client.shared.refreshable!.refresh(force: true)}}
     @Published private(set) var error: Error? {didSet {request = nil}}
     private var request: Cancellable?
     private let resource: String

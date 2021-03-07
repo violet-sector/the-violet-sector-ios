@@ -10,11 +10,11 @@ final class Model<Data: Decodable>: ObservableObject, Refreshable {
 
     init(resource: String) {
         self.resource = resource
-        refresh()
+        refresh(force: false)
     }
 
-    func refresh() {
-        guard request == nil else {
+    func refresh(force: Bool) {
+        guard force || request == nil else {
             return
         }
         data = nil
