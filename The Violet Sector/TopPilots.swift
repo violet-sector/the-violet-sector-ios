@@ -3,11 +3,12 @@
 import SwiftUI
 
 struct TopPilots: View {
+    @ObservedObject var model: Model<Data>
     @State private var searchInput = ""
     @State private var search = ""
 
     var body: some View {
-        Page(title: "Top Pilots", resource: "rankings_pilots.php") {(_ data: Data) in
+        Page(title: "Top Pilots", model: model) {(data) in
             HStack {
                 TextField("Search", text: $searchInput, onCommit: {search = searchInput})
                     .autocapitalization(.none)
@@ -45,7 +46,7 @@ struct TopPilots: View {
         }
     }
 
-    private struct Data: Decodable {
+    struct Data: Decodable {
         let content: [Target]
         let status: Status.Data
 

@@ -3,6 +3,8 @@
 import SwiftUI
 
 struct Scanners: View {
+    @StateObject private var incomingModel = Model<Targets.Data>(resource: "scans_incoming.php")
+    @StateObject private var outgoingModel = Model<Targets.Data>(resource: "scans_outgoing.php")
     @State private var tab = Tabs.incoming
     
     var body: some View {
@@ -14,9 +16,9 @@ struct Scanners: View {
                 }
                 switch tab {
                 case .incoming:
-                    Targets(title: "Incoming", resource: "scans_incoming.php")
+                    Targets(title: "Incoming", model: incomingModel)
                 case .outgoing:
-                    Targets(title: "Outgoing", resource: "scans_outgoing.php")
+                    Targets(title: "Outgoing", model: outgoingModel)
                 }
             }
             .navigationBarTitle("Scanners")

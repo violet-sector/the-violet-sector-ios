@@ -3,8 +3,10 @@
 import SwiftUI
 
 struct Computer: View {
+    @ObservedObject var model: Model<Data>
+
     var body: some View {
-        Page(title: "Computer", resource: "main.php") {(_ data: Data) in
+        Page(title: "Computer", model: model) {(data) in
             GeometryReader() {(geometry) in
                 ScrollView() {
                     VStack(spacing: 10.0) {
@@ -72,7 +74,7 @@ struct Computer: View {
         return newsString
     }
 
-    private struct Data: Decodable {
+    struct Data: Decodable {
         let news: News
         let scrap: UInt?
         let base: Base

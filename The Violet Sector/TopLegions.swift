@@ -3,8 +3,10 @@
 import SwiftUI
 
 struct TopLegions: View {
+    @ObservedObject var model: Model<Data>
+
     var body: some View {
-        Page(title: "Top Legions", resource: "rankings_legions.php") {(_ data: Data) in
+        Page(title: "Top Legions", model: model) {(data) in
             let legions = data.content.sorted(by: {$0.score > $1.score})
             if !legions.isEmpty {
                 List(legions.indices, id: \.self) {(index) in
@@ -30,7 +32,7 @@ struct TopLegions: View {
         }
     }
 
-    private struct Data: Decodable {
+    struct Data: Decodable {
         let content: [Legion]
         let status: Status.Data
 

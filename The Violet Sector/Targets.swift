@@ -4,10 +4,10 @@ import SwiftUI
 
 struct Targets: View {
     let title: String
-    let resource: String
-
+    @ObservedObject var model: Model<Targets.Data>
+    
     var body: some View {
-        Page(title: title, resource: resource) {(_ data: Data) in
+        Page(title: title, model: model) {(data) in
             if !data.content.isEmpty {
                 List(data.content.sorted(by: {$0.score < $1.score}), id: \.name) {(target) in
                     NavigationLink(destination: TargetDetails(rank: 0, data: target)) {
@@ -31,11 +31,11 @@ struct Targets: View {
             }
         }
     }
-
-    private struct Data: Decodable {
+    
+    struct Data: Decodable {
         let content: [Target]
         let status: Status.Data
-
+        
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             if container.contains(.incoming) {
@@ -47,7 +47,7 @@ struct Targets: View {
             }
             status = try container.decode(Status.Data.self, forKey: .status)
         }
-
+        
         private enum CodingKeys: String, CodingKey {
             case incoming = "scans_incoming"
             case outgoing = "scans_outgoing"

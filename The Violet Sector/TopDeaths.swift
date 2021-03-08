@@ -3,8 +3,10 @@
 import SwiftUI
 
 struct TopDeaths: View {
+    @ObservedObject var model: Model<Data>
+
     var body: some View {
-        Page(title: "Top Deaths", resource: "rankings_att.php") {(_ data: Data) in
+        Page(title: "Top Deaths", model: model) {(data) in
             let enumeratedPilots = Array(data.content.sorted(by: {$0.score > $1.score}).enumerated())
             if !enumeratedPilots.isEmpty {
                 List(enumeratedPilots, id: \.offset) {(enumeratedPilot) in
@@ -32,7 +34,7 @@ struct TopDeaths: View {
         }
     }
 
-    private struct Data: Decodable {
+    struct Data: Decodable {
         let content: [Death]
         let status: Status.Data
 

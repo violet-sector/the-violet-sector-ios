@@ -3,9 +3,11 @@
 import SwiftUI
 
 struct Navigation: View {
+    @StateObject private var model = Model<Map.Data>(resource: "navcom_map.php")
+    
     var body: some View {
         NavigationView() {
-            Map()
+            Map(model: model)
                 .navigationBarTitle("Navigation")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar(content: {Refresh()})

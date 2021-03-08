@@ -3,6 +3,9 @@
 import SwiftUI
 
 struct Rankings: View {
+    @StateObject private var topPilotsModel = Model<TopPilots.Data>(resource: "rankings_pilots.php")
+    @StateObject private var topDeathsModel = Model<TopDeaths.Data>(resource: "rankings_att.php")
+    @StateObject private var topLegionsModel = Model<TopLegions.Data>(resource: "rankings_legions.php")
     @State private var tab = Tabs.topPilots
 
     var body: some View {
@@ -15,11 +18,11 @@ struct Rankings: View {
                 }
                 switch tab {
                 case .topPilots:
-                    TopPilots()
+                    TopPilots(model: topPilotsModel)
                 case .topDeaths:
-                    TopDeaths()
+                    TopDeaths(model: topDeathsModel)
                 case .topLegions:
-                    TopLegions()
+                    TopLegions(model: topLegionsModel)
                 }
             }
             .navigationBarTitle("Rankings")

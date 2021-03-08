@@ -3,11 +3,12 @@
 import SwiftUI
 
 struct Map: View {
-    @ObservedObject private var action = Action(resource: "navcom_hyper.php")
+    @ObservedObject var model: Model<Data>
+    @StateObject private var action = Action(resource: "navcom_hyper.php")
     @State private var selectedSector: Sectors?
 
     var body: some View {
-        Page(title: "Map", resource: "navcom_map.php") {(_ data: Data) in
+        Page(title: "Map", model: model) {(data) in
             ScrollableMap(data: data, selectedSector: $selectedSector)
             if selectedSector != nil {
                 NavigationLink(destination: SectorDetails(sector: selectedSector!, legions: data.domination[selectedSector!] ?? [], isOpenGate: data.gates.contains(selectedSector!), action: action), tag: selectedSector!, selection: $selectedSector, label: {EmptyView()})
@@ -16,7 +17,7 @@ struct Map: View {
         }
     }
 
-    private struct Data: Decodable {
+    struct Data: Decodable {
         let domination: [Sectors: Set<Legions>]
         let gates: Set<Sectors>
         let status: Status.Data

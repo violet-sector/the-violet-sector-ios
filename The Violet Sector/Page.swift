@@ -6,7 +6,7 @@ struct Page<Content: View, Data: Decodable>: View {
     private let title: String
     private let content: (_: Data) -> Content
     @ObservedObject private var model: Model<Data>
-    @Environment(\.scenePhase) var scenePhase
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         VStack(spacing: 10.0) {
@@ -35,9 +35,9 @@ struct Page<Content: View, Data: Decodable>: View {
         .onChange(of: scenePhase, perform: {if $0 == .active {Client.shared.refreshable = model}})
     }
 
-    init(title: String, resource: String, @ViewBuilder content: @escaping (_ data: Data) -> Content) {
+    init(title: String, model: Model<Data>, @ViewBuilder content: @escaping (_ data: Data) -> Content) {
         self.title = title
-        model = Model<Data>(resource: resource)
+        self.model = model
         self.content = content
     }
 
