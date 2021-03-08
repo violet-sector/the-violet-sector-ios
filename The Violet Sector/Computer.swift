@@ -115,6 +115,13 @@ struct Computer: View {
             let currentHealth: UInt
             let maxHealth: UInt
 
+            init(from decoder: Decoder) throws {
+                let container = try decoder.container(keyedBy: CodingKeys.self)
+                let currentHealth = try container.decode(Int.self, forKey: .currentHealth)
+                self.currentHealth = currentHealth >= 0 ? UInt(currentHealth) : 0
+                maxHealth = try container.decode(UInt.self, forKey: .maxHealth)
+            }
+
             private enum CodingKeys: String, CodingKey {
                 case currentHealth = "hp"
                 case maxHealth = "maxhp"
