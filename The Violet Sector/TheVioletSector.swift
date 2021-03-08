@@ -3,8 +3,9 @@
 import SwiftUI
 
 @main struct TheVioletSector: App {
-    @ObservedObject var client = Client.shared
+    @ObservedObject private var client = Client.shared
     @State private var isAuthenticated = false
+    @Environment(\.scenePhase) var scenePhase
 
     var body: some Scene {
         WindowGroup() {
@@ -50,6 +51,7 @@ import SwiftUI
                     .scaleEffect(10.0)
             }
         }
+        .onChange(of: scenePhase, perform: {guard let refreshable = client.refreshable else {return}; if $0 == .active {refreshable.refresh(force: false)}})
     }
 
     static private func describeError(_ error: Error) -> String {
