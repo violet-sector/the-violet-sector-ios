@@ -11,12 +11,12 @@ final class Client: ObservableObject {
     private var request: Cancellable?
     private var timer: Cancellable?
     private let decoder = JSONDecoder()
-
+    
     static let shared = Client()
     private static let baseURL = "https://www.violetsector.com/json/"
     private static let settingsResource = "config.php"
     private static let settingsFetchRetry = TimeInterval(10.0)
-
+    
     private init() {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.networkServiceType = .responsiveData
@@ -30,7 +30,7 @@ final class Client: ObservableObject {
         session = URLSession(configuration: configuration)
         fetchSettings()
     }
-
+    
     func fetch<Root, Response: Decodable>(_ resource: String, postData data: Data? = nil, setResponse response: ReferenceWritableKeyPath<Root, Response?>, setFailure failure: ReferenceWritableKeyPath<Root, Error?>, on root: Root) -> Cancellable {
         #if DEBUG
         let resource = resource + "?rpirw=true"
@@ -55,7 +55,7 @@ final class Client: ObservableObject {
             .catch({(error) -> Just<Response?> in root[keyPath: failure] = error; return Just(Response?.none)})
             .assign(to: response, on: root)
     }
-
+    
     private func fetchSettings() {
         settings = nil
         error = nil
@@ -65,29 +65,35 @@ final class Client: ObservableObject {
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: {[unowned self] in if case let .failure(error) = $0 {self.error = error; self.retryFetchSettings()}}, receiveValue: {[unowned self] in self.settings = $0; self.error = nil; self.timer = nil})
     }
-
+    
     private func retryFetchSettings() {
         timer = Foundation.Timer.publish(every: Self.settingsFetchRetry, on: .main, in: .default)
             .autoconnect()
             .first()
             .sink(receiveValue: {[unowned self] (_) in self.fetchSettings()})
     }
-
+    
     struct Settings: Decodable {
         let news: String
         let isOuterRimEnabled: Bool
-
+        let movesToSelfRepair: Int
+        let movesToCloak: Int
+        let movesToDecloak: Int
+        
         private enum CodingKeys: String, CodingKey {
             case news = "NEWS"
             case isOuterRimEnabled = "OUTER_RING"
+            case movesToSelfRepair = "MOVES_SELF_REP"
+            case movesToCloak = "MOVES_CLOAK"
+            case movesToDecloak = "MOVES_DECLOAK"
         }
     }
-
+    
     enum Errors: LocalizedError {
         case serverError(Int)
         case noContentType
         case invalidContentType(String)
-
+        
         var errorDescription: String? {
             switch self {
             case let .serverError(code):

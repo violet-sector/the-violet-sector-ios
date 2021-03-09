@@ -4,20 +4,42 @@ import SwiftUI
 
 struct Computer: View {
     @ObservedObject var model: Model<Data>
+    @StateObject private var cloakOnAction = Action(resource: "cloak_on.php")
+    @StateObject private var cloakOffAction = Action(resource: "cloak_off.php")
+    @StateObject private var selfRepairAction = Action(resource: "self_rep.php")
+    @ObservedObject private var client = Client.shared
 
     var body: some View {
         Page(title: "Computer", model: model) {(data) in
             GeometryReader() {(geometry) in
                 ScrollView() {
                     VStack(spacing: 10.0) {
+                        HStack() {
+                            if data.status.currentHealth < data.status.maxHealth && data.status.currentHealth > 0 && client.settings != nil && data.status.moves >= client.settings!.movesToSelfRepair {
+                                Button("Repair", action: {selfRepairAction.trigger(query: [:])})
+                                    .frame(width: 80.0)
+                            }
+                            if !data.status.isCloaked && client.settings != nil && data.status.moves >= client.settings!.movesToCloak {
+                                Button("Cloak", action: {cloakOnAction.trigger(query: [:])})
+                                    .frame(width: 80.0)
+                            }
+                            if data.status.isCloaked && client.settings != nil && data.status.moves >= client.settings!.movesToDecloak {
+                                Button("Decloak", action: {cloakOffAction.trigger(query: [:])})
+                                    .frame(width: 80.0)
+                            }
+                        }
                         Description() {
                             DescriptionItem(name: "Pilot Name") {Text(verbatim: data.status.name)}
                             DescriptionItem(name: "Score") {Text(verbatim: String(data.status.score))}
                             DescriptionItem(name: "Hitpoints") {Text(health: data.status.currentHealth, maxHealth: data.status.maxHealth, asPercentage: false)}
+                        }
+                        Description() {
                             DescriptionItem(name: "Sector") {Text(verbatim: makeSectorString(data: data))}
                             if let scrap = data.scrap {
                                 DescriptionItem(name: "Scrap in Sector") {Text(verbatim: String(scrap))}
                             }
+                        }
+                        Description() {
                             DescriptionItem(name: "Base Hitpoints") {Text(health: data.base.currentHealth, maxHealth: data.base.maxHealth, asPercentage: false)}
                             DescriptionItem(name: "Council") {Text(verbatim: makeCouncilString(data: data))}
                         }
