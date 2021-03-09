@@ -20,7 +20,7 @@ struct TopPilots: View {
             let enumeratedPilots = data.content.sorted(by: {$0.score > $1.score}).enumerated().filter({search.isEmpty || $0.element.name ~= search})
             if !enumeratedPilots.isEmpty {
                 List(enumeratedPilots, id: \.element.name) {(enumeratedPilot) in
-                    NavigationLink(destination: TargetDetails(rank: enumeratedPilot.offset + 1, data: enumeratedPilot.element)) {
+                    NavigationLink(destination: TargetDescription(rank: enumeratedPilot.offset + 1, data: enumeratedPilot.element)) {
                         HStack() {
                             Text(verbatim: "\(enumeratedPilot.offset + 1)")
                                 .frame(width: 32.0, alignment: .trailing)

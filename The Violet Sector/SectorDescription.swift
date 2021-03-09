@@ -2,7 +2,7 @@
 
 import SwiftUI
 
-struct SectorDetails: View {
+struct SectorDescription: View {
     let sector: Sectors
     let legions: Set<Legions>
     let isOpenGate: Bool

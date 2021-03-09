@@ -11,7 +11,7 @@ struct Map: View {
         Page(title: "Map", model: model) {(data) in
             ScrollableMap(data: data, selectedSector: $selectedSector)
             if selectedSector != nil {
-                NavigationLink(destination: SectorDetails(sector: selectedSector!, legions: data.domination[selectedSector!] ?? [], isOpenGate: data.gates.contains(selectedSector!), action: action), tag: selectedSector!, selection: $selectedSector, label: {EmptyView()})
+                NavigationLink(destination: SectorDescription(sector: selectedSector!, legions: data.domination[selectedSector!] ?? [], isOpenGate: data.gates.contains(selectedSector!), action: action), tag: selectedSector!, selection: $selectedSector, label: {EmptyView()})
                     .hidden()
             }
         }

@@ -10,17 +10,18 @@ struct Computer: View {
             GeometryReader() {(geometry) in
                 ScrollView() {
                     VStack(spacing: 10.0) {
-                        let details = [
-                            (name: "Pilot Name", value: Text(verbatim: data.status.name)),
-                            (name: "Score", value: Text(verbatim: String(data.status.score))),
-                            (name: "Hitpoints", value: Text(health: data.status.currentHealth, maxHealth: data.status.maxHealth, asPercentage: false)),
-                            (name: "Sector", value: Text(verbatim: makeSectorString(status: data.status))),
-                            (name: "Scrap in Sector", value: data.scrap != nil ? Text(verbatim: String(data.scrap!)) : nil),
-                            (name: "Base Hitpoints", value: Text(health: data.base.currentHealth, maxHealth: data.base.maxHealth, asPercentage: false)),
-                            (name: "Council", value: Text(verbatim: makeCouncilString(council: data.council)))
-                        ]
-                        Details(details: details, geometry: geometry)
-                        Text(verbatim: makeNewsString(news: data.news))
+                        Description() {
+                            DescriptionItem(name: "Pilot Name") {Text(verbatim: data.status.name)}
+                            DescriptionItem(name: "Score") {Text(verbatim: String(data.status.score))}
+                            DescriptionItem(name: "Hitpoints") {Text(health: data.status.currentHealth, maxHealth: data.status.maxHealth, asPercentage: false)}
+                            DescriptionItem(name: "Sector") {Text(verbatim: makeSectorString(data: data))}
+                            if let scrap = data.scrap {
+                                DescriptionItem(name: "Scrap in Sector") {Text(verbatim: String(scrap))}
+                            }
+                            DescriptionItem(name: "Base Hitpoints") {Text(health: data.base.currentHealth, maxHealth: data.base.maxHealth, asPercentage: false)}
+                            DescriptionItem(name: "Council") {Text(verbatim: makeCouncilString(data: data))}
+                        }
+                        Text(verbatim: makeNewsString(data: data))
                             .multilineTextAlignment(.leading)
                             .padding(5.0)
                             .border(Color.primary)
@@ -31,46 +32,46 @@ struct Computer: View {
         }
     }
 
-    private func makeSectorString(status: Status.Data) -> String {
-        var sector = status.currentSector.description
-        if status.destinationSector != .none {
-            sector = "Hypering to " + status.destinationSector.description
+    private func makeSectorString(data: Data) -> String {
+        var sector = data.status.currentSector.description
+        if data.status.destinationSector != .none {
+            sector = "Hypering to " + data.status.destinationSector.description
         }
-        if status.isSleeping {
+        if data.status.isSleeping {
             sector += " (zZzZ)"
         }
-        if status.isCloaked {
+        if data.status.isCloaked {
             sector += " (Cloaked)"
         }
-        if status.isInvulnerable {
+        if data.status.isInvulnerable {
             sector += " (Invulnerable)"
         }
         return sector
     }
 
-    private func makeCouncilString(council: [Data.Commander]) -> String {
-        var councilString = ""
-        for commander in council {
-            if !councilString.isEmpty {
-                councilString += "\n"
+    private func makeCouncilString(data: Data) -> String {
+        var council = ""
+        for commander in data.council {
+            if !council.isEmpty {
+                council += "\n"
             }
-            councilString += commander.name
+            council += commander.name
             if commander.isOnline {
-                councilString += "*"
+                council += "*"
             }
             if commander.responsibility == 3 {
-                councilString += " (LC)"
+                council += " (LC)"
             } else {
-                councilString += " (VC)"
+                council += " (VC)"
             }
         }
-        return councilString
+        return council
     }
 
-    private func makeNewsString(news: Data.News) -> String {
-        var newsString = "Set by " + news.author
-        newsString += " on turn " + String(news.turn) + " (" + DateFormatter.localizedString(from: Date(timeIntervalSince1970: TimeInterval(news.time)), dateStyle: .short, timeStyle: .short) + ")"
-        newsString += "\n\n" + news.text
+    private func makeNewsString(data: Data) -> String {
+        var newsString = "Legion News set by " + data.news.author
+        newsString += " on turn " + String(data.news.turn) + " (" + DateFormatter.localizedString(from: Date(timeIntervalSince1970: TimeInterval(data.news.time)), dateStyle: .short, timeStyle: .short) + ")"
+        newsString += "\n\n" + data.news.text
         return newsString
     }
 

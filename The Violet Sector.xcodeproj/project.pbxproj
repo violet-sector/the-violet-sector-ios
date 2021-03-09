@@ -9,13 +9,13 @@
 /* Begin PBXBuildFile section */
 		A001168424F4EB980023B0B0 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A001168324F4EB980023B0B0 /* Main.swift */; };
 		A01744AF2512EB5F009315F6 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01744AE2512EB5F009315F6 /* Model.swift */; };
-		A02B994E2509AF380093DF90 /* SectorDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02B994D2509AF380093DF90 /* SectorDetails.swift */; };
+		A02B994E2509AF380093DF90 /* SectorDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02B994D2509AF380093DF90 /* SectorDescription.swift */; };
 		A041182D24EBE61400B309DA /* Sectors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041182C24EBE61400B309DA /* Sectors.swift */; };
 		A041182F24EE261700B309DA /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041182E24EE261700B309DA /* Status.swift */; };
 		A041183324EEAF0A00B309DA /* Legions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041183224EEAF0A00B309DA /* Legions.swift */; };
 		A041183524EEB2A500B309DA /* Ships.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041183424EEB2A500B309DA /* Ships.swift */; };
 		A041183724EEC21B00B309DA /* Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041183624EEC21B00B309DA /* Target.swift */; };
-		A041183B24EED98300B309DA /* TargetDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041183A24EED98300B309DA /* TargetDetails.swift */; };
+		A041183B24EED98300B309DA /* TargetDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041183A24EED98300B309DA /* TargetDescription.swift */; };
 		A041183D24EFBB7F00B309DA /* TopPilots.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041183C24EFBB7F00B309DA /* TopPilots.swift */; };
 		A043549B24F0355100EA9BF4 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = A043549A24F0355100EA9BF4 /* String.swift */; };
 		A046D02E24E79E24000393E7 /* Computer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A046D02D24E79E24000393E7 /* Computer.swift */; };
@@ -29,8 +29,10 @@
 		A08E6B6625F091570057E8D7 /* Hyper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E6B6525F091570057E8D7 /* Hyper.swift */; };
 		A08E6B6A25F0EDAC0057E8D7 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E6B6925F0EDAC0057E8D7 /* Action.swift */; };
 		A08E6B6E25F1E2570057E8D7 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E6B6D25F1E2570057E8D7 /* Page.swift */; };
-		A08E6B7525F3AC2C0057E8D7 /* Details.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E6B7425F3AC2C0057E8D7 /* Details.swift */; };
 		A08E6B7825F3B5A70057E8D7 /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E6B7725F3B5A70057E8D7 /* Text.swift */; };
+		A08E6B7D25F618CB0057E8D7 /* Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E6B7C25F618CB0057E8D7 /* Description.swift */; };
+		A08E6B8025F623410057E8D7 /* DescriptionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E6B7F25F623410057E8D7 /* DescriptionBuilder.swift */; };
+		A08E6B8325F624820057E8D7 /* DescriptionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E6B8225F624820057E8D7 /* DescriptionItem.swift */; };
 		A0C4FF5724FE66F000BA2418 /* Refreshable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C4FF5624FE66F000BA2418 /* Refreshable.swift */; };
 		A0C4FF5924FE7A5100BA2418 /* Refresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C4FF5824FE7A5100BA2418 /* Refresh.swift */; };
 		A0F4EE4824F83CA000D7AB84 /* Rankings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F4EE4724F83CA000D7AB84 /* Rankings.swift */; };
@@ -43,13 +45,13 @@
 /* Begin PBXFileReference section */
 		A001168324F4EB980023B0B0 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		A01744AE2512EB5F009315F6 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
-		A02B994D2509AF380093DF90 /* SectorDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorDetails.swift; sourceTree = "<group>"; };
+		A02B994D2509AF380093DF90 /* SectorDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorDescription.swift; sourceTree = "<group>"; };
 		A041182C24EBE61400B309DA /* Sectors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sectors.swift; sourceTree = "<group>"; };
 		A041182E24EE261700B309DA /* Status.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
 		A041183224EEAF0A00B309DA /* Legions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Legions.swift; sourceTree = "<group>"; };
 		A041183424EEB2A500B309DA /* Ships.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ships.swift; sourceTree = "<group>"; };
 		A041183624EEC21B00B309DA /* Target.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Target.swift; sourceTree = "<group>"; };
-		A041183A24EED98300B309DA /* TargetDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetDetails.swift; sourceTree = "<group>"; };
+		A041183A24EED98300B309DA /* TargetDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetDescription.swift; sourceTree = "<group>"; };
 		A041183C24EFBB7F00B309DA /* TopPilots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopPilots.swift; sourceTree = "<group>"; };
 		A043549A24F0355100EA9BF4 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		A046D02D24E79E24000393E7 /* Computer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Computer.swift; sourceTree = "<group>"; };
@@ -63,8 +65,10 @@
 		A08E6B6525F091570057E8D7 /* Hyper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hyper.swift; sourceTree = "<group>"; };
 		A08E6B6925F0EDAC0057E8D7 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		A08E6B6D25F1E2570057E8D7 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
-		A08E6B7425F3AC2C0057E8D7 /* Details.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Details.swift; sourceTree = "<group>"; };
 		A08E6B7725F3B5A70057E8D7 /* Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
+		A08E6B7C25F618CB0057E8D7 /* Description.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Description.swift; sourceTree = "<group>"; };
+		A08E6B7F25F623410057E8D7 /* DescriptionBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionBuilder.swift; sourceTree = "<group>"; };
+		A08E6B8225F624820057E8D7 /* DescriptionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionItem.swift; sourceTree = "<group>"; };
 		A0C4FF5624FE66F000BA2418 /* Refreshable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Refreshable.swift; sourceTree = "<group>"; };
 		A0C4FF5824FE7A5100BA2418 /* Refresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Refresh.swift; sourceTree = "<group>"; };
 		A0F4EE4724F83CA000D7AB84 /* Rankings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rankings.swift; sourceTree = "<group>"; };
@@ -121,10 +125,12 @@
 				A07CFC4D24F869BF0019FE20 /* TopDeaths.swift */,
 				A07CFC5124F8895A0019FE20 /* TopLegions.swift */,
 				A08E6B6D25F1E2570057E8D7 /* Page.swift */,
-				A041183A24EED98300B309DA /* TargetDetails.swift */,
-				A02B994D2509AF380093DF90 /* SectorDetails.swift */,
+				A041183A24EED98300B309DA /* TargetDescription.swift */,
+				A02B994D2509AF380093DF90 /* SectorDescription.swift */,
 				A08E6B6525F091570057E8D7 /* Hyper.swift */,
-				A08E6B7425F3AC2C0057E8D7 /* Details.swift */,
+				A08E6B7C25F618CB0057E8D7 /* Description.swift */,
+				A08E6B7F25F623410057E8D7 /* DescriptionBuilder.swift */,
+				A08E6B8225F624820057E8D7 /* DescriptionItem.swift */,
 				A041182E24EE261700B309DA /* Status.swift */,
 				A0F552F224D527F8008C3296 /* Timer.swift */,
 				A01744AE2512EB5F009315F6 /* Model.swift */,
@@ -225,6 +231,7 @@
 				A043549B24F0355100EA9BF4 /* String.swift in Sources */,
 				A0F552F324D527F8008C3296 /* Timer.swift in Sources */,
 				A041183324EEAF0A00B309DA /* Legions.swift in Sources */,
+				A08E6B8325F624820057E8D7 /* DescriptionItem.swift in Sources */,
 				A08E6B6E25F1E2570057E8D7 /* Page.swift in Sources */,
 				A08E6B6625F091570057E8D7 /* Hyper.swift in Sources */,
 				A08E6B6A25F0EDAC0057E8D7 /* Action.swift in Sources */,
@@ -234,6 +241,7 @@
 				A0C4FF5924FE7A5100BA2418 /* Refresh.swift in Sources */,
 				A0F4EE4824F83CA000D7AB84 /* Rankings.swift in Sources */,
 				A041183524EEB2A500B309DA /* Ships.swift in Sources */,
+				A08E6B7D25F618CB0057E8D7 /* Description.swift in Sources */,
 				A079FF6E250280B900FA1B13 /* Navigation.swift in Sources */,
 				A082E12425003BDC008DCD47 /* Scanners.swift in Sources */,
 				A0F552F124D525DA008C3296 /* Client.swift in Sources */,
@@ -247,10 +255,10 @@
 				A01744AF2512EB5F009315F6 /* Model.swift in Sources */,
 				A07CFC4E24F869BF0019FE20 /* TopDeaths.swift in Sources */,
 				A082E126250042FB008DCD47 /* Targets.swift in Sources */,
-				A041183B24EED98300B309DA /* TargetDetails.swift in Sources */,
-				A08E6B7525F3AC2C0057E8D7 /* Details.swift in Sources */,
-				A02B994E2509AF380093DF90 /* SectorDetails.swift in Sources */,
+				A041183B24EED98300B309DA /* TargetDescription.swift in Sources */,
+				A02B994E2509AF380093DF90 /* SectorDescription.swift in Sources */,
 				A041182D24EBE61400B309DA /* Sectors.swift in Sources */,
+				A08E6B8025F623410057E8D7 /* DescriptionBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
