@@ -43,7 +43,7 @@ struct TopLegions: View {
 
         struct Legion: Decodable {
             let legion: Legions
-            let score: UInt
+            let score: Int
 
             private enum CodingKeys: String, CodingKey {
                 case legion

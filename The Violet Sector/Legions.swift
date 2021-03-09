@@ -1,6 +1,6 @@
 // Created by João Santos for project The Violet Sector.
 
-enum Legions: UInt, Decodable, CustomStringConvertible {
+enum Legions: Int, Decodable, CustomStringConvertible {
     case none
     case ajaxian
     case boraxian

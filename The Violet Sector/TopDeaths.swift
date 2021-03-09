@@ -45,8 +45,8 @@ struct TopDeaths: View {
 
         struct Death: Decodable {
             let name: String
-            let turn: UInt
-            let score: UInt
+            let turn: Int
+            let score: Int
 
             private enum CodingKeys: String, CodingKey {
                 case name = "tvs_username"

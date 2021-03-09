@@ -1,6 +1,6 @@
 // Created by João Santos for project The Violet Sector.
 
-enum Sectors: UInt, Decodable, CustomStringConvertible {
+enum Sectors: Int, Decodable, CustomStringConvertible {
     case none
     case home1
     case home2

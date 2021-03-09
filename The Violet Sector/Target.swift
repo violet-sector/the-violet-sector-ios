@@ -3,14 +3,14 @@
 struct Target: Decodable {
     let name: String
     let legion: Legions
-    let level: UInt
-    let currentHealth: UInt
-    let maxHealth: UInt
+    let level: Int
+    let currentHealth: Int
+    let maxHealth: Int
     let ship: Ships
-    let score: UInt
+    let score: Int
     let isCloaked: Bool?
-    let kills: UInt?
-    let deaths: UInt?
+    let kills: Int?
+    let deaths: Int?
     let isOnline: Bool
 
     enum CodingKeys: String, CodingKey {
@@ -31,14 +31,14 @@ struct Target: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         name = try container.decode(String.self, forKey: .name)
         legion = try container.decode(Legions.self, forKey: .legion)
-        level = try container.decode(UInt.self, forKey: .level)
-        currentHealth = try container.decode(UInt.self, forKey: .currentHealth)
-        maxHealth = try container.decode(UInt.self, forKey: .maxHealth)
+        level = try container.decode(Int.self, forKey: .level)
+        currentHealth = try container.decode(Int.self, forKey: .currentHealth)
+        maxHealth = try container.decode(Int.self, forKey: .maxHealth)
         ship = try container.decode(Ships.self, forKey: .ship)
-        score = try container.decode(UInt.self, forKey: .score)
+        score = try container.decode(Int.self, forKey: .score)
         isCloaked = try container.decodeIfPresent(Bool.self, forKey: .isCloaked)
-        kills = try container.decodeIfPresent(UInt.self, forKey: .kills)
-        deaths = try container.decodeIfPresent(UInt.self, forKey: .deaths)
+        kills = try container.decodeIfPresent(Int.self, forKey: .kills)
+        deaths = try container.decodeIfPresent(Int.self, forKey: .deaths)
         isOnline = try container.decode(Bool.self, forKey: .isOnline)
 }
 }

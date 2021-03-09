@@ -31,10 +31,10 @@ struct Status: View {
     
     struct Data: Decodable {
         let name: String
-        let currentHealth: UInt
-        let maxHealth: UInt
-        let moves: UInt
-        let score: UInt
+        let currentHealth: Int
+        let maxHealth: Int
+        let moves: Int
+        let score: Int
         let currentSector: Sectors
         let destinationSector: Sectors
         let isCloaked: Bool

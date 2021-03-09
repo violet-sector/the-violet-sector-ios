@@ -28,7 +28,7 @@ struct Map: View {
             var domination = [Sectors: Set<Legions>]()
             domination.reserveCapacity(domination.count)
             for (key: key, value: value) in decodedDomination {
-                guard let convertedKey = UInt(key) else {
+                guard let convertedKey = Int(key) else {
                     continue
                 }
                 guard let sector = Sectors(rawValue: convertedKey) else {

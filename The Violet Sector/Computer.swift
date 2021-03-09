@@ -77,7 +77,7 @@ struct Computer: View {
 
     struct Data: Decodable {
         let news: News
-        let scrap: UInt?
+        let scrap: Int?
         let base: Base
         let council: [Commander]
         let status: Status.Data
@@ -85,7 +85,7 @@ struct Computer: View {
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             news = try container.decode(News.self, forKey: .news)
-            scrap = try container.decodeIfPresent(UInt.self, forKey: .scrap)
+            scrap = try container.decodeIfPresent(Int.self, forKey: .scrap)
             base = try container.decode(Base.self, forKey: .base)
             council = try container.decode([Commander].self, forKey: .council)
             status = try container.decode(Status.Data.self, forKey: .status)
@@ -113,15 +113,8 @@ struct Computer: View {
         }
 
         struct Base: Decodable {
-            let currentHealth: UInt
-            let maxHealth: UInt
-
-            init(from decoder: Decoder) throws {
-                let container = try decoder.container(keyedBy: CodingKeys.self)
-                let currentHealth = try container.decode(Int.self, forKey: .currentHealth)
-                self.currentHealth = currentHealth >= 0 ? UInt(currentHealth) : 0
-                maxHealth = try container.decode(UInt.self, forKey: .maxHealth)
-            }
+            let currentHealth: Int
+            let maxHealth: Int
 
             private enum CodingKeys: String, CodingKey {
                 case currentHealth = "hp"
@@ -131,7 +124,7 @@ struct Computer: View {
 
         struct Commander: Decodable {
             let name: String
-            let responsibility: UInt
+            let responsibility: Int
             let isOnline: Bool
 
             enum CodingKeys: String, CodingKey {

@@ -1,6 +1,6 @@
 // Created by João Santos for project The Violet Sector.
 
-enum Ships: UInt, Decodable, CustomStringConvertible {
+enum Ships: Int, Decodable, CustomStringConvertible {
     case none
     case planet
     case ajaxianFighter1
