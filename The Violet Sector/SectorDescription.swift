@@ -16,6 +16,13 @@ struct SectorDescription: View {
         VStack(spacing: 10.0) {
             ScrollView() {
                 VStack() {
+                    if sector != .uncharted {
+                        Image("Sectors/Images/\(sector)")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 250.0, height: 250.0)
+                            .accessibilityLabel(sector.description)
+                    }
                     if isOpenGate && timerModel.secondsSinceLastTurn >= client.settings?.hyperTimeBufferStart ?? 0 && timerModel.secondsToNextTurn >= client.settings?.hyperTimeBufferEnd ?? 0 && status.moves >= client.settings?.movesToHyper ?? 0 {
                         Button("Hyper", action: {presentationMode.wrappedValue.dismiss(); action.trigger(query: ["destination": String(sector.rawValue)])})
                     }
@@ -79,7 +86,7 @@ struct SectorDescription: View {
                     }
                 }
             }
-            let asset = NSDataAsset(name: "Sectors/\(sector)")!
+            let asset = NSDataAsset(name: "Sectors/Descriptions/\(sector)")!
             let data = asset.data
             let text = domination != nil ? "# Domination\n\n\(domination!)\n\n" + String(data: data, encoding: .utf8)! : String(data: data, encoding: .utf8)!
             let statements = text.split(separator: "\n", omittingEmptySubsequences: false)
