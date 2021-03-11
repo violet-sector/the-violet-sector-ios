@@ -3,22 +3,29 @@
 import SwiftUI
 
 struct SectorDescription: View {
+    let status: Status.Data
     let sector: Sectors
     let legions: Set<Legions>
     let isOpenGate: Bool
     let action: Action
+    @ObservedObject private var client = Client.shared
+    @ObservedObject private var timerModel = Timer.Model.shared
     @Environment(\.presentationMode) private var presentationMode
 
     var body: some View {
         VStack(spacing: 10.0) {
             ScrollView() {
-                Description(sector: sector, legions: legions)
+                VStack() {
+                    if isOpenGate && timerModel.secondsSinceLastTurn >= client.settings?.hyperTimeBufferStart ?? 0 && timerModel.secondsToNextTurn >= client.settings?.hyperTimeBufferEnd ?? 0 && status.moves >= client.settings?.movesToHyper ?? 0 {
+                        Button("Hyper", action: {presentationMode.wrappedValue.dismiss(); action.trigger(query: ["destination": String(sector.rawValue)])})
+                    }
+                    Description(sector: sector, legions: legions)
+                }
             }
             Status()
         }
         .navigationBarTitle(Text(verbatim: "\(sector)"))
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar(content: {Hyper(canHyper: isOpenGate, action: {presentationMode.wrappedValue.dismiss(); action.trigger(query: ["destination": String(sector.rawValue)])})})
     }
 
     private struct Description: View {

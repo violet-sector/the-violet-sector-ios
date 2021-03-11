@@ -6,7 +6,7 @@ extension Text {
     init(health: Int, maxHealth: Int, asPercentage: Bool) {
         var color = Color(.sRGB, red: 0.0, green: 1.0, blue: 1.0, opacity: 1.0)
         switch health {
-        case ..<0:
+        case ...0:
             color = Color(.sRGB, red: 0.25, green: 0.25, blue: 0.25, opacity: 1.0)
         case 1...(maxHealth / 2):
             color = Color(.sRGB, red: 1.0, green: Double(health - 1) / Double(maxHealth / 2 - 1), blue: 0.0, opacity: 1.0)

@@ -108,4 +108,70 @@ enum Ships: Int, Decodable, CustomStringConvertible {
             return "Tibran Cruiser"
         }
     }
+
+    var isFighter: Bool {
+        switch self {
+        case .ajaxianFighter1, .ajaxianFighter2, .boraxianFighter1, .boraxianFighter2, .krilgorianFighter1, .krilgorianFighter2, .krilgorianFighter3, .tibranFighter1, .tibranFighter2, .tibranFighter3, .ajaxianCruiser, .boraxianCruiser, .krilgorianCruiser, .tibranCruiser:
+            return true
+        default:
+            return false
+        }
+    }
+
+    var isCloaker: Bool {
+        switch self {
+        case .ajaxianCloaker, .boraxianCloaker, .krilgorianCloaker, .tibranCloaker:
+            return true
+        default:
+            return false
+        }
+    }
+
+    var isBomber: Bool {
+        switch self {
+        case .ajaxianBomber, .boraxianBomber, .ajaxianRegeneratingBomber, .boraxianRegeneratingBomber, .krilgorianRegeneratingBomber, .tibranRegeneratingBomber, .ajaxianCruiser, .boraxianCruiser, .krilgorianCruiser, .tibranCruiser:
+            return true
+        default:
+            return false
+        }
+    }
+
+    var isRepairer: Bool {
+        switch self {
+        case .ajaxianRepairer, .boraxianRepairer, .krilgorianRepairer, .tibranRepairer, .ajaxianCarrier, .boraxianCarrier, .krilgorianCarrier, .tibranCarrier:
+            return true
+        default:
+            return false
+        }
+    }
+
+    var isCruiser: Bool {
+        switch self {
+        case .ajaxianCruiser, .boraxianCruiser, .krilgorianCruiser, .tibranCruiser:
+            return true
+        default:
+            return false
+        }
+    }
+
+    var isCarrier: Bool {
+        switch self {
+        case .ajaxianCarrier, .boraxianCarrier, .krilgorianCarrier, .tibranCarrier:
+            return true
+        default:
+            return false
+        }
+    }
+
+    var isCapital: Bool {return self.isCruiser || self.isCarrier}
+
+    var type: String {
+        if self.isCruiser {return "Fighter and Bomber (Capital)"}
+        if self.isCarrier {return "Repairer and Carrier (Capital)"}
+        if self.isFighter {return "Fighter"}
+        if self.isCloaker {return "Cloaker"}
+        if self.isBomber {return "Bomber"}
+        if self.isRepairer {return "Repairer"}
+        return "Planet"
+    }
 }

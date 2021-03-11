@@ -13,11 +13,13 @@ struct Timer: View {
         }
     }
 
-    private final class Model: ObservableObject {
+    final class Model: ObservableObject {
         @Published private(set) var turn: Int64 = 0
         @Published private(set) var hours: Int64 = 0
         @Published private(set) var minutes: Int64 = 0
         @Published private(set) var seconds: Int64 = 0
+        @Published private(set) var secondsToNextTurn: Int64 = 0
+        @Published private(set) var secondsSinceLastTurn: Int64 = 0
         private var data: Data? {didSet {setup()}}
         private var error: Error? {didSet {lastErrorTime = Int64(Date().timeIntervalSince1970)}}
         private var request: Cancellable?
@@ -60,7 +62,9 @@ struct Timer: View {
                     var elapsedTime = currentTime - self.referenceTime
                     self.turn = self.referenceTurn + elapsedTime / self.turnDuration
                     elapsedTime %= self.turnDuration
+                    self.secondsSinceLastTurn = elapsedTime
                     var remainingTime = self.turnDuration - elapsedTime
+                    self.secondsToNextTurn = remainingTime
                     self.hours = remainingTime / (60 * 60)
                     remainingTime %= 60 * 60
                     self.minutes = remainingTime / 60
@@ -69,7 +73,7 @@ struct Timer: View {
                     if (currentTime - self.deltaTime) / 60 / 60 > self.serverHoursSince1970 && currentTime - self.lastErrorTime >= 5 {
                         self.refresh()
                     }
-            }
+                }
         }
 
         struct Data: Decodable {

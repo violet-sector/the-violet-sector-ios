@@ -26,7 +26,6 @@
 		A08198AB25150D0700A81399 /* TheVioletSector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08198AA25150D0700A81399 /* TheVioletSector.swift */; };
 		A082E12425003BDC008DCD47 /* Scanners.swift in Sources */ = {isa = PBXBuildFile; fileRef = A082E12325003BDC008DCD47 /* Scanners.swift */; };
 		A082E126250042FB008DCD47 /* Targets.swift in Sources */ = {isa = PBXBuildFile; fileRef = A082E125250042FB008DCD47 /* Targets.swift */; };
-		A08E6B6625F091570057E8D7 /* Hyper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E6B6525F091570057E8D7 /* Hyper.swift */; };
 		A08E6B6A25F0EDAC0057E8D7 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E6B6925F0EDAC0057E8D7 /* Action.swift */; };
 		A08E6B6E25F1E2570057E8D7 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E6B6D25F1E2570057E8D7 /* Page.swift */; };
 		A08E6B7825F3B5A70057E8D7 /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E6B7725F3B5A70057E8D7 /* Text.swift */; };
@@ -62,7 +61,6 @@
 		A08198AA25150D0700A81399 /* TheVioletSector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheVioletSector.swift; sourceTree = "<group>"; };
 		A082E12325003BDC008DCD47 /* Scanners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scanners.swift; sourceTree = "<group>"; };
 		A082E125250042FB008DCD47 /* Targets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Targets.swift; sourceTree = "<group>"; };
-		A08E6B6525F091570057E8D7 /* Hyper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hyper.swift; sourceTree = "<group>"; };
 		A08E6B6925F0EDAC0057E8D7 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		A08E6B6D25F1E2570057E8D7 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		A08E6B7725F3B5A70057E8D7 /* Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
@@ -127,7 +125,6 @@
 				A08E6B6D25F1E2570057E8D7 /* Page.swift */,
 				A041183A24EED98300B309DA /* TargetDescription.swift */,
 				A02B994D2509AF380093DF90 /* SectorDescription.swift */,
-				A08E6B6525F091570057E8D7 /* Hyper.swift */,
 				A08E6B7C25F618CB0057E8D7 /* Description.swift */,
 				A08E6B7F25F623410057E8D7 /* DescriptionBuilder.swift */,
 				A08E6B8225F624820057E8D7 /* DescriptionItem.swift */,
@@ -233,7 +230,6 @@
 				A041183324EEAF0A00B309DA /* Legions.swift in Sources */,
 				A08E6B8325F624820057E8D7 /* DescriptionItem.swift in Sources */,
 				A08E6B6E25F1E2570057E8D7 /* Page.swift in Sources */,
-				A08E6B6625F091570057E8D7 /* Hyper.swift in Sources */,
 				A08E6B6A25F0EDAC0057E8D7 /* Action.swift in Sources */,
 				A0C4FF5724FE66F000BA2418 /* Refreshable.swift in Sources */,
 				A041182F24EE261700B309DA /* Status.swift in Sources */,

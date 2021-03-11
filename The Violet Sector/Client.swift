@@ -13,17 +13,21 @@ final class Client: ObservableObject {
     private let decoder = JSONDecoder()
     
     static let shared = Client()
+    #if !DEBUG
     private static let baseURL = "https://www.violetsector.com/json/"
+    #else
+    private static let baseURL = "https://ucs.violetsector.com/json/"
+    #endif
     private static let settingsResource = "config.php"
     private static let settingsFetchRetry = TimeInterval(10.0)
     
     private init() {
-        let configuration = URLSessionConfiguration.ephemeral
+        let configuration = URLSessionConfiguration.default
         configuration.networkServiceType = .responsiveData
         configuration.allowsCellularAccess = true
         configuration.waitsForConnectivity = false
-        configuration.httpCookieAcceptPolicy = .never
-        configuration.httpShouldSetCookies = false
+        configuration.httpCookieAcceptPolicy = .always
+        configuration.httpShouldSetCookies = true
         configuration.requestCachePolicy = .reloadIgnoringLocalAndRemoteCacheData
         configuration.allowsConstrainedNetworkAccess = true
         configuration.allowsExpensiveNetworkAccess = true
@@ -43,7 +47,7 @@ final class Client: ObservableObject {
             request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
             request.setValue(Self.baseURL, forHTTPHeaderField: "Referer")
         }
-        request.httpShouldHandleCookies = false
+        request.httpShouldHandleCookies = true
         request.allowsCellularAccess = true
         request.allowsConstrainedNetworkAccess = true
         request.allowsExpensiveNetworkAccess = true
@@ -79,6 +83,9 @@ final class Client: ObservableObject {
         let movesToSelfRepair: Int
         let movesToCloak: Int
         let movesToDecloak: Int
+        let movesToHyper: Int
+        let hyperTimeBufferStart: Int64
+        let hyperTimeBufferEnd: Int64
         
         private enum CodingKeys: String, CodingKey {
             case news = "NEWS"
@@ -86,6 +93,9 @@ final class Client: ObservableObject {
             case movesToSelfRepair = "MOVES_SELF_REP"
             case movesToCloak = "MOVES_CLOAK"
             case movesToDecloak = "MOVES_DECLOAK"
+            case movesToHyper = "MOVES_HYPER"
+            case hyperTimeBufferStart = "START_BUFFER"
+            case hyperTimeBufferEnd = "END_BUFFER"
         }
     }
     

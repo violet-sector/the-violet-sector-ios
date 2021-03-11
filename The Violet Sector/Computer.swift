@@ -14,23 +14,27 @@ struct Computer: View {
             GeometryReader() {(geometry) in
                 ScrollView() {
                     VStack(spacing: 10.0) {
+                        Image("Ships/\(data.status.ship)")
+                            .accessibilityLabel(data.status.ship.description)
                         HStack() {
-                            if data.status.currentHealth < data.status.maxHealth && data.status.currentHealth > 0 && client.settings != nil && data.status.moves >= client.settings!.movesToSelfRepair {
+                            if data.status.currentHealth < data.status.maxHealth && data.status.currentHealth > 0 && data.status.moves >= client.settings?.movesToSelfRepair ?? 0 {
                                 Button("Repair", action: {selfRepairAction.trigger(query: [:])})
                                     .frame(width: 80.0)
                             }
-                            if !data.status.isCloaked && client.settings != nil && data.status.moves >= client.settings!.movesToCloak {
+                            if data.status.ship.isCloaker && !data.status.isCloaked && data.status.moves >= client.settings?.movesToCloak ?? 0 {
                                 Button("Cloak", action: {cloakOnAction.trigger(query: [:])})
                                     .frame(width: 80.0)
                             }
-                            if data.status.isCloaked && client.settings != nil && data.status.moves >= client.settings!.movesToDecloak {
+                            if data.status.isCloaked && data.status.moves >= client.settings?.movesToDecloak ?? 0 {
                                 Button("Decloak", action: {cloakOffAction.trigger(query: [:])})
                                     .frame(width: 80.0)
                             }
                         }
                         Description() {
                             DescriptionItem(name: "Pilot Name") {Text(verbatim: data.status.name)}
+                            DescriptionItem(name: "Legion") {Text(verbatim: data.status.legion.description)}
                             DescriptionItem(name: "Score") {Text(verbatim: String(data.status.score))}
+                            DescriptionItem(name: "Level") {Text(verbatim: String(data.status.level))}
                             DescriptionItem(name: "Hitpoints") {Text(health: data.status.currentHealth, maxHealth: data.status.maxHealth, asPercentage: false)}
                         }
                         Description() {

@@ -9,9 +9,10 @@ struct TargetDescription: View {
     var body: some View {
         VStack() {
             if data.ship != .planet {
-                Image(decorative: "Ships/\(data.ship)")
+                Image("Ships/\(data.ship)")
+                    .accessibilityLabel(data.ship.description)
             }
-            Text(verbatim: "\(data.ship)\(data.isCloaked ?? false ? " (Cloaked)" : "")")
+            Text(verbatim: "\(data.ship): \(data.ship.type)" + (data.isCloaked ?? false ? " (Cloaked)" : ""))
             Description() {
                 if let rank = rank {
                     DescriptionItem(name: "Rank") {Text(verbatim: String(rank))}
