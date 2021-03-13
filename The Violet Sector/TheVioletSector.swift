@@ -5,24 +5,42 @@ import SwiftUI
 @main struct TheVioletSector: App {
     @ObservedObject private var client = Client.shared
     @State private var isAuthenticated = false
-    @Environment(\.scenePhase) var scenePhase
+    @State private var tabIndex = 0
 
     var body: some Scene {
         WindowGroup() {
             if let settings = client.settings {
                 if isAuthenticated {
-                    TabView() {
-                        Main()
-                            .tabItem({Image(systemName: "doc.text.fill").accessibilityHidden(true); Text(verbatim: "Main").bold()})
-                        Scanners()
-                            .tabItem({Image(systemName: "dot.radiowaves.left.and.right").accessibilityHidden(true); Text(verbatim: "Scanners").bold()})
+                    TabView(selection: $tabIndex) {
+                        VStack() {
+                            Main(tabIndex: $tabIndex, thisTabIndex: 0)
+                            Status()
+                        }
+                        .tabItem({Image(systemName: "doc.text.fill").accessibilityHidden(true); Text(verbatim: "Main").bold()})
+                        .tag(0)
+                        VStack() {
+                            Scanners(tabIndex: $tabIndex, thisTabIndex: 1)
+                            Status()
+                        }
+                        .tabItem({Image(systemName: "dot.radiowaves.left.and.right").accessibilityHidden(true); Text(verbatim: "Scanners").bold()})
+                        .tag(1)
                         Text(verbatim: "Placeholder")
                             .tabItem({Image(systemName: "envelope.fill").accessibilityHidden(true); Text(verbatim: "Comms").bold()})
-                        Navigation()
-                            .tabItem({Image(systemName: "map.fill").accessibilityHidden(true); Text(verbatim: "Navigation").bold()})
-                        Rankings()
-                            .tabItem({Image(systemName: "person.fill").accessibilityHidden(true); Text(verbatim: "Rankings").bold()})
+                            .tag(2)
+                        VStack() {
+                            Navigation(tabIndex: $tabIndex, thisTabIndex: 3)
+                            Status()
+                        }
+                        .tabItem({Image(systemName: "map.fill").accessibilityHidden(true); Text(verbatim: "Navigation").bold()})
+                        .tag(3)
+                        VStack() {
+                            Rankings(tabIndex: $tabIndex, thisTabIndex: 4)
+                            Status()
+                        }
+                        .tabItem({Image(systemName: "person.fill").accessibilityHidden(true); Text(verbatim: "Rankings").bold()})
+                        .tag(4)
                     }
+                    .alert(item: $client.errorResponse, content: {Alert(title: Text(verbatim: "Error"), message: Text(verbatim: $0.message))})
                 } else {
                     VStack(spacing: 10.0) {
                         Spacer()
@@ -51,7 +69,6 @@ import SwiftUI
                     .scaleEffect(10.0)
             }
         }
-        .onChange(of: scenePhase, perform: {guard let refreshable = client.refreshable else {return}; if $0 == .active {refreshable.refresh(force: false)}})
     }
 
     static private func describeError(_ error: Error) -> String {

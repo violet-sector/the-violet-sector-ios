@@ -26,13 +26,11 @@
 		A08198AB25150D0700A81399 /* TheVioletSector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08198AA25150D0700A81399 /* TheVioletSector.swift */; };
 		A082E12425003BDC008DCD47 /* Scanners.swift in Sources */ = {isa = PBXBuildFile; fileRef = A082E12325003BDC008DCD47 /* Scanners.swift */; };
 		A082E126250042FB008DCD47 /* Targets.swift in Sources */ = {isa = PBXBuildFile; fileRef = A082E125250042FB008DCD47 /* Targets.swift */; };
-		A08E6B6A25F0EDAC0057E8D7 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E6B6925F0EDAC0057E8D7 /* Action.swift */; };
 		A08E6B6E25F1E2570057E8D7 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E6B6D25F1E2570057E8D7 /* Page.swift */; };
 		A08E6B7825F3B5A70057E8D7 /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E6B7725F3B5A70057E8D7 /* Text.swift */; };
 		A08E6B7D25F618CB0057E8D7 /* Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E6B7C25F618CB0057E8D7 /* Description.swift */; };
 		A08E6B8025F623410057E8D7 /* DescriptionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E6B7F25F623410057E8D7 /* DescriptionBuilder.swift */; };
 		A08E6B8325F624820057E8D7 /* DescriptionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E6B8225F624820057E8D7 /* DescriptionItem.swift */; };
-		A0C4FF5724FE66F000BA2418 /* Refreshable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C4FF5624FE66F000BA2418 /* Refreshable.swift */; };
 		A0C4FF5924FE7A5100BA2418 /* Refresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C4FF5824FE7A5100BA2418 /* Refresh.swift */; };
 		A0F4EE4824F83CA000D7AB84 /* Rankings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F4EE4724F83CA000D7AB84 /* Rankings.swift */; };
 		A0F552E224D51C2B008C3296 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0F552E124D51C2B008C3296 /* Assets.xcassets */; };
@@ -61,13 +59,11 @@
 		A08198AA25150D0700A81399 /* TheVioletSector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheVioletSector.swift; sourceTree = "<group>"; };
 		A082E12325003BDC008DCD47 /* Scanners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scanners.swift; sourceTree = "<group>"; };
 		A082E125250042FB008DCD47 /* Targets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Targets.swift; sourceTree = "<group>"; };
-		A08E6B6925F0EDAC0057E8D7 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		A08E6B6D25F1E2570057E8D7 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		A08E6B7725F3B5A70057E8D7 /* Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
 		A08E6B7C25F618CB0057E8D7 /* Description.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Description.swift; sourceTree = "<group>"; };
 		A08E6B7F25F623410057E8D7 /* DescriptionBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionBuilder.swift; sourceTree = "<group>"; };
 		A08E6B8225F624820057E8D7 /* DescriptionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionItem.swift; sourceTree = "<group>"; };
-		A0C4FF5624FE66F000BA2418 /* Refreshable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Refreshable.swift; sourceTree = "<group>"; };
 		A0C4FF5824FE7A5100BA2418 /* Refresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Refresh.swift; sourceTree = "<group>"; };
 		A0F4EE4724F83CA000D7AB84 /* Rankings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rankings.swift; sourceTree = "<group>"; };
 		A0F552D824D51C2A008C3296 /* The Violet Sector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The Violet Sector.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -131,13 +127,11 @@
 				A041182E24EE261700B309DA /* Status.swift */,
 				A0F552F224D527F8008C3296 /* Timer.swift */,
 				A01744AE2512EB5F009315F6 /* Model.swift */,
-				A08E6B6925F0EDAC0057E8D7 /* Action.swift */,
 				A041183624EEC21B00B309DA /* Target.swift */,
 				A041182C24EBE61400B309DA /* Sectors.swift */,
 				A041183424EEB2A500B309DA /* Ships.swift */,
 				A041183224EEAF0A00B309DA /* Legions.swift */,
 				A0F552F024D525DA008C3296 /* Client.swift */,
-				A0C4FF5624FE66F000BA2418 /* Refreshable.swift */,
 				A08E6B7725F3B5A70057E8D7 /* Text.swift */,
 				A043549A24F0355100EA9BF4 /* String.swift */,
 				A0F552E124D51C2B008C3296 /* Assets.xcassets */,
@@ -230,8 +224,6 @@
 				A041183324EEAF0A00B309DA /* Legions.swift in Sources */,
 				A08E6B8325F624820057E8D7 /* DescriptionItem.swift in Sources */,
 				A08E6B6E25F1E2570057E8D7 /* Page.swift in Sources */,
-				A08E6B6A25F0EDAC0057E8D7 /* Action.swift in Sources */,
-				A0C4FF5724FE66F000BA2418 /* Refreshable.swift in Sources */,
 				A041182F24EE261700B309DA /* Status.swift in Sources */,
 				A079FF6A2501EE8F00FA1B13 /* Map.swift in Sources */,
 				A0C4FF5924FE7A5100BA2418 /* Refresh.swift in Sources */,

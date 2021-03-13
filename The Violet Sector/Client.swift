@@ -4,11 +4,13 @@ import Foundation
 import Combine
 
 final class Client: ObservableObject {
+    @Published private(set) var statusResponse: StatusResponse? {didSet {if statusResponse == nil && oldValue != nil {statusResponse = oldValue}}}
+    @Published var errorResponse: CommonError?
     @Published private(set) var settings: Settings?
     @Published private(set) var error: Error?
-    var refreshable: Refreshable? {didSet {guard let refreshable = refreshable else {return}; refreshable.refresh(force: false)}}
     private let session: URLSession
-    private var request: Cancellable?
+    private var responseSubscriber: Cancellable?
+    private var settingsSubscriber: Cancellable?
     private var timer: Cancellable?
     private let decoder = JSONDecoder()
     
@@ -34,49 +36,143 @@ final class Client: ObservableObject {
         session = URLSession(configuration: configuration)
         fetchSettings()
     }
-    
-    func fetch<Root, Response: Decodable>(_ resource: String, postData data: Data? = nil, setResponse response: ReferenceWritableKeyPath<Root, Response?>, setFailure failure: ReferenceWritableKeyPath<Root, Error?>, on root: Root) -> Cancellable {
+
+    func get<Root: AnyObject, Response: Decodable>(_ resource: String, setResponse response: ReferenceWritableKeyPath<Root, Response?>, setFailure failure: ReferenceWritableKeyPath<Root, Error?>, on root: Root, completionHandler: (() -> Void)? = nil) -> Cancellable {
         #if DEBUG
         let resource = resource + "?rpirw=true"
         #endif
-        let url = URL(string: Self.baseURL + resource)!
-        var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 5.0)
-        if let data = data {
-            request.httpMethod = "POST"
-            request.httpBody = data
-            request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-            request.setValue(Self.baseURL, forHTTPHeaderField: "Referer")
-        }
-        request.httpShouldHandleCookies = true
-        request.allowsCellularAccess = true
-        request.allowsConstrainedNetworkAccess = true
-        request.allowsExpensiveNetworkAccess = true
-        request.networkServiceType = .responsiveData
-        return session.dataTaskPublisher(for: request)
-            .tryMap({let response = $0.response as! HTTPURLResponse; if response.statusCode != 200 {throw Errors.serverError(response.statusCode)} else if response.mimeType == nil {throw Errors.noContentType} else if response.mimeType! != "application/json" {throw Errors.invalidContentType(response.mimeType!)}; return $0.data})
+        let dataPublisher = session.dataTaskPublisher(for: URL(string: Self.baseURL + resource)!)
+            .tryMap({(_ input: (data: Data, response: URLResponse)) -> Data in let response = input.response as! HTTPURLResponse; if response.statusCode != 200 {throw Errors.serverError(response.statusCode)} else if response.mimeType == nil {throw Errors.noContentType} else if response.mimeType! != "application/json" {throw Errors.invalidContentType(response.mimeType!)}; return input.data})
+            .prefix(2)
+        let responsePublisher = dataPublisher
             .decode(type: Response?.self, decoder: decoder)
+            .tryCatch({(_ error: Error) -> Just<Response?> in if error is DecodingError {return Just(Response?.none)}; throw error})
+        let commonPublisher = dataPublisher
+            .decode(type: CommonResponse?.self, decoder: decoder)
+            .tryCatch({(_ error: Error) -> Just<CommonResponse?> in if error is DecodingError {return Just(CommonResponse?.none)}; throw error})
+        return responsePublisher
+            .zip(commonPublisher)
             .receive(on: RunLoop.main)
-            .catch({(error) -> Just<Response?> in root[keyPath: failure] = error; return Just(Response?.none)})
-            .assign(to: response, on: root)
+            .sink(receiveCompletion: {[unowned root] in if case let .failure(error) = $0 {root[keyPath: failure] = error}; guard let completionHandler = completionHandler else {return}; completionHandler()}, receiveValue: {[unowned self, unowned root] in root[keyPath: response] = $0.0; statusResponse = $0.1?.status; errorResponse = $0.1?.error})
     }
     
+    func post(_ resource: String, query: [String: String], completionHandler: @escaping () -> Void) {
+        var queryString = ""
+        for (key: key, value: value) in query {
+            if !queryString.isEmpty {
+                queryString += "&"
+            }
+            queryString += key.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+            queryString += "="
+            queryString += value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        }
+        let postData = queryString.data(using: .ascii)!
+        #if DEBUG
+        let resource = resource + "?rpirw=true"
+        #endif
+        var postRequest = URLRequest(url: URL(string: Self.baseURL + resource)!, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 5.0)
+        postRequest.httpMethod = "POST"
+        postRequest.httpBody = postData
+        postRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        postRequest.setValue(Self.baseURL, forHTTPHeaderField: "Referer")
+        postRequest.httpShouldHandleCookies = true
+        postRequest.allowsCellularAccess = true
+        postRequest.allowsConstrainedNetworkAccess = true
+        postRequest.allowsExpensiveNetworkAccess = true
+        postRequest.networkServiceType = .responsiveData
+        responseSubscriber = session.dataTaskPublisher(for: postRequest)
+            .map({$0.data})
+            .decode(type: CommonResponse?.self, decoder: decoder)
+            .catch({(_) in Just(CommonResponse?.none)})
+            .receive(on: RunLoop.main)
+            .sink(receiveCompletion: {[unowned self] (_) in responseSubscriber = nil; completionHandler()}, receiveValue: {[unowned self] in statusResponse = $0?.status; errorResponse = $0?.error})
+    }
+
     private func fetchSettings() {
         settings = nil
         error = nil
-        request = session.dataTaskPublisher(for: URL(string: Self.baseURL + Self.settingsResource)!)
+        settingsSubscriber = session.dataTaskPublisher(for: URL(string: Self.baseURL + Self.settingsResource)!)
             .tryMap({let response = $0.response as! HTTPURLResponse; if response.statusCode != 200 {throw Errors.serverError(response.statusCode)} else if response.mimeType == nil {throw Errors.noContentType} else if response.mimeType! != "application/json" {throw Errors.invalidContentType(response.mimeType!)}; return $0.data})
             .decode(type: Settings.self, decoder: decoder)
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: {[unowned self] in if case let .failure(error) = $0 {self.error = error; self.retryFetchSettings()}}, receiveValue: {[unowned self] in self.settings = $0; self.error = nil; self.timer = nil})
     }
-    
+
     private func retryFetchSettings() {
         timer = Foundation.Timer.publish(every: Self.settingsFetchRetry, on: .main, in: .default)
             .autoconnect()
             .first()
             .sink(receiveValue: {[unowned self] (_) in self.fetchSettings()})
     }
-    
+
+    struct CommonResponse: Decodable {
+        let status: StatusResponse
+        let error: CommonError?
+
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            status = try container.decode(StatusResponse.self, forKey: .status)
+            let error = try container.decodeIfPresent([String].self, forKey: .error)
+            self.error = error?.first != nil ? CommonError(message: error!.first!) : nil
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "player"
+            case error = "errors"
+        }
+    }
+
+    struct StatusResponse: Decodable {
+        let name: String
+        let currentHealth: Int
+        let maxHealth: Int
+        let moves: Int
+        let score: Int
+        let ship: Ships
+        let legion: Legions
+        let currentSector: Sectors
+        let destinationSector: Sectors
+        let isCloaked: Bool
+        let isInvulnerable: Bool
+        let isSleeping: Bool
+
+        var level: Int {
+            switch self.score {
+            case ..<4000:
+                return 1
+            case ..<8000:
+                return 2
+            case ..<16000:
+                return 3
+            case ..<32000:
+                return 4
+            case 32000...:
+                return 5
+            default:
+                return 0
+            }
+        }
+        private enum CodingKeys: String, CodingKey {
+            case name = "tvs_username"
+            case currentHealth = "hp"
+            case maxHealth = "maxhp"
+            case moves
+            case score
+            case ship
+            case legion
+            case currentSector = "sector"
+            case destinationSector = "destination"
+            case isCloaked = "cloaked"
+            case isInvulnerable = "invulnerable"
+            case isSleeping = "sleep_tick"
+        }
+    }
+
+    struct CommonError: Identifiable {
+        let message: String
+        var id: Int {message.hashValue}
+    }
+
     struct Settings: Decodable {
         let news: String
         let isOuterRimEnabled: Bool
@@ -86,7 +182,7 @@ final class Client: ObservableObject {
         let movesToHyper: Int
         let hyperTimeBufferStart: Int64
         let hyperTimeBufferEnd: Int64
-        
+
         private enum CodingKeys: String, CodingKey {
             case news = "NEWS"
             case isOuterRimEnabled = "OUTER_RING"
@@ -98,12 +194,12 @@ final class Client: ObservableObject {
             case hyperTimeBufferEnd = "END_BUFFER"
         }
     }
-    
+
     enum Errors: LocalizedError {
         case serverError(Int)
         case noContentType
         case invalidContentType(String)
-        
+
         var errorDescription: String? {
             switch self {
             case let .serverError(code):

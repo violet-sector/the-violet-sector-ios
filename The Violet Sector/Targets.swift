@@ -34,8 +34,7 @@ struct Targets: View {
     
     struct Data: Decodable {
         let content: [Target]
-        let status: Status.Data
-        
+
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             if container.contains(.incoming) {
@@ -45,13 +44,11 @@ struct Targets: View {
             } else {
                 content = []
             }
-            status = try container.decode(Status.Data.self, forKey: .status)
         }
         
         private enum CodingKeys: String, CodingKey {
             case incoming = "scans_incoming"
             case outgoing = "scans_outgoing"
-            case status = "player"
         }
     }
 }

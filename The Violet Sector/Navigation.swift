@@ -3,6 +3,8 @@
 import SwiftUI
 
 struct Navigation: View {
+    @Binding var tabIndex: Int
+    let thisTabIndex: Int
     @StateObject private var model = Model<Map.Data>(resource: "navcom_map.php")
     
     var body: some View {
@@ -10,7 +12,8 @@ struct Navigation: View {
             Map(model: model)
                 .navigationBarTitle("Navigation")
                 .navigationBarTitleDisplayMode(.inline)
-                .toolbar(content: {Refresh()})
+                .toolbar(content: {Refresh(action: {model.refresh(force: true)})})
+                .onChange(of: tabIndex, perform: {if $0 == thisTabIndex {model.refresh(force: true)}})
         }
     }
 }

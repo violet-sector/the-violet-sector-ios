@@ -6,31 +6,37 @@ struct Page<Content: View, Data: Decodable>: View {
     private let title: String
     private let content: (_: Data) -> Content
     @ObservedObject private var model: Model<Data>
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
-        VStack(spacing: 10.0) {
-            Text(verbatim: title)
-                .bold()
-                .accessibilityAddTraits(.isHeader)
-            if let data = model.data {
-                content(data)
-            } else if let error = model.error {
-                Spacer()
-                Text(verbatim: "Error Fetching Data")
+        ZStack() {
+            VStack(spacing: 10.0) {
+                Text(verbatim: title)
                     .bold()
                     .accessibilityAddTraits(.isHeader)
-                Text(verbatim: Self.describeError(error))
+                if let data = model.data {
+                    content(data)
+                        .disabled(model.isLoading)
+                } else if let error = model.error {
+                    Spacer()
+                    Text(verbatim: "Error Fetching Data")
+                        .bold()
+                        .accessibilityAddTraits(.isHeader)
+                    Text(verbatim: Self.describeError(error))
+                    Spacer()
+                } else {
+                    Spacer()
+                }
+            }
+            .accessibilityElement(children: !model.isLoading ? .contain : .ignore)
+            if model.isLoading {
                 Spacer()
-            } else {
-                Spacer()
+                    .background(Color.black.opacity(0.5))
                 ProgressView()
                     .scaleEffect(10.0)
-                Spacer()
             }
-            Spacer()
-            Status(data: Mirror(reflecting: model.data as Any).descendant("some", "status") as? Status.Data)
         }
-        .onAppear(perform: {Client.shared.refreshable = model})
+        .onChange(of: scenePhase, perform: {if case .active = $0 {model.refresh(force: true)}})
     }
 
     init(title: String, model: Model<Data>, @ViewBuilder content: @escaping (_ data: Data) -> Content) {

@@ -39,7 +39,7 @@ struct Timer: View {
 
         private func refresh() {
             error = nil
-            request = Client.shared.fetch("timer.php", setResponse: \.data, setFailure: \.error, on: self)
+            request = Client.shared.get("timer.php", setResponse: \.data, setFailure: \.error, on: self)
         }
 
         private func setup() {

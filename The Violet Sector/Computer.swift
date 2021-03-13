@@ -4,9 +4,6 @@ import SwiftUI
 
 struct Computer: View {
     @ObservedObject var model: Model<Data>
-    @StateObject private var cloakOnAction = Action(resource: "cloak_on.php")
-    @StateObject private var cloakOffAction = Action(resource: "cloak_off.php")
-    @StateObject private var selfRepairAction = Action(resource: "self_rep.php")
     @ObservedObject private var client = Client.shared
 
     var body: some View {
@@ -18,15 +15,15 @@ struct Computer: View {
                             .accessibilityLabel(data.status.ship.description)
                         HStack() {
                             if data.status.currentHealth < data.status.maxHealth && data.status.currentHealth > 0 && data.status.moves >= client.settings?.movesToSelfRepair ?? 0 {
-                                Button("Repair", action: {selfRepairAction.trigger(query: [:])})
+                                Button("Repair", action: {client.post("self_rep.php", query: [:], completionHandler: {model.refresh(force: true)})})
                                     .frame(width: 80.0)
                             }
                             if data.status.ship.isCloaker && !data.status.isCloaked && data.status.moves >= client.settings?.movesToCloak ?? 0 {
-                                Button("Cloak", action: {cloakOnAction.trigger(query: [:])})
+                                Button("Cloak", action: {client.post("cloak_on.php", query: [:], completionHandler: {model.refresh(force: true)})})
                                     .frame(width: 80.0)
                             }
                             if data.status.isCloaked && data.status.moves >= client.settings?.movesToDecloak ?? 0 {
-                                Button("Decloak", action: {cloakOffAction.trigger(query: [:])})
+                                Button("Decloak", action: {client.post("cloak_off.php", query: [:], completionHandler: {model.refresh(force: true)})})
                                     .frame(width: 80.0)
                             }
                         }
@@ -106,7 +103,7 @@ struct Computer: View {
         let scrap: Int?
         let base: Base
         let council: [Commander]
-        let status: Status.Data
+        let status: Client.StatusResponse
 
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -114,8 +111,9 @@ struct Computer: View {
             scrap = try container.decodeIfPresent(Int.self, forKey: .scrap)
             base = try container.decode(Base.self, forKey: .base)
             council = try container.decode([Commander].self, forKey: .council)
-            status = try container.decode(Status.Data.self, forKey: .status)
+            status = try container.decode(Client.StatusResponse.self, forKey: .status)
         }
+
         private enum CodingKeys: String, CodingKey {
             case news = "legion_news"
             case scrap = "scrap_in_sector"

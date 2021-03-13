@@ -4,14 +4,13 @@ import SwiftUI
 
 struct Map: View {
     @ObservedObject var model: Model<Data>
-    @StateObject private var action = Action(resource: "navcom_hyper.php")
     @State private var selectedSector: Sectors?
 
     var body: some View {
         Page(title: "Map", model: model) {(data) in
             ScrollableMap(data: data, selectedSector: $selectedSector)
             if selectedSector != nil {
-                NavigationLink(destination: SectorDescription(status: data.status, sector: selectedSector!, legions: data.domination[selectedSector!] ?? [], isOpenGate: data.gates.contains(selectedSector!), action: action), tag: selectedSector!, selection: $selectedSector, label: {EmptyView()})
+                NavigationLink(destination: SectorDescription(status: data.status, sector: selectedSector!, legions: data.domination[selectedSector!] ?? [], isOpenGate: data.gates.contains(selectedSector!), onHyper: {model.refresh(force: true)}), tag: selectedSector!, selection: $selectedSector, label: {EmptyView()})
                     .hidden()
             }
         }
@@ -20,7 +19,7 @@ struct Map: View {
     struct Data: Decodable {
         let domination: [Sectors: Set<Legions>]
         let gates: Set<Sectors>
-        let status: Status.Data
+        let status: Client.StatusResponse
 
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -38,7 +37,7 @@ struct Map: View {
             }
             self.domination = domination
             gates = try container.decodeIfPresent(Set<Sectors>.self, forKey: .gates) ?? []
-            status = try container.decode(Status.Data.self, forKey: .status)
+            status = try container.decode(Client.StatusResponse.self, forKey: .status)
         }
 
         private enum CodingKeys: String, CodingKey {

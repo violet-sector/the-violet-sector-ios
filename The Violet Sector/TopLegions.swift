@@ -34,11 +34,9 @@ struct TopLegions: View {
 
     struct Data: Decodable {
         let content: [Legion]
-        let status: Status.Data
 
         private enum CodingKeys: String, CodingKey {
             case content = "rankings_legions"
-            case status = "player"
         }
 
         struct Legion: Decodable {

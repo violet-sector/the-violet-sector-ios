@@ -3,11 +3,11 @@
 import SwiftUI
 
 struct SectorDescription: View {
-    let status: Status.Data
+    let status: Client.StatusResponse
     let sector: Sectors
     let legions: Set<Legions>
     let isOpenGate: Bool
-    let action: Action
+    let onHyper: () -> Void
     @ObservedObject private var client = Client.shared
     @ObservedObject private var timerModel = Timer.Model.shared
     @Environment(\.presentationMode) private var presentationMode
@@ -23,8 +23,8 @@ struct SectorDescription: View {
                             .frame(width: 250.0, height: 250.0)
                             .accessibilityLabel(sector.description)
                     }
-                    if isOpenGate && timerModel.secondsSinceLastTurn >= client.settings?.hyperTimeBufferStart ?? 0 && timerModel.secondsToNextTurn >= client.settings?.hyperTimeBufferEnd ?? 0 && status.moves >= client.settings?.movesToHyper ?? 0 {
-                        Button("Hyper", action: {presentationMode.wrappedValue.dismiss(); action.trigger(query: ["destination": String(sector.rawValue)])})
+                    if isOpenGate {
+                        Button("Hyper", action: {presentationMode.wrappedValue.dismiss(); client.post("navcom_hyper.php", query: ["destination": String(sector.rawValue)], completionHandler: onHyper)})
                     }
                     Description(sector: sector, legions: legions)
                 }
