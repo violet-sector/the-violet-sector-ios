@@ -135,6 +135,7 @@ final class Client: ObservableObject {
         let isCloaked: Bool
         let isInvulnerable: Bool
         let isSleeping: Bool
+        let carrier: Carrier
 
         var level: Int {
             switch self.score {
@@ -165,6 +166,23 @@ final class Client: ObservableObject {
             case isCloaked = "cloaked"
             case isInvulnerable = "invulnerable"
             case isSleeping = "sleep_tick"
+            case carrier
+        }
+
+        struct Carrier: Decodable {
+            let name: String?
+            let isOnline: Bool?
+
+            init(from decoder: Decoder) throws {
+                let container = try decoder.container(keyedBy: CodingKeys.self)
+                name = try container.decodeIfPresent(String.self, forKey: .name)
+                isOnline = try container.decodeIfPresent(Bool.self, forKey: .isOnline)
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case name = "tvs_username"
+                case isOnline = "online"
+            }
         }
     }
 

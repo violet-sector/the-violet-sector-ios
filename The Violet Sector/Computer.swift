@@ -18,12 +18,16 @@ struct Computer: View {
                                 Button("Repair", action: {client.post("self_rep.php", query: [:], completionHandler: {model.refresh(force: true)})})
                                     .frame(width: 80.0)
                             }
-                            if data.status.ship.isCloaker && !data.status.isCloaked && data.status.moves >= client.settings?.movesToCloak ?? 0 {
+                            if data.status.ship.isCloaker && !data.status.isCloaked && data.status.moves >= client.settings?.movesToCloak ?? 0 && data.status.carrier.name == nil {
                                 Button("Cloak", action: {client.post("cloak_on.php", query: [:], completionHandler: {model.refresh(force: true)})})
                                     .frame(width: 80.0)
                             }
                             if data.status.isCloaked && data.status.moves >= client.settings?.movesToDecloak ?? 0 {
                                 Button("Decloak", action: {client.post("cloak_off.php", query: [:], completionHandler: {model.refresh(force: true)})})
+                                    .frame(width: 80.0)
+                            }
+                            if data.status.carrier.name != nil {
+                                Button("Undock", action: {client.post("carrier_exit.php", query: [:], completionHandler: {model.refresh(force: true)})})
                                     .frame(width: 80.0)
                             }
                         }
@@ -42,7 +46,9 @@ struct Computer: View {
                         }
                         Description() {
                             DescriptionItem(name: "Base Hitpoints") {Text(health: data.base.currentHealth, maxHealth: data.base.maxHealth, asPercentage: false)}
-                            DescriptionItem(name: "Council") {Text(verbatim: makeCouncilString(data: data))}
+                            if data.council != nil {
+                                DescriptionItem(name: "Council") {Text(verbatim: makeCouncilString(data: data))}
+                            }
                         }
                         Text(verbatim: makeNewsString(data: data))
                             .multilineTextAlignment(.leading)
@@ -69,26 +75,32 @@ struct Computer: View {
         if data.status.isInvulnerable {
             sector += " (Invulnerable)"
         }
+        if let name = data.status.carrier.name, let isOnline = data.status.carrier.isOnline {
+            sector += " (inside \(name + (isOnline ? "*" : "")))"
+        }
         return sector
     }
 
     private func makeCouncilString(data: Data) -> String {
-        var council = ""
-        for commander in data.council {
-            if !council.isEmpty {
-                council += "\n"
+        guard let council = data.council else {
+            return "None yet"
+        }
+        var councilString = ""
+        for commander in council {
+            if !councilString.isEmpty {
+                councilString += "\n"
             }
-            council += commander.name
+            councilString += commander.name
             if commander.isOnline {
-                council += "*"
+                councilString += "*"
             }
             if commander.responsibility == 3 {
-                council += " (LC)"
+                councilString += " (LC)"
             } else {
-                council += " (VC)"
+                councilString += " (VC)"
             }
         }
-        return council
+        return councilString
     }
 
     private func makeNewsString(data: Data) -> String {
@@ -102,7 +114,7 @@ struct Computer: View {
         let news: News
         let scrap: Int?
         let base: Base
-        let council: [Commander]
+        let council: [Commander]?
         let status: Client.StatusResponse
 
         init(from decoder: Decoder) throws {
@@ -110,7 +122,7 @@ struct Computer: View {
             news = try container.decode(News.self, forKey: .news)
             scrap = try container.decodeIfPresent(Int.self, forKey: .scrap)
             base = try container.decode(Base.self, forKey: .base)
-            council = try container.decode([Commander].self, forKey: .council)
+            council = try container.decodeIfPresent([Commander].self, forKey: .council)
             status = try container.decode(Client.StatusResponse.self, forKey: .status)
         }
 

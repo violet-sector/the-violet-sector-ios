@@ -3,8 +3,10 @@
 import SwiftUI
 
 struct TargetDescription: View {
-    var rank: Int
-    var data: Target
+    let rank: Int
+    let data: Target
+    let refresh: (() -> Void)?
+    @Environment(\.presentationMode) private var presentationMode
 
     var body: some View {
         VStack() {
@@ -13,8 +15,14 @@ struct TargetDescription: View {
                     .accessibilityLabel(data.ship.description)
             }
             Text(verbatim: "\(data.ship): \(data.ship.type)" + (data.isCloaked ?? false ? " (Cloaked)" : ""))
+            HStack() {
+                if let dock = data.dock, let refresh = refresh, dock > 0 {
+                    Button("Dock", action: {Client.shared.post("carrier_enter.php", query: ["carrier": String(dock)], completionHandler: {presentationMode.wrappedValue.dismiss(); refresh()})})
+                        .frame(width: 80.0)
+                }
+            }
             Description() {
-                if let rank = rank {
+                if rank > 0 {
                     DescriptionItem(name: "Rank") {Text(verbatim: String(rank))}
                 }
                 DescriptionItem(name: "Legion") {Text(verbatim: data.legion.description)}

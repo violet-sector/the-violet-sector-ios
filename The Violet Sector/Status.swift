@@ -15,11 +15,31 @@ struct Status: View {
                         Text(verbatim: "Paused")
                     }
                     Text(health: data.currentHealth, maxHealth: data.maxHealth, asPercentage: true)
-                    Text(verbatim: (data.destinationSector == .none ? "\(data.currentSector)" : "Hypering to \(data.destinationSector)") + (data.isSleeping ? " (zZzZ)" : "") + (data.isCloaked ? " (Cloaked)" : "") + (data.isInvulnerable ? " (Invulnerable)" : ""))
+                    Text(verbatim: makeSectorString())
                 }
                 .accessibilityElement(children: .combine)
             }
             Timer()
         }
+    }
+
+    private func makeSectorString() -> String {
+        guard let data = client.statusResponse else {
+            return ""
+        }
+        var sector = data.destinationSector == .none ? data.currentSector.description : "Hypering to " + data.destinationSector.description
+        if data.isSleeping {
+            sector += " (zZzZ)"
+        }
+        if data.isInvulnerable {
+            sector += " (Invulnerable)"
+        }
+        if data.isCloaked {
+            sector += " (Cloaked)"
+        }
+        if let name = data.carrier.name, let isOnline = data.carrier.isOnline {
+            sector += " (inside \(name + (isOnline ? "*" : "")))"
+        }
+        return sector
     }
 }

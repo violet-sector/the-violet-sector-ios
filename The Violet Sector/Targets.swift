@@ -9,8 +9,8 @@ struct Targets: View {
     var body: some View {
         Page(title: title, model: model) {(data) in
             if !data.content.isEmpty {
-                List(data.content.sorted(by: {$0.score < $1.score}), id: \.name) {(target) in
-                    NavigationLink(destination: TargetDescription(rank: 0, data: target)) {
+                List(data.content.sorted(by: {$0.score > $1.score}), id: \.name) {(target) in
+                    NavigationLink(destination: TargetDescription(rank: 0, data: target, refresh: {model.refresh(force: true)})) {
                         GeometryReader() {(geometry) in
                             HStack(spacing: 0.0) {
                                 (Text(verbatim: "\(target.name)\(target.isOnline ? "*" : "") [") + Text(verbatim: "\(target.legion.description.first!)").bold().foregroundColor(Color("Legions/\(target.legion)")) + Text(verbatim: "]"))
@@ -37,7 +37,9 @@ struct Targets: View {
 
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            if container.contains(.incoming) {
+            if container.contains(.friendlies) {
+                content = try container.decode([Target].self, forKey: .friendlies)
+            } else if container.contains(.incoming) {
                 content = try container.decode([Target].self, forKey: .incoming)
             } else if container.contains(.outgoing) {
                 content = try container.decode([Target].self, forKey: .outgoing)
@@ -47,6 +49,7 @@ struct Targets: View {
         }
         
         private enum CodingKeys: String, CodingKey {
+            case friendlies = "scans_friendlies"
             case incoming = "scans_incoming"
             case outgoing = "scans_outgoing"
         }

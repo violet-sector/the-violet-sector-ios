@@ -11,6 +11,8 @@ struct Target: Decodable {
     let isCloaked: Bool?
     let kills: Int?
     let deaths: Int?
+    let dock: Int?
+    let repair: Int?
     let isOnline: Bool
 
     enum CodingKeys: String, CodingKey {
@@ -24,6 +26,8 @@ struct Target: Decodable {
         case isCloaked = "cloaked"
         case kills
         case deaths
+        case dock = "can_enter"
+        case repair = "can_repair"
         case isOnline = "online"
     }
 
@@ -39,6 +43,8 @@ struct Target: Decodable {
         isCloaked = try container.decodeIfPresent(Bool.self, forKey: .isCloaked)
         kills = try container.decodeIfPresent(Int.self, forKey: .kills)
         deaths = try container.decodeIfPresent(Int.self, forKey: .deaths)
+        dock = try container.decodeIfPresent(Int.self, forKey: .dock)
+        repair = try container.decodeIfPresent(Int.self, forKey: .repair)
         isOnline = try container.decode(Bool.self, forKey: .isOnline)
-}
+    }
 }
