@@ -46,7 +46,7 @@ final class Client: ObservableObject {
             .prefix(2)
         let responsePublisher = dataPublisher
             .decode(type: Response?.self, decoder: decoder)
-            .tryCatch({(_ error: Error) -> Just<Response?> in if error is DecodingError {return Just(Response?.none)}; throw error})
+            .tryCatch({[unowned root] (_ error: Error) -> Just<Response?> in if error is DecodingError {root[keyPath: failure] = error; return Just(Response?.none)}; throw error})
         let commonPublisher = dataPublisher
             .decode(type: CommonResponse?.self, decoder: decoder)
             .tryCatch({(_ error: Error) -> Just<CommonResponse?> in if error is DecodingError {return Just(CommonResponse?.none)}; throw error})
