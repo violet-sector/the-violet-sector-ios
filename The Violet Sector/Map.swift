@@ -53,14 +53,25 @@ struct Map: View {
 
         func makeUIView(context: Context) -> UIScrollView {
             let imageView = makeInteractiveMap(coordinator: context.coordinator)
+            let subview = UIView(frame: imageView.frame)
+            subview.addSubview(imageView)
             let scrollView = ScrollView()
             scrollView.contentSize = imageView.frame.size
-            scrollView.addSubview(imageView)
+            scrollView.addSubview(subview)
             scrollView.scrollsToTop = false
             return scrollView
         }
 
-        func updateUIView(_: UIScrollView, context _: Context) {}
+        func updateUIView(_ scrollView: UIScrollView, context: Context) {
+            guard let subview = scrollView.subviews.first else {
+                return
+            }
+            if let  imageView = subview.subviews.first {
+                imageView.removeFromSuperview()
+            }
+            let imageView = makeInteractiveMap(coordinator: context.coordinator)
+            subview.addSubview(imageView)
+        }
 
         func makeCoordinator() -> Coordinator {
             return Coordinator(handler: {selectedSector = $0})
@@ -120,7 +131,9 @@ struct Map: View {
             }
             imageView.accessibilityElements = elements
             imageView.isUserInteractionEnabled = true
-            imageView.addGestureRecognizer(coordinator.gestureRecognizer)
+            if imageView.gestureRecognizers == nil {
+                imageView.addGestureRecognizer(coordinator.gestureRecognizer)
+            }
             if !data.gates.isEmpty {
                 let hyperRotor = UIAccessibilityCustomRotor(name: "Available hypergates") {(predicate) in
                     let element = predicate.currentItem.targetElement as! AccessibilityElement
@@ -381,7 +394,7 @@ struct Map: View {
             }
 
             func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-                return scrollView.subviews.first!
+                return scrollView.subviews.first
             }
 
             func scrollViewDidZoom(_: UIScrollView) {
@@ -401,7 +414,9 @@ struct Map: View {
                     return
                 }
                 lastSize = bounds.size
-                let mapView = subviews.first! as! UIImageView
+                guard let mapView = subviews.first?.subviews.first as? UIImageView else {
+                    return
+                }
                 let mapImage = mapView.image!
                 let scale = min(min(bounds.size.width / mapImage.size.width, bounds.size.height / mapImage.size.height), 1.0)
                 maximumZoomScale = 1.0
