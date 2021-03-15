@@ -9,7 +9,7 @@ struct Targets: View {
     var body: some View {
         Page(title: title, model: model) {(data) in
             if !data.content.isEmpty {
-                List(data.content.sorted(by: {$0.score > $1.score}), id: \.name) {(target) in
+                List(data.content.sorted(by: {$0.score > $1.score})) {(target) in
                     NavigationLink(destination: TargetDescription(rank: 0, data: target, refresh: {model.refresh(force: true)})) {
                         GeometryReader() {(geometry) in
                             HStack(spacing: 0.0) {

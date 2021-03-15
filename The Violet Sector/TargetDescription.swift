@@ -16,8 +16,8 @@ struct TargetDescription: View {
             }
             Text(verbatim: "\(data.ship): \(data.ship.type)" + (data.isCloaked ?? false ? " (Cloaked)" : ""))
             HStack() {
-                if let dock = data.dock, let refresh = refresh, dock > 0 {
-                    Button("Dock", action: {Client.shared.post("carrier_enter.php", query: ["carrier": String(dock)], completionHandler: {presentationMode.wrappedValue.dismiss(); refresh()})})
+                if case let .intValue(id) = data.id, let canDock = data.canDock, let refresh = refresh, canDock {
+                    Button("Dock", action: {Client.shared.post("carrier_enter.php", query: ["carrier": String(id)], completionHandler: refresh)})
                         .frame(width: 80.0)
                 }
             }

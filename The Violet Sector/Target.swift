@@ -1,6 +1,7 @@
 // Created by João Santos for project The Violet Sector.
 
-struct Target: Decodable {
+struct Target: Decodable, Identifiable {
+    let id: Identifier
     let name: String
     let legion: Legions
     let level: Int
@@ -11,11 +12,35 @@ struct Target: Decodable {
     let isCloaked: Bool?
     let kills: Int?
     let deaths: Int?
-    let dock: Int?
-    let repair: Int?
+    let canDock: Bool?
+    let canRepair: Bool?
     let isOnline: Bool
-
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let id = try container.decodeIfPresent(Int.self, forKey: .id) ?? 0
+        name = try container.decode(String.self, forKey: .name)
+        if id > 0 {
+            self.id = .intValue(id)
+        } else {
+            self.id = .stringValue(name)
+        }
+        legion = try container.decode(Legions.self, forKey: .legion)
+        level = try container.decode(Int.self, forKey: .level)
+        currentHealth = try container.decode(Int.self, forKey: .currentHealth)
+        maxHealth = try container.decode(Int.self, forKey: .maxHealth)
+        ship = try container.decode(Ships.self, forKey: .ship)
+        score = try container.decode(Int.self, forKey: .score)
+        isCloaked = try container.decodeIfPresent(Bool.self, forKey: .isCloaked)
+        kills = try container.decodeIfPresent(Int.self, forKey: .kills)
+        deaths = try container.decodeIfPresent(Int.self, forKey: .deaths)
+        canDock = try container.decodeIfPresent(Bool.self, forKey: .canDock)
+        canRepair = try container.decodeIfPresent(Bool.self, forKey: .canRepair)
+        isOnline = try container.decode(Bool.self, forKey: .isOnline)
+    }
+    
     enum CodingKeys: String, CodingKey {
+        case id
         case name = "tvs_username"
         case legion
         case level
@@ -26,25 +51,22 @@ struct Target: Decodable {
         case isCloaked = "cloaked"
         case kills
         case deaths
-        case dock = "can_enter"
-        case repair = "can_repair"
+        case canDock = "can_enter"
+        case canRepair = "can_repair"
         case isOnline = "online"
     }
-
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        name = try container.decode(String.self, forKey: .name)
-        legion = try container.decode(Legions.self, forKey: .legion)
-        level = try container.decode(Int.self, forKey: .level)
-        currentHealth = try container.decode(Int.self, forKey: .currentHealth)
-        maxHealth = try container.decode(Int.self, forKey: .maxHealth)
-        ship = try container.decode(Ships.self, forKey: .ship)
-        score = try container.decode(Int.self, forKey: .score)
-        isCloaked = try container.decodeIfPresent(Bool.self, forKey: .isCloaked)
-        kills = try container.decodeIfPresent(Int.self, forKey: .kills)
-        deaths = try container.decodeIfPresent(Int.self, forKey: .deaths)
-        dock = try container.decodeIfPresent(Int.self, forKey: .dock)
-        repair = try container.decodeIfPresent(Int.self, forKey: .repair)
-        isOnline = try container.decode(Bool.self, forKey: .isOnline)
+    
+    enum Identifier: Hashable {
+        case intValue(Int)
+        case stringValue(String)
+        
+        func hash(into hasher: inout Hasher) {
+            switch self {
+            case let .intValue(value):
+                hasher.combine(value)
+            case let .stringValue(value):
+                hasher.combine(value)
+            }
+        }
     }
 }
