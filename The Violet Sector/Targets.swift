@@ -9,20 +9,25 @@ struct Targets: View {
     var body: some View {
         Page(title: title, model: model) {(data) in
             if !data.content.isEmpty {
-                List(data.content.sorted(by: {$0.score > $1.score})) {(target) in
-                    NavigationLink(destination: TargetDescription(rank: 0, data: target, refresh: {model.refresh()})) {
-                        GeometryReader() {(geometry) in
-                            HStack(spacing: 0.0) {
-                                (Text(verbatim: "\(target.name)\(target.isOnline ? "*" : "") [") + Text(verbatim: "\(target.legion.description.first!)").bold().foregroundColor(Color("Legions/\(target.legion)")) + Text(verbatim: "]"))
-                                    .frame(width: geometry.size.width * 0.5, alignment: .leading)
-                                Text(health: target.currentHealth, maxHealth: target.maxHealth, asPercentage: true)
-                                    .frame(width: geometry.size.width * 0.2, alignment: .trailing)
-                                Text(verbatim: "\(target.score >= 10000 ? "\(target.score / 1000)k" : "\(target.score)") (\(target.level)")
-                                    .frame(width: geometry.size.width * 0.3, alignment: .trailing)
+                GeometryReader() {(geometry) in
+                    ScrollView() {
+                        VStack() {
+                            ForEach(data.content.sorted(by: {$0.score > $1.score})) {(target) in
+                                NavigationLink(destination: TargetDescription(rank: 0, data: target, refresh: {model.refresh()})) {
+                                    HStack(spacing: 0.0) {
+                                        (Text(verbatim: "\(target.name)\(target.isOnline ? "*" : "") [") + Text(verbatim: "\(target.legion.description.first!)").bold().foregroundColor(Color("Legions/\(target.legion)")) + Text(verbatim: "]"))
+                                            .frame(width: geometry.size.width * 0.5, alignment: .leading)
+                                        Text(health: target.currentHealth, maxHealth: target.maxHealth, asPercentage: true)
+                                            .frame(width: geometry.size.width * 0.2, alignment: .trailing)
+                                        Text(verbatim: "\(target.score >= 10000 ? "\(target.score / 1000)k" : "\(target.score)") (\(target.level)")
+                                            .frame(width: geometry.size.width * 0.3, alignment: .trailing)
+                                    }
+                                }
+                                .frame(height: 32.0)
+                                .accessibilityElement(children: .combine)
                             }
                         }
                     }
-                    .accessibilityElement(children: .combine)
                 }
             } else {
                 Spacer()

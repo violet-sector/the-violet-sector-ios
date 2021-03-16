@@ -9,20 +9,21 @@ struct TopLegions: View {
         Page(title: "Top Legions", model: model) {(data) in
             let legions = data.content.sorted(by: {$0.score > $1.score})
             if !legions.isEmpty {
-                List(legions.indices, id: \.self) {(index) in
-                    HStack() {
-                        Text(verbatim: "\(index + 1)")
-                            .frame(width: 32.0, alignment: .trailing)
-                        GeometryReader() {(geometry) in
+                GeometryReader() {(geometry) in
+                    VStack() {
+                        ForEach(legions.indices, id: \.self) {(index) in
                             HStack(spacing: 0.0) {
+                                Text(verbatim: "\(index + 1)")
+                                    .frame(width: 32.0, alignment: .trailing)
                                 Text(verbatim: "\(legions[index].legion)")
-                                    .frame(width: geometry.size.width * 0.5, alignment: .leading)
+                                    .frame(width: (geometry.size.width - 32.0) * 0.5, alignment: .leading)
                                 Text(verbatim: "\(legions[index].score)")
-                                    .frame(width: geometry.size.width * 0.5, alignment: .trailing)
+                                    .frame(width: (geometry.size.width - 32.0) * 0.5, alignment: .trailing)
                             }
+                            .frame(height: 32.0)
+                            .accessibilityElement(children: .combine)
                         }
                     }
-                    .accessibilityElement(children: .combine)
                 }
             } else {
                 Spacer()
