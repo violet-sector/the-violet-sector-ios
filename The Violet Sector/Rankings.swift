@@ -27,7 +27,7 @@ struct Rankings: View {
                     TopLegions(model: topLegionsModel)
                 }
             }
-            .navigationBarTitle("Rankings")
+            .navigationTitle("Rankings")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(content: {Refresh(action: {refreshModel()})})
             .onChange(of: tabIndex, perform: {if $0 == thisTabIndex {refreshModel()}})

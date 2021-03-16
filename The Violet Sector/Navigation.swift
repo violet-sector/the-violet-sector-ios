@@ -10,7 +10,7 @@ struct Navigation: View {
     var body: some View {
         NavigationView() {
             Map(model: model)
-                .navigationBarTitle("Navigation")
+                .navigationTitle("Navigation")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar(content: {Refresh(action: {model.refresh()})})
                 .onChange(of: tabIndex, perform: {if $0 == thisTabIndex {model.refresh()}})

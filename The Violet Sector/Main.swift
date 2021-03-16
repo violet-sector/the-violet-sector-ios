@@ -10,7 +10,7 @@ struct Main: View {
     var body: some View {
         NavigationView() {
             Computer(model: model)
-                .navigationBarTitle("Main")
+                .navigationTitle("Main")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar(content: {Refresh(action: {model.refresh()})})
                 .onChange(of: tabIndex, perform: {if $0 == thisTabIndex {model.refresh()}})

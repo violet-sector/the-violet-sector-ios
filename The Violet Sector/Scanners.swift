@@ -29,7 +29,7 @@ struct Scanners: View {
                     Targets(title: "Outgoing", model: outgoingModel)
                 }
             }
-            .navigationBarTitle("Scanners")
+            .navigationTitle("Scanners")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(content: {Refresh(action: {refreshModel()})})
             .onChange(of: tabIndex, perform: {if $0 == thisTabIndex {refreshModel()}})
