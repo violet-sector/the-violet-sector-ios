@@ -14,9 +14,9 @@ struct Rankings: View {
         NavigationView() {
             VStack(spacing: 10.0) {
                 HStack() {
-                    Button("Top Pilots", action: {self.tab = .topPilots})
-                    Button("Top Deaths", action: {self.tab = .topDeaths})
-                    Button("Top Legions", action: {self.tab = .topLegions})
+                    Button("Top Pilots", action: {self.tab = .topPilots; refreshModel()})
+                    Button("Top Deaths", action: {self.tab = .topDeaths; refreshModel()})
+                    Button("Top Legions", action: {self.tab = .topLegions; refreshModel()})
                 }
                 switch tab {
                 case .topPilots:
@@ -29,8 +29,19 @@ struct Rankings: View {
             }
             .navigationBarTitle("Rankings")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar(content: {Refresh(action: {switch tab {case .topPilots: topPilotsModel.refresh(force: true); case .topDeaths: topDeathsModel.refresh(force: true); case .topLegions: topLegionsModel.refresh(force: true)}})})
-            .onChange(of: tabIndex, perform: {if $0 == thisTabIndex {switch tab {case .topPilots: topPilotsModel.refresh(force: true); case .topDeaths: topDeathsModel.refresh(force: true); case .topLegions: topLegionsModel.refresh(force: true)}}})
+            .toolbar(content: {Refresh(action: {refreshModel()})})
+            .onChange(of: tabIndex, perform: {if $0 == thisTabIndex {refreshModel()}})
+        }
+    }
+
+    private func refreshModel() {
+        switch tab {
+        case .topPilots:
+            topPilotsModel.refresh()
+        case .topDeaths:
+            topDeathsModel.refresh()
+        case .topLegions:
+            topLegionsModel.refresh()
         }
     }
 

@@ -10,7 +10,7 @@ struct Targets: View {
         Page(title: title, model: model) {(data) in
             if !data.content.isEmpty {
                 List(data.content.sorted(by: {$0.score > $1.score})) {(target) in
-                    NavigationLink(destination: TargetDescription(rank: 0, data: target, refresh: {model.refresh(force: true)})) {
+                    NavigationLink(destination: TargetDescription(rank: 0, data: target, refresh: {model.refresh()})) {
                         GeometryReader() {(geometry) in
                             HStack(spacing: 0.0) {
                                 (Text(verbatim: "\(target.name)\(target.isOnline ? "*" : "") [") + Text(verbatim: "\(target.legion.description.first!)").bold().foregroundColor(Color("Legions/\(target.legion)")) + Text(verbatim: "]"))

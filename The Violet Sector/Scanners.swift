@@ -14,11 +14,11 @@ struct Scanners: View {
         NavigationView() {
             VStack(spacing: 10.0) {
                 HStack() {
-                    Button("Friendlies", action: {tab = .friendlies; friendliesModel.refresh(force: true)})
+                    Button("Friendlies", action: {tab = .friendlies; friendliesModel.refresh()})
                 }
                 HStack() {
-                    Button("Incoming", action: {tab = .incoming; incomingModel.refresh(force: true)})
-                    Button("Outgoing", action: {tab = .outgoing; outgoingModel.refresh(force: true)})
+                    Button("Incoming", action: {tab = .incoming; incomingModel.refresh()})
+                    Button("Outgoing", action: {tab = .outgoing; outgoingModel.refresh()})
                 }
                 switch tab {
                 case .friendlies:
@@ -44,11 +44,11 @@ struct Scanners: View {
     private func refreshModel() {
         switch tab {
         case .friendlies:
-            friendliesModel.refresh(force: true)
+            friendliesModel.refresh()
         case .incoming:
-            incomingModel.refresh(force: true)
+            incomingModel.refresh()
         case .outgoing:
-            outgoingModel.refresh(force: true)
+            outgoingModel.refresh()
         }
     }
 

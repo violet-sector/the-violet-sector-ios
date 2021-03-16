@@ -15,19 +15,19 @@ struct Computer: View {
                             .accessibilityLabel(data.status.ship.description)
                         HStack() {
                             if data.status.currentHealth < data.status.maxHealth && data.status.currentHealth > 0 && data.status.moves >= client.settings?.movesToSelfRepair ?? 0 {
-                                Button("Repair", action: {client.post("self_rep.php", query: [:], completionHandler: {model.refresh(force: true)})})
+                                Button("Repair", action: {client.post("self_rep.php", query: [:], completionHandler: {model.refresh()})})
                                     .frame(width: 80.0)
                             }
                             if data.status.ship.isCloaker && !data.status.isCloaked && data.status.moves >= client.settings?.movesToCloak ?? 0 && data.status.carrier.name == nil {
-                                Button("Cloak", action: {client.post("cloak_on.php", query: [:], completionHandler: {model.refresh(force: true)})})
+                                Button("Cloak", action: {client.post("cloak_on.php", query: [:], completionHandler: {model.refresh()})})
                                     .frame(width: 80.0)
                             }
                             if data.status.isCloaked && data.status.moves >= client.settings?.movesToDecloak ?? 0 {
-                                Button("Decloak", action: {client.post("cloak_off.php", query: [:], completionHandler: {model.refresh(force: true)})})
+                                Button("Decloak", action: {client.post("cloak_off.php", query: [:], completionHandler: {model.refresh()})})
                                     .frame(width: 80.0)
                             }
                             if data.status.carrier.name != nil {
-                                Button("Undock", action: {client.post("carrier_exit.php", query: [:], completionHandler: {model.refresh(force: true)})})
+                                Button("Undock", action: {client.post("carrier_exit.php", query: [:], completionHandler: {model.refresh()})})
                                     .frame(width: 80.0)
                             }
                         }

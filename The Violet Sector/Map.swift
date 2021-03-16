@@ -10,7 +10,7 @@ struct Map: View {
         Page(title: "Map", model: model) {(data) in
             ScrollableMap(data: data, selectedSector: $selectedSector)
             if selectedSector != nil {
-                NavigationLink(destination: SectorDescription(status: data.status, sector: selectedSector!, legions: data.domination[selectedSector!] ?? [], isOpenGate: data.gates.contains(selectedSector!), onHyper: {model.refresh(force: true)}), tag: selectedSector!, selection: $selectedSector, label: {EmptyView()})
+                NavigationLink(destination: SectorDescription(status: data.status, sector: selectedSector!, legions: data.domination[selectedSector!] ?? [], isOpenGate: data.gates.contains(selectedSector!), onHyper: {model.refresh()}), tag: selectedSector!, selection: $selectedSector, label: {EmptyView()})
                     .hidden()
             }
         }

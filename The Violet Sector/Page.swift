@@ -16,7 +16,6 @@ struct Page<Content: View, Data: Decodable>: View {
                     .accessibilityAddTraits(.isHeader)
                 if let data = model.data {
                     content(data)
-                        .disabled(model.isLoading)
                 } else if let error = model.error {
                     Spacer()
                     Text(verbatim: "Error Fetching Data")
@@ -36,7 +35,7 @@ struct Page<Content: View, Data: Decodable>: View {
                     .scaleEffect(10.0)
             }
         }
-        .onChange(of: scenePhase, perform: {if case .active = $0 {model.refresh(force: true)}})
+        .onChange(of: scenePhase, perform: {if case .active = $0 {model.refresh()}})
     }
 
     init(title: String, model: Model<Data>, @ViewBuilder content: @escaping (_ data: Data) -> Content) {

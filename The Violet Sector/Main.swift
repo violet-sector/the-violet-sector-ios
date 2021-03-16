@@ -12,8 +12,8 @@ struct Main: View {
             Computer(model: model)
                 .navigationBarTitle("Main")
                 .navigationBarTitleDisplayMode(.inline)
-                .toolbar(content: {Refresh(action: {model.refresh(force: true)})})
-                .onChange(of: tabIndex, perform: {if $0 == thisTabIndex {model.refresh(force: true)}})
+                .toolbar(content: {Refresh(action: {model.refresh()})})
+                .onChange(of: tabIndex, perform: {if $0 == thisTabIndex {model.refresh()}})
         }
     }
 }
