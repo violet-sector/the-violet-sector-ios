@@ -15,7 +15,7 @@ struct Target: Decodable, Identifiable {
     let canDock: Bool?
     let canRepair: Bool?
     let isOnline: Bool
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let id = try container.decodeIfPresent(Int.self, forKey: .id) ?? 0
@@ -38,7 +38,7 @@ struct Target: Decodable, Identifiable {
         canRepair = try container.decodeIfPresent(Bool.self, forKey: .canRepair)
         isOnline = try container.decode(Bool.self, forKey: .isOnline)
     }
-    
+
     enum CodingKeys: String, CodingKey {
         case id
         case name = "tvs_username"
@@ -55,11 +55,11 @@ struct Target: Decodable, Identifiable {
         case canRepair = "can_repair"
         case isOnline = "online"
     }
-    
+
     enum Identifier: Hashable {
         case intValue(Int)
         case stringValue(String)
-        
+
         func hash(into hasher: inout Hasher) {
             switch self {
             case let .intValue(value):

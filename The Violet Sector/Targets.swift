@@ -5,7 +5,7 @@ import SwiftUI
 struct Targets: View {
     let title: String
     @ObservedObject var model: Model<Targets.Data>
-    
+
     var body: some View {
         Page(title: title, model: model) {(data) in
             if !data.content.isEmpty {
@@ -31,7 +31,7 @@ struct Targets: View {
             }
         }
     }
-    
+
     struct Data: Decodable {
         let content: [Target]
 
@@ -47,7 +47,7 @@ struct Targets: View {
                 content = []
             }
         }
-        
+
         private enum CodingKeys: String, CodingKey {
             case friendlies = "scans_friendlies"
             case incoming = "scans_incoming"

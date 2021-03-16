@@ -13,7 +13,7 @@ final class Client: ObservableObject {
     private var settingsSubscriber: Cancellable?
     private var timer: Cancellable?
     private let decoder = JSONDecoder()
-    
+
     static let shared = Client()
     #if !DEBUG
     private static let baseURL = "https://www.violetsector.com/json/"
@@ -22,7 +22,7 @@ final class Client: ObservableObject {
     #endif
     private static let settingsResource = "config.php"
     private static let settingsFetchRetry = TimeInterval(10.0)
-    
+
     private init() {
         let configuration = URLSessionConfiguration.default
         configuration.networkServiceType = .responsiveData
@@ -55,7 +55,7 @@ final class Client: ObservableObject {
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: {[unowned root] in if case let .failure(error) = $0 {root[keyPath: failure] = error}; guard let completionHandler = completionHandler else {return}; completionHandler()}, receiveValue: {[unowned self, unowned root] in root[keyPath: response] = $0.0; statusResponse = $0.1?.status; errorResponse = $0.1?.error})
     }
-    
+
     func post(_ resource: String, query: [String: String], completionHandler: @escaping () -> Void) {
         var queryString = ""
         for (key: key, value: value) in query {

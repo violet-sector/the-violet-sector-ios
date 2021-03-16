@@ -4,7 +4,7 @@ import SwiftUI
 
 struct TopDeaths: View {
     @ObservedObject var model: Model<Data>
-    
+
     var body: some View {
         Page(title: "Top Deaths", model: model) {(data) in
             let enumeratedPilots = Array(data.content.sorted(by: {$0.score > $1.score}).enumerated())
@@ -33,19 +33,19 @@ struct TopDeaths: View {
             }
         }
     }
-    
+
     struct Data: Decodable {
         let content: [Death]
-        
+
         private enum CodingKeys: String, CodingKey {
             case content = "rankings_att"
         }
-        
+
         struct Death: Decodable {
             let name: String
             let turn: Int
             let score: Int
-            
+
             private enum CodingKeys: String, CodingKey {
                 case name = "tvs_username"
                 case turn = "tick"

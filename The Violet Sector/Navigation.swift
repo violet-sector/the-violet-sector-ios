@@ -6,7 +6,7 @@ struct Navigation: View {
     @Binding var tabIndex: Int
     let thisTabIndex: Int
     @StateObject private var model = Model<Map.Data>(resource: "navcom_map.php")
-    
+
     var body: some View {
         NavigationView() {
             Map(model: model)

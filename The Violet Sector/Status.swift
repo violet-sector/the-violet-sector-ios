@@ -4,7 +4,7 @@ import SwiftUI
 
 struct Status: View {
     @ObservedObject private var client = Client.shared
-    
+
     var body: some View {
         VStack() {
             if let data = client.statusResponse {
