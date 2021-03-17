@@ -34,9 +34,10 @@ struct TopPilots: View {
                                         Text(verbatim: "\(enumeratedPilot.element.score >= 10000 ? "\(enumeratedPilot.element.score / 1000)k" : "\(enumeratedPilot.element.score)") (\(enumeratedPilot.element.level)")
                                             .frame(width: (geometry.size.width - 32.0) * 0.3, alignment: .trailing)
                                     }
-                                    .frame(height: 32.0)
-                                    .accessibilityElement(children: .combine)
                                 }
+                                .buttonStyle(PlainButtonStyle())
+                                .frame(height: 32.0)
+                                .accessibilityElement(children: .combine)
                             }
                         }
                     }

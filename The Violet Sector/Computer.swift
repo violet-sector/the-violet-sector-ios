@@ -38,7 +38,7 @@ struct Computer: View {
                                 DescriptionItem(name: "Scrap") {Text(verbatim: String(scrap))}
                             }
                             DescriptionItem(name: "Base Status") {Text(health: data.base.currentHealth, maxHealth: data.base.maxHealth, asPercentage: false)}
-                            DescriptionItem(name: "Reputation") {Text(verbatim: "\(data.status.score)XP")}
+                            DescriptionItem(name: "Reputation") {Text(verbatim: String(data.status.score))}
                         }
                         Text("Legion News")
                             .bold()

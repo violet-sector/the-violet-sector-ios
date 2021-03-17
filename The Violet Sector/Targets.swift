@@ -23,6 +23,7 @@ struct Targets: View {
                                             .frame(width: geometry.size.width * 0.3, alignment: .trailing)
                                     }
                                 }
+                                .buttonStyle(PlainButtonStyle())
                                 .frame(height: 32.0)
                                 .accessibilityElement(children: .combine)
                             }

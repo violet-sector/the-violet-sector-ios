@@ -41,6 +41,7 @@ import SwiftUI
                         .tag(4)
                     }
                     .alert(item: $client.errorResponse, content: {Alert(title: Text(verbatim: "Error"), message: Text(verbatim: $0.message))})
+                    .accentColor(Color(.sRGB, red: 0.5, green: 0.125, blue: 1.0))
                 } else {
                     VStack(spacing: 10.0) {
                         Spacer()
@@ -58,12 +59,17 @@ import SwiftUI
                         Spacer()
                         Timer()
                     }
+                    .accentColor(Color(.sRGB, red: 0.5, green: 0.125, blue: 1.0))
                 }
             } else if let error = client.error {
-                Text(verbatim: "Error Fetching Data")
-                    .bold()
-                    .accessibilityAddTraits(.isHeader)
-                Text(verbatim: Self.describeError(error))
+                VStack() {
+                    Text(verbatim: "Error Fetching Data")
+                        .bold()
+                        .foregroundColor(.accentColor)
+                        .accessibilityAddTraits(.isHeader)
+                    Text(verbatim: Self.describeError(error))
+                }
+                .accentColor(Color(.sRGB, red: 0.5, green: 0.125, blue: 1.0))
             } else {
                 ProgressView()
                     .scaleEffect(10.0)
