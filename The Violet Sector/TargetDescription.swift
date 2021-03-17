@@ -36,8 +36,6 @@ struct TargetDescription: View {
                     DescriptionItem(name: "Deaths") {Text(verbatim: String(deaths))}
                 }
             }
-            Spacer()
-            Status()
         }
         .navigationBarTitle("\(data.name)\(data.isOnline ? "*" : "")")
         .navigationBarTitleDisplayMode(.inline)

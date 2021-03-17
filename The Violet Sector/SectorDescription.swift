@@ -29,7 +29,6 @@ struct SectorDescription: View {
                     Description(sector: sector, legions: legions)
                 }
             }
-            Status()
         }
         .navigationBarTitle(Text(verbatim: "\(sector)"))
         .navigationBarTitleDisplayMode(.inline)
