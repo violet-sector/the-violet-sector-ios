@@ -13,6 +13,8 @@ struct Computer: View {
                     VStack(spacing: 10.0) {
                         Image("Ships/\(data.status.ship)")
                             .accessibilityLabel(data.status.ship.description)
+                        Text(health: data.status.currentHealth, maxHealth: data.status.maxHealth, asPercentage: false)
+                        Text(verbatim: "\(data.status.ship)\nPiloted by level \(data.status.level) \(data.status.legion) \(data.status.name)\n\(makeSectorString(data: data))")
                         HStack() {
                             if data.status.currentHealth < data.status.maxHealth && data.status.currentHealth > 0 && data.status.moves >= client.settings?.movesToSelfRepair ?? 0 {
                                 Button("Repair", action: {client.post("self_rep.php", query: [:], completionHandler: {model.refresh()})})
@@ -32,29 +34,24 @@ struct Computer: View {
                             }
                         }
                         Description() {
-                            DescriptionItem(name: "Pilot Name") {Text(verbatim: data.status.name)}
-                            DescriptionItem(name: "Legion") {Text(verbatim: data.status.legion.description)}
-                            DescriptionItem(name: "Score") {Text(verbatim: String(data.status.score))}
-                            DescriptionItem(name: "Level") {Text(verbatim: String(data.status.level))}
-                            DescriptionItem(name: "Hitpoints") {Text(health: data.status.currentHealth, maxHealth: data.status.maxHealth, asPercentage: false)}
-                        }
-                        Description() {
-                            DescriptionItem(name: "Sector") {Text(verbatim: makeSectorString(data: data))}
                             if let scrap = data.scrap {
-                                DescriptionItem(name: "Scrap in Sector") {Text(verbatim: String(scrap))}
+                                DescriptionItem(name: "Scrap") {Text(verbatim: String(scrap))}
                             }
+                            DescriptionItem(name: "Base Status") {Text(health: data.base.currentHealth, maxHealth: data.base.maxHealth, asPercentage: false)}
+                            DescriptionItem(name: "Reputation") {Text(verbatim: "\(data.status.score)XP")}
                         }
-                        Description() {
-                            DescriptionItem(name: "Base Hitpoints") {Text(health: data.base.currentHealth, maxHealth: data.base.maxHealth, asPercentage: false)}
-                            if data.council != nil {
-                                DescriptionItem(name: "Council") {Text(verbatim: makeCouncilString(data: data))}
-                            }
-                        }
+                        Text("Legion News")
+                            .bold()
+                            .accessibilityAddTraits(.isHeader)
                         Text(verbatim: makeNewsString(data: data))
                             .multilineTextAlignment(.leading)
                             .padding(5.0)
                             .border(Color.primary)
                             .frame(width: geometry.size.width - 10.0)
+                        Text(verbatim: "Council")
+                            .bold()
+                            .accessibilityAddTraits(.isHeader)
+                        Text(verbatim: makeCouncilString(data: data))
                     }
                 }
             }
@@ -62,7 +59,7 @@ struct Computer: View {
     }
 
     private func makeSectorString(data: Data) -> String {
-        var sector = data.status.currentSector.description
+        var sector = "In " + data.status.currentSector.description
         if data.status.destinationSector != .none {
             sector = "Hypering to " + data.status.destinationSector.description
         }
@@ -83,28 +80,28 @@ struct Computer: View {
 
     private func makeCouncilString(data: Data) -> String {
         guard let council = data.council else {
-            return "None yet"
+            return "None"
         }
         var councilString = ""
         for commander in council {
             if !councilString.isEmpty {
-                councilString += "\n"
+                councilString += ", "
             }
-            councilString += commander.name
+            councilString += commander.name.replacingOccurrences(of: " ", with: "\u{00a0}")
             if commander.isOnline {
                 councilString += "*"
             }
             if commander.responsibility == 3 {
-                councilString += " (LC)"
+                councilString += "\u{00a0}(LC)"
             } else {
-                councilString += " (VC)"
+                councilString += "\u{00a0}(VC)"
             }
         }
         return councilString
     }
 
     private func makeNewsString(data: Data) -> String {
-        var newsString = "Legion News set by " + data.news.author
+        var newsString = "Set by " + data.news.author
         newsString += " on turn " + String(data.news.turn) + " (" + DateFormatter.localizedString(from: Date(timeIntervalSince1970: TimeInterval(data.news.time)), dateStyle: .short, timeStyle: .short) + ")"
         newsString += "\n\n" + data.news.text
         return newsString
