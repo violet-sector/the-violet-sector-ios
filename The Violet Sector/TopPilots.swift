@@ -17,7 +17,7 @@ struct TopPilots: View {
                 Button(action: {search = ""; searchInput = ""}, label: {Image(systemName: "xmark.circle")})
                     .accessibilityLabel("Clear")
             }
-            let enumeratedPilots = data.content.sorted(by: {$0.score > $1.score}).enumerated().filter({search.isEmpty || $0.element.name ~= search})
+            let enumeratedPilots = data.content.enumerated().filter({search.isEmpty || $0.element.name ~= search})
             if !enumeratedPilots.isEmpty {
                 GeometryReader() {(geometry) in
                     ScrollView() {

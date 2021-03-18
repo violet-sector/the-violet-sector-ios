@@ -7,7 +7,7 @@ struct TopLegions: View {
 
     var body: some View {
         Page(title: "Top Legions", model: model) {(data) in
-            let legions = data.content.sorted(by: {$0.score > $1.score})
+            let legions = data.content
             if !legions.isEmpty {
                 GeometryReader() {(geometry) in
                     VStack() {

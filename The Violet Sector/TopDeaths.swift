@@ -7,7 +7,7 @@ struct TopDeaths: View {
 
     var body: some View {
         Page(title: "Top Deaths", model: model) {(data) in
-            let enumeratedPilots = Array(data.content.sorted(by: {$0.score > $1.score}).enumerated())
+            let enumeratedPilots = Array(data.content.enumerated())
             if !enumeratedPilots.isEmpty {
                 GeometryReader() {(geometry) in
                     ScrollView() {
