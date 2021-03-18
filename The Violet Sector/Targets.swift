@@ -12,15 +12,15 @@ struct Targets: View {
                 GeometryReader() {(geometry) in
                     ScrollView() {
                         VStack() {
-                            ForEach(data.content.sorted(by: {$0.score > $1.score})) {(target) in
+                            ForEach(data.content) {(target) in
                                 NavigationLink(destination: TargetDescription(rank: 0, data: target, refresh: {model.refresh()})) {
-                                    HStack(spacing: 0.0) {
+                                    HStack(spacing: 5.0) {
                                         (Text(verbatim: "\(target.name)\(target.isOnline ? "*" : "") [") + Text(verbatim: "\(target.legion.description.first!)").bold().foregroundColor(Color("Legions/\(target.legion)")) + Text(verbatim: "]"))
-                                            .frame(width: geometry.size.width * 0.5, alignment: .leading)
+                                            .frame(width: (geometry.size.width - 15.0) * 0.5, alignment: .leading)
                                         Text(health: target.currentHealth, maxHealth: target.maxHealth, asPercentage: true)
-                                            .frame(width: geometry.size.width * 0.2, alignment: .trailing)
-                                        Text(verbatim: "\(target.score >= 10000 ? "\(target.score / 1000)k" : "\(target.score)") (\(target.level)")
-                                            .frame(width: geometry.size.width * 0.3, alignment: .trailing)
+                                            .frame(width: (geometry.size.width - 15.0) * 0.2, alignment: .trailing)
+                                        Text(verbatim: "\(target.score >= 10000 ? "\(target.score / 1000)k" : "\(target.score)") (\(target.level))")
+                                            .frame(width: (geometry.size.width - 15.0) * 0.3, alignment: .trailing)
                                     }
                                 }
                                 .buttonStyle(PlainButtonStyle())

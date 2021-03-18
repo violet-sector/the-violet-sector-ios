@@ -12,13 +12,13 @@ struct TopLegions: View {
                 GeometryReader() {(geometry) in
                     VStack() {
                         ForEach(legions.indices, id: \.self) {(index) in
-                            HStack(spacing: 0.0) {
+                            HStack(spacing: 5.0) {
                                 Text(verbatim: "\(index + 1)")
-                                    .frame(width: 32.0, alignment: .trailing)
+                                    .frame(width: 20.0, alignment: .trailing)
                                 Text(verbatim: "\(legions[index].legion)")
-                                    .frame(width: (geometry.size.width - 32.0) * 0.5, alignment: .leading)
+                                    .frame(width: (geometry.size.width - 30.0) * 0.5, alignment: .leading)
                                 Text(verbatim: "\(legions[index].score)")
-                                    .frame(width: (geometry.size.width - 32.0) * 0.5, alignment: .trailing)
+                                    .frame(width: (geometry.size.width - 30.0) * 0.5, alignment: .trailing)
                             }
                             .frame(height: 32.0)
                             .accessibilityElement(children: .combine)

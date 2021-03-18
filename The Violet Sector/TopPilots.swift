@@ -24,19 +24,19 @@ struct TopPilots: View {
                         VStack() {
                             ForEach(enumeratedPilots, id: \.element.name) {(enumeratedPilot) in
                                 NavigationLink(destination: TargetDescription(rank: enumeratedPilot.offset + 1, data: enumeratedPilot.element, refresh: nil)) {
-                                    HStack(spacing: 0.0) {
+                                    HStack(spacing: 5.0) {
                                         Text(verbatim: "\(enumeratedPilot.offset + 1)")
-                                            .frame(width: 32.0, alignment: .trailing)
+                                            .frame(width: 20.0, alignment: .trailing)
                                         (Text(verbatim: "\(enumeratedPilot.element.name)\(enumeratedPilot.element.isOnline ? "*" : "") [") + Text(verbatim: "\(enumeratedPilot.element.legion.description.first!)").bold().foregroundColor(Color("Legions/\(enumeratedPilot.element.legion)")) + Text(verbatim: "]"))
-                                            .frame(width: (geometry.size.width - 32.0) * 0.5, alignment: .leading)
+                                            .frame(width: (geometry.size.width - 35.0) * 0.5, alignment: .leading)
                                         Text(health: enumeratedPilot.element.currentHealth, maxHealth: enumeratedPilot.element.maxHealth, asPercentage: true)
-                                            .frame(width: (geometry.size.width - 32.0) * 0.2, alignment: .trailing)
-                                        Text(verbatim: "\(enumeratedPilot.element.score >= 10000 ? "\(enumeratedPilot.element.score / 1000)k" : "\(enumeratedPilot.element.score)") (\(enumeratedPilot.element.level)")
-                                            .frame(width: (geometry.size.width - 32.0) * 0.3, alignment: .trailing)
+                                            .frame(width: (geometry.size.width - 35.0) * 0.2, alignment: .trailing)
+                                        Text(verbatim: "\(enumeratedPilot.element.score >= 10000 ? "\(enumeratedPilot.element.score / 1000)k" : "\(enumeratedPilot.element.score)") (\(enumeratedPilot.element.level))")
+                                            .frame(width: (geometry.size.width - 35.0) * 0.3, alignment: .trailing)
                                     }
                                 }
                                 .buttonStyle(PlainButtonStyle())
-                                .frame(height: 32.0)
+                                .frame(height: 40.0)
                                 .accessibilityElement(children: .combine)
                             }
                         }

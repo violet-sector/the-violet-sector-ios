@@ -13,15 +13,15 @@ struct TopDeaths: View {
                     ScrollView() {
                         VStack() {
                             ForEach(enumeratedPilots, id: \.offset) {(enumeratedPilot) in
-                                HStack(spacing: 0.0) {
+                                HStack(spacing: 5.0) {
                                     Text(verbatim: "\(enumeratedPilot.offset + 1)")
-                                        .frame(width: 32.0, alignment: .trailing)
+                                        .frame(width: 20.0, alignment: .trailing)
                                     Text(verbatim: enumeratedPilot.element.name)
-                                        .frame(width: (geometry.size.width - 32.0) * 0.5, alignment: .leading)
+                                        .frame(width: (geometry.size.width - 35.0) * 0.5, alignment: .leading)
                                     Text(verbatim: "\(enumeratedPilot.element.score)")
-                                        .frame(width: (geometry.size.width - 32.0) * 0.3, alignment: .trailing)
+                                        .frame(width: (geometry.size.width - 35.0) * 0.3, alignment: .trailing)
                                     Text(verbatim: "\(enumeratedPilot.element.turn)")
-                                        .frame(width: (geometry.size.width - 32.0) * 0.2, alignment: .trailing)
+                                        .frame(width: (geometry.size.width - 35.0) * 0.2, alignment: .trailing)
                                 }
                                 .frame(height: 32.0)
                                 .accessibilityElement(children: .combine)
