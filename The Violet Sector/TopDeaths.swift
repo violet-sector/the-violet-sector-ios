@@ -7,20 +7,20 @@ struct TopDeaths: View {
 
     var body: some View {
         Page(title: "Top Deaths", model: model) {(data) in
-            let enumeratedPilots = Array(data.content.enumerated())
-            if !enumeratedPilots.isEmpty {
+            let indices = data.content.indices
+            if !indices.isEmpty {
                 GeometryReader() {(geometry) in
                     ScrollView() {
-                        VStack() {
-                            ForEach(enumeratedPilots, id: \.offset) {(enumeratedPilot) in
+                        LazyVStack() {
+                            ForEach(indices, id: \.self) {(index) in
                                 HStack(spacing: 5.0) {
-                                    Text(verbatim: "\(enumeratedPilot.offset + 1)")
+                                    Text(verbatim: String(index + 1))
                                         .frame(width: 20.0, alignment: .trailing)
-                                    Text(verbatim: enumeratedPilot.element.name)
+                                    Text(verbatim: data.content[index].name)
                                         .frame(width: (geometry.size.width - 35.0) * 0.5, alignment: .leading)
-                                    Text(verbatim: "\(enumeratedPilot.element.score)")
+                                    Text(verbatim: String(data.content[index].score))
                                         .frame(width: (geometry.size.width - 35.0) * 0.3, alignment: .trailing)
-                                    Text(verbatim: "\(enumeratedPilot.element.turn)")
+                                    Text(verbatim: String(data.content[index].turn))
                                         .frame(width: (geometry.size.width - 35.0) * 0.2, alignment: .trailing)
                                 }
                                 .frame(height: 32.0)

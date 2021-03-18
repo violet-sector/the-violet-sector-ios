@@ -6,6 +6,7 @@ struct TopPilots: View {
     @ObservedObject var model: Model<Data>
     @State private var searchInput = ""
     @State private var search = ""
+    @State private var selection: Target.Identifier?
 
     var body: some View {
         Page(title: "Top Pilots", model: model) {(data) in
@@ -17,21 +18,21 @@ struct TopPilots: View {
                 Button(action: {search = ""; searchInput = ""}, label: {Image(systemName: "xmark.circle")})
                     .accessibilityLabel("Clear")
             }
-            let enumeratedPilots = data.content.enumerated().filter({search.isEmpty || $0.element.name ~= search})
-            if !enumeratedPilots.isEmpty {
+            let indices = data.content.indices.filter({search.isEmpty || data.content[$0].name ~= search})
+            if !indices.isEmpty {
                 GeometryReader() {(geometry) in
                     ScrollView() {
-                        VStack() {
-                            ForEach(enumeratedPilots, id: \.element.name) {(enumeratedPilot) in
-                                NavigationLink(destination: TargetDescription(rank: enumeratedPilot.offset + 1, data: enumeratedPilot.element, refresh: nil)) {
+                        LazyVStack() {
+                            ForEach(indices, id: \.self) {(index) in
+                                Button(action: {selection = data.content[index].id}) {
                                     HStack(spacing: 5.0) {
-                                        Text(verbatim: "\(enumeratedPilot.offset + 1)")
+                                        Text(verbatim: String(index + 1))
                                             .frame(width: 20.0, alignment: .trailing)
-                                        (Text(verbatim: "\(enumeratedPilot.element.name)\(enumeratedPilot.element.isOnline ? "*" : "") [") + Text(verbatim: "\(enumeratedPilot.element.legion.description.first!)").bold().foregroundColor(Color("Legions/\(enumeratedPilot.element.legion)")) + Text(verbatim: "]"))
+                                        (Text(verbatim: "\(data.content[index].name)\(data.content[index].isOnline ? "*" : "") [") + Text(verbatim: String(data.content[index].legion.description.first!)).bold().foregroundColor(Color("Legions/\(data.content[index].legion)")) + Text(verbatim: "]"))
                                             .frame(width: (geometry.size.width - 35.0) * 0.5, alignment: .leading)
-                                        Text(health: enumeratedPilot.element.currentHealth, maxHealth: enumeratedPilot.element.maxHealth, asPercentage: true)
+                                        Text(health: data.content[index].currentHealth, maxHealth: data.content[index].maxHealth, asPercentage: true)
                                             .frame(width: (geometry.size.width - 35.0) * 0.2, alignment: .trailing)
-                                        Text(verbatim: "\(enumeratedPilot.element.score >= 10000 ? "\(enumeratedPilot.element.score / 1000)k" : "\(enumeratedPilot.element.score)") (\(enumeratedPilot.element.level))")
+                                        Text(verbatim: "\(data.content[index].score >= 10000 ? "\(data.content[index].score / 1000)k" : "\(data.content[index].score)") (\(data.content[index].level))")
                                             .frame(width: (geometry.size.width - 35.0) * 0.3, alignment: .trailing)
                                     }
                                 }
@@ -41,6 +42,10 @@ struct TopPilots: View {
                             }
                         }
                     }
+                }
+                if selection != nil {
+                    NavigationLink(destination: TargetDescription(targets: data.content, selection: selection!, showRank: true, refresh: {model.refresh()}), tag: selection!, selection: $selection, label: {EmptyView()})
+                        .hidden()
                 }
             } else {
                 Spacer()

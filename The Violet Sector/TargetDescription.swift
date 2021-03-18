@@ -3,10 +3,9 @@
 import SwiftUI
 
 struct TargetDescription: View {
-    let rank: Int
-    let data: Target
-    let refresh: (() -> Void)?
-    @Environment(\.presentationMode) private var presentationMode
+    private let rank: Int?
+    private let data: Target
+    private let refresh: () -> Void
 
     var body: some View {
         VStack() {
@@ -22,7 +21,7 @@ struct TargetDescription: View {
                 }
             }
             Description() {
-                if rank > 0 {
+                if let rank = rank {
                     DescriptionItem(name: "Rank") {Text(verbatim: String(rank))}
                 }
                 DescriptionItem(name: "Legion") {Text(verbatim: data.legion.description)}
@@ -40,5 +39,18 @@ struct TargetDescription: View {
         }
         .navigationBarTitle("\(data.name)\(data.isOnline ? "*" : "")")
         .navigationBarTitleDisplayMode(.inline)
+    }
+
+    init?(targets: [Target], selection: Target.Identifier, showRank: Bool, refresh: @escaping () -> Void) {
+        guard let index = targets.firstIndex(where: {$0.id == selection}) else {
+            return nil
+        }
+        data = targets[index]
+        if showRank {
+            rank = index + 1
+        } else {
+            rank = nil
+        }
+        self.refresh = refresh
     }
 }

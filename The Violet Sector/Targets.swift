@@ -5,15 +5,16 @@ import SwiftUI
 struct Targets: View {
     let title: String
     @ObservedObject var model: Model<Targets.Data>
+    @State private var selection: Target.Identifier?
 
     var body: some View {
         Page(title: title, model: model) {(data) in
             if !data.content.isEmpty {
                 GeometryReader() {(geometry) in
                     ScrollView() {
-                        VStack() {
+                        LazyVStack() {
                             ForEach(data.content) {(target) in
-                                NavigationLink(destination: TargetDescription(rank: 0, data: target, refresh: {model.refresh()})) {
+                                Button(action: {selection = target.id}) {
                                     HStack(spacing: 5.0) {
                                         (Text(verbatim: "\(target.name)\(target.isOnline ? "*" : "") [") + Text(verbatim: "\(target.legion.description.first!)").bold().foregroundColor(Color("Legions/\(target.legion)")) + Text(verbatim: "]"))
                                             .frame(width: (geometry.size.width - 15.0) * 0.5, alignment: .leading)
@@ -29,6 +30,10 @@ struct Targets: View {
                             }
                         }
                     }
+                }
+                if selection != nil {
+                    NavigationLink(destination: TargetDescription(targets: data.content, selection: selection!, showRank: false, refresh: {model.refresh()}), tag: selection!, selection: $selection, label: {EmptyView()})
+                        .hidden()
                 }
             } else {
                 Spacer()
