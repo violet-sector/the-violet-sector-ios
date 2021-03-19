@@ -7,7 +7,7 @@ final class Client: ObservableObject {
     @Published private(set) var statusResponse: StatusResponse? {didSet {if statusResponse == nil && oldValue != nil {statusResponse = oldValue}}}
     @Published var errorResponse: CommonError?
     @Published private(set) var settings: Settings?
-    @Published private(set) var error: Error?
+    @Published private(set) var error: String?
     private let session: URLSession
     private var responseSubscriber: Cancellable?
     private var settingsSubscriber: Cancellable?
@@ -37,7 +37,7 @@ final class Client: ObservableObject {
         fetchSettings()
     }
 
-    func get<Root: AnyObject, Response: Decodable>(_ resource: String, setResponse response: ReferenceWritableKeyPath<Root, Response?>, setFailure failure: ReferenceWritableKeyPath<Root, Error?>, on root: Root, completionHandler: (() -> Void)? = nil) -> Cancellable {
+    func get<Root: AnyObject, Response: Decodable>(_ resource: String, setResponse response: ReferenceWritableKeyPath<Root, Response?>, setWarning warning: ReferenceWritableKeyPath<Root, String?>? = nil, setError error: ReferenceWritableKeyPath<Root, String?>? = nil, on root: Root, completionHandler: @escaping () -> Void) -> Cancellable {
         #if DEBUG
         let resource = resource + "?rpirw=true"
         #endif
@@ -46,14 +46,14 @@ final class Client: ObservableObject {
             .prefix(2)
         let responsePublisher = dataPublisher
             .decode(type: Response?.self, decoder: decoder)
-            .tryCatch({[unowned root] (_ error: Error) -> Just<Response?> in if error is DecodingError {root[keyPath: failure] = error; return Just(Response?.none)}; throw error})
+            .tryCatch({[unowned root] (_ failure: Error) -> Just<Response?> in if let error = error, failure is DecodingError {root[keyPath: error] = Self.describeError(failure); return Just(Response?.none)}; throw failure})
         let commonPublisher = dataPublisher
             .decode(type: CommonResponse?.self, decoder: decoder)
             .tryCatch({(_ error: Error) -> Just<CommonResponse?> in if error is DecodingError {return Just(CommonResponse?.none)}; throw error})
         return responsePublisher
             .zip(commonPublisher)
             .receive(on: RunLoop.main)
-            .sink(receiveCompletion: {[unowned root] in if case let .failure(error) = $0 {root[keyPath: failure] = error}; guard let completionHandler = completionHandler else {return}; completionHandler()}, receiveValue: {[unowned self, unowned root] in root[keyPath: response] = $0.0; statusResponse = $0.1?.status; errorResponse = $0.1?.error})
+            .sink(receiveCompletion: {[unowned root] in if let error = error, case let .failure(failure) = $0 {root[keyPath: error] = Self.describeError(failure)}; completionHandler()}, receiveValue: {[unowned self, unowned root] in root[keyPath: response] = $0.0; statusResponse = $0.1?.status; if let warning = warning {root[keyPath: warning] = $0.1?.error?.message}})
     }
 
     func post(_ resource: String, query: [String: String], completionHandler: @escaping () -> Void) {
@@ -95,7 +95,7 @@ final class Client: ObservableObject {
             .tryMap({let response = $0.response as! HTTPURLResponse; if response.statusCode != 200 {throw Errors.serverError(response.statusCode)} else if response.mimeType == nil {throw Errors.noContentType} else if response.mimeType! != "application/json" {throw Errors.invalidContentType(response.mimeType!)}; return $0.data})
             .decode(type: Settings.self, decoder: decoder)
             .receive(on: RunLoop.main)
-            .sink(receiveCompletion: {[unowned self] in if case let .failure(error) = $0 {self.error = error; self.retryFetchSettings()}}, receiveValue: {[unowned self] in self.settings = $0; self.error = nil; self.timer = nil})
+            .sink(receiveCompletion: {[unowned self] in if case let .failure(failure) = $0 {error = Self.describeError(failure); retryFetchSettings()}}, receiveValue: {[unowned self] in settings = $0; error = nil; timer = nil})
     }
 
     private func retryFetchSettings() {
@@ -103,6 +103,19 @@ final class Client: ObservableObject {
             .autoconnect()
             .first()
             .sink(receiveValue: {[unowned self] (_) in self.fetchSettings()})
+    }
+
+    static private func describeError(_ error: Error) -> String {
+        switch error {
+        case _ as DecodingError:
+            return "Unable to decode resource."
+        case let error as LocalizedError:
+            return error.errorDescription ?? "Unknown error."
+        case let error as NSError:
+            return error.localizedDescription
+        default:
+            return "Unknown error."
+        }
     }
 
     struct CommonResponse: Decodable {

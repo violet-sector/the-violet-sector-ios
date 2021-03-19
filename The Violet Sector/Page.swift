@@ -15,13 +15,16 @@ struct Page<Content: View, Data: Decodable>: View {
                     .bold()
                     .accessibilityAddTraits(.isHeader)
                 if let data = model.data {
+                    if let warning = model.warning {
+                        Text(verbatim: warning)
+                    }
                     content(data)
                 } else if let error = model.error {
                     Spacer()
                     Text(verbatim: "Error Fetching Data")
                         .bold()
                         .accessibilityAddTraits(.isHeader)
-                    Text(verbatim: Self.describeError(error))
+                    Text(verbatim: error)
                     Spacer()
                 } else {
                     Spacer()
@@ -42,18 +45,5 @@ struct Page<Content: View, Data: Decodable>: View {
         self.title = title
         self.model = model
         self.content = content
-    }
-
-    static private func describeError(_ error: Error) -> String {
-        switch error {
-        case _ as DecodingError:
-            return "Unable to decode resource."
-        case let error as LocalizedError:
-            return error.errorDescription ?? "Unknown error."
-        case let error as NSError:
-            return error.localizedDescription
-        default:
-            return "Unknown error."
-        }
     }
 }

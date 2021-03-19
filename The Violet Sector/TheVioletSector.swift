@@ -67,26 +67,13 @@ import SwiftUI
                         .bold()
                         .foregroundColor(.accentColor)
                         .accessibilityAddTraits(.isHeader)
-                    Text(verbatim: Self.describeError(error))
+                    Text(verbatim: error)
                 }
                 .accentColor(Color(.sRGB, red: 0.5, green: 0.125, blue: 1.0))
             } else {
                 ProgressView()
                     .scaleEffect(10.0)
             }
-        }
-    }
-
-    static private func describeError(_ error: Error) -> String {
-        switch error {
-        case _ as DecodingError:
-            return "Unable to decode resource."
-        case let error as LocalizedError:
-            return error.errorDescription ?? "Unknown error."
-        case let error as NSError:
-            return error.localizedDescription
-        default:
-            return "Unknown error."
         }
     }
 }

@@ -21,7 +21,7 @@ struct Timer: View {
         @Published private(set) var secondsToNextTurn: Int64 = 0
         @Published private(set) var secondsSinceLastTurn: Int64 = 0
         private var data: Data? {didSet {setup()}}
-        private var error: Error? {didSet {lastErrorTime = Int64(Date().timeIntervalSince1970)}}
+        private var error: String? {didSet {lastErrorTime = (error != nil ? Int64(Date().timeIntervalSince1970) : 0)}}
         private var request: Cancellable?
         private var timer: Cancellable?
         private var referenceTime: Int64 = 0
@@ -39,7 +39,7 @@ struct Timer: View {
 
         private func refresh() {
             error = nil
-            request = Client.shared.get("timer.php", setResponse: \.data, setFailure: \.error, on: self)
+            request = Client.shared.get("timer.php", setResponse: \.data, setError: \.error, on: self, completionHandler: {[unowned self] in request = nil})
         }
 
         private func setup() {

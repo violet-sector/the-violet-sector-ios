@@ -4,7 +4,8 @@ import Combine
 
 final class Model<Data: Decodable>: ObservableObject {
     @Published private(set) var data: Data?
-    @Published private(set) var error: Error?
+    @Published private(set) var warning: String?
+    @Published private(set) var error: String?
     @Published private(set) var isLoading = false
     private var request: Cancellable?
     private let resource: String
@@ -18,6 +19,6 @@ final class Model<Data: Decodable>: ObservableObject {
 
     func refresh() {
         isLoading = true
-        request = Client.shared.get(resource, setResponse: \.data, setFailure: \.error, on: self, completionHandler: {[unowned self] in isLoading = false; request = nil})
+        request = Client.shared.get(resource, setResponse: \.data, setWarning: \.warning, setError: \.error, on: self, completionHandler: {[unowned self] in isLoading = false; request = nil})
     }
 }
