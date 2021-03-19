@@ -3,14 +3,10 @@
 import SwiftUI
 
 struct SectorDescription: View {
-    let status: Client.StatusResponse
     let sector: Sectors
     let legions: Set<Legions>
     let isOpenGate: Bool
-    let onHyper: () -> Void
-    @ObservedObject private var client = Client.shared
-    @ObservedObject private var timerModel = Timer.Model.shared
-    @Environment(\.presentationMode) private var presentationMode
+    let refresh: () -> Void
 
     var body: some View {
         VStack(spacing: 10.0) {
@@ -24,15 +20,16 @@ struct SectorDescription: View {
                             .accessibilityLabel(sector.description)
                     }
                     if isOpenGate {
-                        Button("Hyper", action: {presentationMode.wrappedValue.dismiss(); client.post("navcom_hyper.php", query: ["destination": String(sector.rawValue)], completionHandler: onHyper)})
+                        Button("Hyper", action: {Client.shared.post("navcom_hyper.php", query: ["destination": String(sector.rawValue)], completionHandler: refresh)})
                     }
                     Description(sector: sector, legions: legions)
                 }
             }
             Spacer()
         }
-        .navigationBarTitle(Text(verbatim: "\(sector)"))
+        .navigationTitle(Text(verbatim: "\(sector)"))
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar(content: {Refresh(action: refresh)})
     }
 
     private struct Description: View {

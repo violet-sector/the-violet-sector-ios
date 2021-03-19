@@ -15,7 +15,7 @@ struct TargetDescription: View {
             }
             Text(verbatim: "\(data.ship): \(data.ship.type)" + (data.isCloaked ?? false ? " (Cloaked)" : ""))
             HStack() {
-                if case let .intValue(id) = data.id, let canDock = data.canDock, let refresh = refresh, canDock {
+                if case let .intValue(id) = data.id, let canDock = data.canDock, canDock {
                     Button("Dock", action: {Client.shared.post("carrier_enter.php", query: ["carrier": String(id)], completionHandler: refresh)})
                         .frame(width: 80.0)
                 }
@@ -37,8 +37,9 @@ struct TargetDescription: View {
             }
             Spacer()
         }
-        .navigationBarTitle("\(data.name)\(data.isOnline ? "*" : "")")
+        .navigationTitle("\(data.name)\(data.isOnline ? "*" : "")")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar(content: {Refresh(action: refresh)})
     }
 
     init?(targets: [Target], selection: Target.Identifier, showRank: Bool, refresh: @escaping () -> Void) {

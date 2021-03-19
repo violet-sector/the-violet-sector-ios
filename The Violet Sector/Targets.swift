@@ -34,6 +34,7 @@ struct Targets: View {
                 if selection != nil {
                     NavigationLink(destination: TargetDescription(targets: data.content, selection: selection!, showRank: false, refresh: {model.refresh()}), tag: selection!, selection: $selection, label: {EmptyView()})
                         .hidden()
+                        .onChange(of: model.data?.content, perform: {if let targets = $0, !targets.contains(where: {$0.id == selection!}) {selection = nil}})
                 }
             } else {
                 Spacer()

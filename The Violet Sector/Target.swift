@@ -1,6 +1,6 @@
 // Created by João Santos for project The Violet Sector.
 
-struct Target: Decodable, Identifiable {
+struct Target: Decodable, Identifiable, Equatable {
     let id: Identifier
     let name: String
     let legion: Legions
@@ -37,6 +37,10 @@ struct Target: Decodable, Identifiable {
         canDock = try container.decodeIfPresent(Bool.self, forKey: .canDock)
         canRepair = try container.decodeIfPresent(Bool.self, forKey: .canRepair)
         isOnline = try container.decode(Bool.self, forKey: .isOnline)
+    }
+
+    static func ==(_ left: Self, _ right: Self) -> Bool {
+        return left.id == right.id
     }
 
     enum CodingKeys: String, CodingKey {
