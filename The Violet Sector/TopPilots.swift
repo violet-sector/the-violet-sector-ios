@@ -3,13 +3,12 @@
 import SwiftUI
 
 struct TopPilots: View {
-    @ObservedObject var model: Model<Data>
     @State private var searchInput = ""
     @State private var search = ""
     @State private var selection: Target.Identifier?
 
     var body: some View {
-        Page(title: "Top Pilots", model: model) {(data) in
+        Page() {(_ data: Data) in
             HStack {
                 TextField("Search", text: $searchInput, onCommit: {search = searchInput})
                     .autocapitalization(.none)
@@ -44,9 +43,9 @@ struct TopPilots: View {
                     }
                 }
                 if selection != nil {
-                    NavigationLink(destination: TargetDescription(targets: data.content, selection: selection!, showRank: true, refresh: {model.refresh()}), tag: selection!, selection: $selection, label: {EmptyView()})
+                    NavigationLink(destination: TargetDescription(targets: data.content, selection: selection!, showRank: true), tag: selection!, selection: $selection, label: {EmptyView()})
                         .hidden()
-                        .onChange(of: model.data?.content, perform: {if let targets = $0, !targets.contains(where: {$0.id == selection!}) {selection = nil}})
+                        .onChange(of: data.content, perform: {if !$0.contains(where: {$0.id == selection!}) {selection = nil}})
                 }
             } else {
                 Spacer()

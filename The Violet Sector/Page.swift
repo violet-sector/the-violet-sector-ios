@@ -2,18 +2,15 @@
 
 import SwiftUI
 
-struct Page<Content: View, Data: Decodable>: View {
-    private let title: String
+struct Page<Data: Decodable, Content: View>: View {
     private let content: (_: Data) -> Content
-    @ObservedObject private var model: Model<Data>
+    @EnvironmentObject private var model: Model<Data>
+    @ObservedObject private var client = Client.shared
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         ZStack() {
             VStack(spacing: 10.0) {
-                Text(verbatim: title)
-                    .bold()
-                    .accessibilityAddTraits(.isHeader)
                 if let data = model.data {
                     if let warning = model.warning {
                         Text(verbatim: warning)
@@ -22,7 +19,7 @@ struct Page<Content: View, Data: Decodable>: View {
                 } else if let error = model.error {
                     Spacer()
                     Text(verbatim: "Error Fetching Data")
-                        .bold()
+                        .font(.title)
                         .accessibilityAddTraits(.isHeader)
                     Text(verbatim: error)
                     Spacer()
@@ -35,15 +32,14 @@ struct Page<Content: View, Data: Decodable>: View {
                 Spacer()
                     .background(Color.black.opacity(0.5))
                 ProgressView()
-                    .scaleEffect(10.0)
             }
         }
-        .onChange(of: scenePhase, perform: {if case .active = $0 {model.refresh()}})
+        .navigationTitle(client.tab?.title ?? "The Violet Sector")
+        .toolbar(content: {Refresh()})
+        .onChange(of: scenePhase, perform: {if $0 == .active {model.refresh()}})
     }
 
-    init(title: String, model: Model<Data>, @ViewBuilder content: @escaping (_ data: Data) -> Content) {
-        self.title = title
-        self.model = model
+    init(@ViewBuilder content: @escaping (_: Data) -> Content) {
         self.content = content
     }
 }

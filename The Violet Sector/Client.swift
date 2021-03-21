@@ -2,17 +2,27 @@
 
 import Foundation
 import Combine
+import Dispatch
 
 final class Client: ObservableObject {
-    @Published private(set) var statusResponse: StatusResponse? {didSet {if statusResponse == nil && oldValue != nil {statusResponse = oldValue}}}
+    @Published var tab: Tabs?
     @Published var errorResponse: CommonError?
+    @Published private(set) var timer = "Loading..."
+    @Published private(set) var statusResponse: StatusResponse? {didSet {if statusResponse == nil && oldValue != nil {statusResponse = oldValue}}}
     @Published private(set) var settings: Settings?
     @Published private(set) var error: String?
+    weak var activeModel: ModelProtocol!
     private let session: URLSession
     private var responseSubscriber: Cancellable?
     private var settingsSubscriber: Cancellable?
-    private var timer: Cancellable?
+    private var timerSubscriber: Cancellable?
     private let decoder = JSONDecoder()
+    private var timerResponse: TimerResponse?
+    private var referenceTime: Int64 = 0
+    private var referenceTurn: Int64 = 0
+    private var turnDuration: Int64 = 0
+    private var serverHour: Int64 = 0
+    private var deltaTime: Int64 = 0
 
     static let shared = Client()
     #if !DEBUG
@@ -21,7 +31,8 @@ final class Client: ObservableObject {
     private static let baseURL = "https://ucs.violetsector.com/json/"
     #endif
     private static let settingsResource = "config.php"
-    private static let settingsFetchRetry = TimeInterval(10.0)
+    private static var timerResource = "timer.php"
+    private static let retryInterval = TimeInterval(10.0)
 
     private init() {
         let configuration = URLSessionConfiguration.default
@@ -35,6 +46,7 @@ final class Client: ObservableObject {
         configuration.allowsExpensiveNetworkAccess = true
         session = URLSession(configuration: configuration)
         fetchSettings()
+        fetchTimer()
     }
 
     func get<Root: AnyObject, Response: Decodable>(_ resource: String, setResponse response: ReferenceWritableKeyPath<Root, Response?>, setWarning warning: ReferenceWritableKeyPath<Root, String?>? = nil, setError error: ReferenceWritableKeyPath<Root, String?>? = nil, on root: Root, completionHandler: @escaping () -> Void) -> Cancellable {
@@ -91,21 +103,62 @@ final class Client: ObservableObject {
     private func fetchSettings() {
         settings = nil
         error = nil
-        settingsSubscriber = session.dataTaskPublisher(for: URL(string: Self.baseURL + Self.settingsResource)!)
-            .tryMap({let response = $0.response as! HTTPURLResponse; if response.statusCode != 200 {throw Errors.serverError(response.statusCode)} else if response.mimeType == nil {throw Errors.noContentType} else if response.mimeType! != "application/json" {throw Errors.invalidContentType(response.mimeType!)}; return $0.data})
-            .decode(type: Settings.self, decoder: decoder)
-            .receive(on: RunLoop.main)
-            .sink(receiveCompletion: {[unowned self] in if case let .failure(failure) = $0 {error = Self.describeError(failure); retryFetchSettings()}}, receiveValue: {[unowned self] in settings = $0; error = nil; timer = nil})
+        settingsSubscriber = get(Self.settingsResource, setResponse: \.settings, setError: \.error, on: self) {[unowned self] in
+            settingsSubscriber = nil
+            if settings == nil {
+                DispatchQueue.main.asyncAfter(deadline: .now() + Self.retryInterval, execute: {[unowned self] in fetchSettings()})
+            }
+        }
     }
 
-    private func retryFetchSettings() {
-        timer = Foundation.Timer.publish(every: Self.settingsFetchRetry, on: .main, in: .default)
+    private func fetchTimer() {
+        guard timerSubscriber == nil else {
+            return
+        }
+        timerSubscriber = get(Self.timerResource, setResponse: \.timerResponse, on: self) {[unowned self] in
+            timerSubscriber = nil
+            if timerResponse == nil {
+                DispatchQueue.main.asyncAfter(deadline: .now() + Self.retryInterval, execute: {[unowned self] in fetchTimer()})
+            } else {
+                setupTimer()
+            }
+        }
+    }
+
+    private func setupTimer() {
+        guard let data = timerResponse else {
+            return
+        }
+        guard data.turnDuration > 0 else {
+            return
+        }
+        turnDuration = data.turnDuration
+        referenceTurn = data.referenceTurn
+        let currentTime = Int64(Date().timeIntervalSince1970)
+        referenceTime = currentTime - (turnDuration - data.remainingTime)
+        deltaTime = currentTime - data.serverTime
+        serverHour = data.serverTime - data.serverTime % (60 * 60)
+        timerSubscriber = Timer.publish(every: 1.0, on: .main, in: .default)
             .autoconnect()
-            .first()
-            .sink(receiveValue: {[unowned self] (_) in self.fetchSettings()})
+            .sink() {[unowned self] (date) in
+                let currentTime = Int64(date.timeIntervalSince1970)
+                var elapsedTime = currentTime - self.referenceTime
+                let turn = referenceTurn + elapsedTime / turnDuration
+                elapsedTime %= turnDuration
+                var remainingTime = turnDuration - elapsedTime
+                let hours = remainingTime / (60 * 60)
+                remainingTime %= 60 * 60
+                let minutes = remainingTime / 60
+                remainingTime %= 60
+                let seconds = remainingTime
+                timer = String(format: "T%ld %ld:%02ld:%02ld", turn, hours, minutes, seconds)
+                if currentTime - deltaTime - serverHour >= 60 * 60 && currentTime % 5 == 0 {
+                    fetchTimer()
+                }
+            }
     }
 
-    static private func describeError(_ error: Error) -> String {
+    private static func describeError(_ error: Error) -> String {
         switch error {
         case _ as DecodingError:
             return "Unable to decode resource."
@@ -201,7 +254,7 @@ final class Client: ObservableObject {
 
     struct CommonError: Identifiable {
         let message: String
-        var id: Int {message.hashValue}
+        var id: String {message}
     }
 
     struct Settings: Decodable {
@@ -210,7 +263,10 @@ final class Client: ObservableObject {
         let movesToSelfRepair: Int
         let movesToCloak: Int
         let movesToDecloak: Int
+        let movesToDock: Int
+        let movesToUndock: Int
         let movesToHyper: Int
+        let maxCarriedScrap: Int
         let hyperTimeBufferStart: Int64
         let hyperTimeBufferEnd: Int64
 
@@ -220,9 +276,58 @@ final class Client: ObservableObject {
             case movesToSelfRepair = "MOVES_SELF_REP"
             case movesToCloak = "MOVES_CLOAK"
             case movesToDecloak = "MOVES_DECLOAK"
+            case movesToDock = "MOVES_CARRIER_ENTER"
+            case movesToUndock = "MOVES_CARRIER_EXIT"
             case movesToHyper = "MOVES_HYPER"
+            case maxCarriedScrap = "SCRAP_LIMIT"
             case hyperTimeBufferStart = "START_BUFFER"
             case hyperTimeBufferEnd = "END_BUFFER"
+        }
+    }
+
+    struct TimerResponse: Decodable {
+        let turnDuration: Int64
+        let referenceTurn: Int64
+        let remainingTime: Int64
+        let serverTime: Int64
+
+        private enum CodingKeys: String, CodingKey {
+            case turnDuration = "tick_length"
+            case referenceTurn = "tick"
+            case remainingTime = "secs_left"
+            case serverTime = "now"
+        }
+    }
+
+    enum Tabs {
+        case main
+        case friendlyScans
+        case incomingScans
+        case outgoingScans
+        case map
+        case topPilots
+        case topDeaths
+        case topLegions
+
+        var title: String {
+            switch self {
+            case .main:
+                return "Main"
+            case .friendlyScans:
+                return "Friendly Scans"
+            case .incomingScans:
+                return "Incoming Scans"
+            case .outgoingScans:
+                return "Outgoing Scans"
+            case .map:
+                return "Map"
+            case .topPilots:
+                return "Top Pilots"
+            case .topDeaths:
+                return "Top Deaths"
+            case .topLegions:
+                return "Top Legions"
+            }
         }
     }
 

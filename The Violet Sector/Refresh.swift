@@ -3,11 +3,9 @@
 import SwiftUI
 
 struct Refresh: ToolbarContent {
-    let action: () -> Void
-
     var body: some ToolbarContent {
         ToolbarItem(placement: .automatic) {
-            Button(action: action) {
+            Button(action: {Client.shared.activeModel.refresh()}) {
                 Image(systemName: "arrow.clockwise")
             }
             .accessibilityLabel("Refresh")

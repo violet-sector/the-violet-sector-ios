@@ -6,7 +6,6 @@ struct SectorDescription: View {
     let sector: Sectors
     let legions: Set<Legions>
     let isOpenGate: Bool
-    let refresh: () -> Void
 
     var body: some View {
         VStack(spacing: 10.0) {
@@ -20,7 +19,7 @@ struct SectorDescription: View {
                             .accessibilityLabel(sector.description)
                     }
                     if isOpenGate {
-                        Button("Hyper", action: {Client.shared.post("navcom_hyper.php", query: ["destination": String(sector.rawValue)], completionHandler: refresh)})
+                        Button("Hyper", action: {Client.shared.post("navcom_hyper.php", query: ["destination": String(sector.rawValue)], completionHandler: {Client.shared.activeModel.refresh()})})
                     }
                     Description(sector: sector, legions: legions)
                 }
@@ -28,8 +27,7 @@ struct SectorDescription: View {
             Spacer()
         }
         .navigationTitle(Text(verbatim: "\(sector)"))
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar(content: {Refresh(action: refresh)})
+        .toolbar(content: {Refresh()})
     }
 
     private struct Description: View {

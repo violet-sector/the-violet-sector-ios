@@ -5,7 +5,6 @@ import SwiftUI
 struct TargetDescription: View {
     private let rank: Int?
     private let data: Target
-    private let refresh: () -> Void
 
     var body: some View {
         VStack() {
@@ -14,35 +13,35 @@ struct TargetDescription: View {
                     .accessibilityLabel(data.ship.description)
             }
             Text(verbatim: "\(data.ship): \(data.ship.type)" + (data.isCloaked ?? false ? " (Cloaked)" : ""))
+                .font(.caption)
             HStack() {
                 if case let .intValue(id) = data.id, let canDock = data.canDock, canDock {
-                    Button("Dock", action: {Client.shared.post("carrier_enter.php", query: ["carrier": String(id)], completionHandler: refresh)})
+                    Button("Dock", action: {Client.shared.post("carrier_enter.php", query: ["carrier": String(id)], completionHandler: {Client.shared.activeModel.refresh()})})
                         .frame(width: 80.0)
                 }
             }
-            Description() {
+            VStack() {
                 if let rank = rank {
-                    DescriptionItem(name: "Rank") {Text(verbatim: String(rank))}
+                    Description(name: "Rank") {Text(verbatim: String(rank))}
                 }
-                DescriptionItem(name: "Legion") {Text(verbatim: data.legion.description)}
-                DescriptionItem(name: "Hitpoints") {Text(health: data.currentHealth, maxHealth: data.maxHealth, asPercentage: false)}
-                DescriptionItem(name: "Score") {Text(verbatim: String(data.score))}
-                DescriptionItem(name: "Level") {Text(verbatim: String(data.level))}
+                Description(name: "Legion") {Text(verbatim: data.legion.description)}
+                Description(name: "Hitpoints") {Text(health: data.currentHealth, maxHealth: data.maxHealth, asPercentage: false)}
+                Description(name: "Score") {Text(verbatim: String(data.score))}
+                Description(name: "Level") {Text(verbatim: String(data.level))}
                 if let kills = data.kills {
-                    DescriptionItem(name: "Kills") {Text(verbatim: String(kills))}
+                    Description(name: "Kills") {Text(verbatim: String(kills))}
                 }
                 if let deaths = data.deaths {
-                    DescriptionItem(name: "Deaths") {Text(verbatim: String(deaths))}
+                    Description(name: "Deaths") {Text(verbatim: String(deaths))}
                 }
             }
             Spacer()
         }
         .navigationTitle("\(data.name)\(data.isOnline ? "*" : "")")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar(content: {Refresh(action: refresh)})
+        .toolbar(content: {Refresh()})
     }
 
-    init?(targets: [Target], selection: Target.Identifier, showRank: Bool, refresh: @escaping () -> Void) {
+    init?(targets: [Target], selection: Target.Identifier, showRank: Bool) {
         guard let index = targets.firstIndex(where: {$0.id == selection}) else {
             return nil
         }
@@ -52,6 +51,5 @@ struct TargetDescription: View {
         } else {
             rank = nil
         }
-        self.refresh = refresh
     }
 }

@@ -26,5 +26,6 @@ extension Text {
         }
         self = Text(verbatim: String(health)).bold().foregroundColor(color)
         self = self + Text(verbatim: "/\(maxHealth)")
+        self = self.font(.system(.body, design: .monospaced))
     }
 }

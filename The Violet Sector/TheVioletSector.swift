@@ -4,49 +4,25 @@ import SwiftUI
 
 @main struct TheVioletSector: App {
     @ObservedObject private var client = Client.shared
-    @State private var isAuthenticated = false
-    @State private var tabIndex = 0
+    private static let mainModel = Model<Main.Data>(resource: "main.php")
+    private static let friendlyScansModel = Model<FriendlyScans.Data>(resource: "scans_friendlies.php")
+    private static let incomingScansModel = Model<IncomingScans.Data>(resource: "scans_incoming.php")
+    private static let outgoingScansModel = Model<OutgoingScans.Data>(resource: "scans_outgoing.php")
+    private static let mapModel = Model<Map.Data>(resource: "navcom_map.php")
+    private static let topPilotsModel = Model<TopPilots.Data>(resource: "rankings_pilots.php")
+    private static let topDeathsModel = Model<TopDeaths.Data>(resource: "rankings_att.php")
+    private static let topLegionsModel = Model<TopLegions.Data>(resource: "rankings_legions.php")
 
     var body: some Scene {
         WindowGroup() {
             if let settings = client.settings {
-                if isAuthenticated {
-                    TabView(selection: $tabIndex) {
-                        VStack() {
-                            Main(tabIndex: $tabIndex, thisTabIndex: 0)
-                            Status()
-                        }
-                        .tabItem({Image(systemName: "doc.text.fill").accessibilityHidden(true); Text(verbatim: "Main").bold()})
-                        .tag(0)
-                        VStack() {
-                            Scanners(tabIndex: $tabIndex, thisTabIndex: 1)
-                            Status()
-                        }
-                        .tabItem({Image(systemName: "dot.radiowaves.left.and.right").accessibilityHidden(true); Text(verbatim: "Scanners").bold()})
-                        .tag(1)
-                        Text(verbatim: "Placeholder")
-                            .tabItem({Image(systemName: "envelope.fill").accessibilityHidden(true); Text(verbatim: "Comms").bold()})
-                            .tag(2)
-                        VStack() {
-                            Navigation(tabIndex: $tabIndex, thisTabIndex: 3)
-                            Status()
-                        }
-                        .tabItem({Image(systemName: "map.fill").accessibilityHidden(true); Text(verbatim: "Navigation").bold()})
-                        .tag(3)
-                        VStack() {
-                            Rankings(tabIndex: $tabIndex, thisTabIndex: 4)
-                            Status()
-                        }
-                        .tabItem({Image(systemName: "person.fill").accessibilityHidden(true); Text(verbatim: "Rankings").bold()})
-                        .tag(4)
-                    }
-                    .alert(item: $client.errorResponse, content: {Alert(title: Text(verbatim: "Error"), message: Text(verbatim: $0.message))})
-                    .accentColor(Color(.sRGB, red: 0.5, green: 0.125, blue: 1.0))
-                } else {
-                    VStack(spacing: 10.0) {
+                VStack(spacing: 10.0) {
+                    Text(verbatim: client.timer)
+                        .font(.system(.body, design: .monospaced))
+                    if client.tab == nil {
                         Spacer()
                         Text(verbatim: "News")
-                            .bold()
+                            .font(.title)
                             .accessibilityAddTraits(.isHeader)
                         ScrollView() {
                             Text(verbatim: settings.news)
@@ -55,25 +31,97 @@ import SwiftUI
                         .padding(5.0)
                         .border(Color.primary)
                         .frame(width: 240.0, height: 100.0, alignment: .topLeading)
-                        Button("Enter", action: {isAuthenticated = true})
+                        Button("Enter", action: {client.tab = .main})
                         Spacer()
-                        Timer()
+                    } else {
+                        NavigationView() {
+                            selectView()
+                                .environmentObject(Self.mainModel)
+                                .environmentObject(Self.friendlyScansModel)
+                                .environmentObject(Self.incomingScansModel)
+                                .environmentObject(Self.outgoingScansModel)
+                                .environmentObject(Self.mapModel)
+                                .environmentObject(Self.topPilotsModel)
+                                .environmentObject(Self.topDeathsModel)
+                                .environmentObject(Self.topLegionsModel)
+                                .navigationBarTitleDisplayMode(.inline)
+                        }
+                        Status()
+                        HStack(spacing: 5.0) {
+                            Button("Main", action: {client.tab = .main})
+                                .frame(width: 60.0)
+                            Button("Scans", action: {client.tab = .friendlyScans})
+                                .frame(width: 60.0)
+                            Button("Map", action: {client.tab = .map})
+                                .frame(width: 60.0)
+                            Button("Top", action: {client.tab = .topPilots})
+                                .frame(width: 60.0)
+                        }
                     }
-                    .accentColor(Color(.sRGB, red: 0.5, green: 0.125, blue: 1.0))
                 }
-            } else if let error = client.error {
-                VStack() {
-                    Text(verbatim: "Error Fetching Data")
-                        .bold()
-                        .foregroundColor(.accentColor)
-                        .accessibilityAddTraits(.isHeader)
-                    Text(verbatim: error)
-                }
-                .accentColor(Color(.sRGB, red: 0.5, green: 0.125, blue: 1.0))
+                .accentColor(Color(.sRGB, red: 0.75, green: 0.25, blue: 1.0))
+                .onChange(of: client.tab, perform: {setActiveModel($0)})
+                .alert(item: $client.errorResponse, content: {Alert(title: Text(verbatim: "Error Sending Data"), message: Text(verbatim: $0.message), dismissButton: .cancel())})
             } else {
                 ProgressView()
-                    .scaleEffect(10.0)
             }
+        }
+    }
+
+    private func selectView() -> AnyView {
+        guard let tab = client.tab else {
+            return AnyView(EmptyView())
+        }
+        switch tab {
+        case .main:
+            return AnyView(Main())
+        case .friendlyScans:
+            return AnyView(Scans())
+        case .incomingScans:
+            return AnyView(Scans())
+        case .outgoingScans:
+            return AnyView(Scans())
+        case .map:
+            return AnyView(Map())
+        case .topPilots:
+            return AnyView(Top())
+        case .topDeaths:
+            return AnyView(Top())
+        case .topLegions:
+            return AnyView(Top())
+        }
+    }
+
+    private func setActiveModel(_ tab: Client.Tabs?) {
+        guard let tab = tab else {
+            client.activeModel = nil
+            return
+        }
+        switch tab {
+        case .main:
+            Self.mainModel.refresh()
+            client.activeModel = Self.mainModel
+        case .friendlyScans:
+            Self.friendlyScansModel.refresh()
+            client.activeModel = Self.friendlyScansModel
+        case .incomingScans:
+            Self.incomingScansModel.refresh()
+            client.activeModel = Self.incomingScansModel
+        case .outgoingScans:
+            Self.outgoingScansModel.refresh()
+            client.activeModel = Self.outgoingScansModel
+        case .map:
+            Self.mapModel.refresh()
+            client.activeModel = Self.mapModel
+        case .topPilots:
+            Self.topPilotsModel.refresh()
+            client.activeModel = Self.topPilotsModel
+        case .topDeaths:
+            Self.topDeathsModel.refresh()
+            client.activeModel = Self.topDeathsModel
+        case .topLegions:
+            Self.topLegionsModel.refresh()
+            client.activeModel = Self.topLegionsModel
         }
     }
 }

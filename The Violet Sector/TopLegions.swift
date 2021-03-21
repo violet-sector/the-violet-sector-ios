@@ -3,10 +3,10 @@
 import SwiftUI
 
 struct TopLegions: View {
-    @ObservedObject var model: Model<Data>
+    @EnvironmentObject private var model: Model<Data>
 
     var body: some View {
-        Page(title: "Top Legions", model: model) {(data) in
+        Page() {(_ data: Data) in
             let legions = data.content
             if !legions.isEmpty {
                 GeometryReader() {(geometry) in

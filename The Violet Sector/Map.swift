@@ -3,14 +3,14 @@
 import SwiftUI
 
 struct Map: View {
-    @ObservedObject var model: Model<Data>
+    @EnvironmentObject private var model: Model<Data>
     @State private var selectedSector: Sectors?
 
     var body: some View {
-        Page(title: "Map", model: model) {(data) in
+        Page() {(_ data: Data) in
             ScrollableMap(data: data, selectedSector: $selectedSector)
             if selectedSector != nil {
-                NavigationLink(destination: SectorDescription(sector: selectedSector!, legions: data.domination[selectedSector!] ?? [], isOpenGate: data.gates.contains(selectedSector!), refresh: {model.refresh()}), tag: selectedSector!, selection: $selectedSector, label: {EmptyView()})
+                NavigationLink(destination: SectorDescription(sector: selectedSector!, legions: data.domination[selectedSector!] ?? [], isOpenGate: data.gates.contains(selectedSector!)), tag: selectedSector!, selection: $selectedSector, label: {EmptyView()})
                     .hidden()
             }
         }

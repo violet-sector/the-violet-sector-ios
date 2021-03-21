@@ -3,10 +3,8 @@
 import SwiftUI
 
 struct TopDeaths: View {
-    @ObservedObject var model: Model<Data>
-
     var body: some View {
-        Page(title: "Top Deaths", model: model) {(data) in
+        Page() {(_ data: Data) in
             let indices = data.content.indices
             if !indices.isEmpty {
                 GeometryReader() {(geometry) in

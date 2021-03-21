@@ -2,7 +2,7 @@
 
 import Combine
 
-final class Model<Data: Decodable>: ObservableObject {
+final class Model<Data: Decodable>: ModelProtocol, ObservableObject {
     @Published private(set) var data: Data?
     @Published private(set) var warning: String?
     @Published private(set) var error: String?
@@ -12,9 +12,6 @@ final class Model<Data: Decodable>: ObservableObject {
 
     init(resource: String) {
         self.resource = resource
-        if resource == "main.php" {
-            refresh()
-        }
     }
 
     func refresh() {

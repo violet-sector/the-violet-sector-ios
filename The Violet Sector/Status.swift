@@ -6,20 +6,17 @@ struct Status: View {
     @ObservedObject private var client = Client.shared
 
     var body: some View {
-        VStack() {
-            if let data = client.statusResponse {
-                HStack() {
-                    if data.moves >= 0 {
-                        Text(verbatim: "\(data.moves) \(data.moves != 1 ? "Moves" : "Move")")
-                    } else {
-                        Text(verbatim: "Paused")
-                    }
-                    Text(health: data.currentHealth, maxHealth: data.maxHealth, asPercentage: true)
-                    Text(verbatim: makeSectorString())
+        if let data = client.statusResponse {
+            HStack() {
+                if data.moves >= 0 {
+                    Text(verbatim: "\(data.moves) \(data.moves != 1 ? "Moves" : "Move")")
+                } else {
+                    Text(verbatim: "Paused")
                 }
-                .accessibilityElement(children: .combine)
+                Text(health: data.currentHealth, maxHealth: data.maxHealth, asPercentage: true)
+                Text(verbatim: makeSectorString())
             }
-            Timer()
+            .accessibilityElement(children: .combine)
         }
     }
 
