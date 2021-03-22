@@ -35,6 +35,7 @@ enum Ships: Int, Decodable, CustomStringConvertible {
     case boraxianCruiser
     case krilgorianCruiser
     case tibranCruiser
+    case dock
 
     var description: String {
         switch self {
@@ -106,6 +107,8 @@ enum Ships: Int, Decodable, CustomStringConvertible {
             return "Krilgorian Cruiser"
         case .tibranCruiser:
             return "Tibran Cruiser"
+        case .dock:
+            return "Dock"
         }
     }
 
@@ -172,6 +175,7 @@ enum Ships: Int, Decodable, CustomStringConvertible {
         if self.isCloaker {return "Cloaker"}
         if self.isBomber {return "Bomber"}
         if self.isRepairer {return "Repairer"}
+        if self == .dock {return "Dock"}
         return "Planet"
     }
 }

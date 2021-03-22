@@ -16,6 +16,7 @@ struct Status: View {
                 Text(health: data.currentHealth, maxHealth: data.maxHealth, asPercentage: true)
                 Text(verbatim: makeSectorString())
             }
+            .font(.footnote)
             .accessibilityElement(children: .combine)
         }
     }

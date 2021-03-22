@@ -8,12 +8,24 @@ struct TargetDescription: View {
 
     var body: some View {
         VStack() {
-            if data.ship != .planet {
-                Image("Ships/\(data.ship)")
-                    .accessibilityLabel(data.ship.description)
+            if data.ship != .dock {
+                if data.ship != .planet {
+                    Image("Ships/\(data.ship)")
+                        .accessibilityLabel(data.ship.description)
+                    Text(verbatim: "\(data.ship): \(data.ship.type)" + (data.isCloaked ?? false ? " (Cloaked)" : ""))
+                        .font(.caption)
+                } else {
+                    if let sector = Sectors(rawValue: data.legion.rawValue) {
+                        Image("Sectors/Images/\(sector)")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 125.0, height: 125.0)
+                            .accessibilityLabel(data.ship.description)
+                    }
+                    Text(verbatim: data.ship.description)
+                        .font(.caption)
+                }
             }
-            Text(verbatim: "\(data.ship): \(data.ship.type)" + (data.isCloaked ?? false ? " (Cloaked)" : ""))
-                .font(.caption)
             HStack() {
                 if case let .intValue(id) = data.id, let canDock = data.canDock, canDock {
                     Button("Dock", action: {Client.shared.post("carrier_enter.php", query: ["carrier": String(id)], completionHandler: {Client.shared.activeModel.refresh()})})

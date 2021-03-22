@@ -14,8 +14,12 @@ struct Targets: View {
                         ForEach(data) {(target) in
                             Button(action: {selection = target.id}) {
                                 HStack(spacing: 5.0) {
-                                    (Text(verbatim: "\(target.name)\(target.isOnline ? "*" : "") [") + Text(verbatim: "\(target.legion.description.first!)").bold().foregroundColor(Color("Legions/\(target.legion)")) + Text(verbatim: "]"))
-                                        .frame(width: (geometry.size.width - 15.0) * 0.5, alignment: .leading)
+                                    let name = Text(verbatim: target.name) +
+                                        Text(verbatim: target.isOnline ? "*" : "").foregroundColor(Color(.sRGB, red: 1.0, green: 0.8, blue: 0.0)) +
+                                        Text(verbatim: " [") +
+                                        Text(verbatim: "\(target.legion.description.first!)").bold().foregroundColor(Color("Legions/\(target.legion)")) +
+                                        Text(verbatim: "]")
+                                    name.frame(width: (geometry.size.width - 15.0) * 0.5, alignment: .leading)
                                     Text(health: target.currentHealth, maxHealth: target.maxHealth, asPercentage: true)
                                         .frame(width: (geometry.size.width - 15.0) * 0.2, alignment: .trailing)
                                     Text(verbatim: "\(target.score >= 10000 ? "\(target.score / 1000)k" : "\(target.score)") (\(target.level))")

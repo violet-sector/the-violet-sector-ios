@@ -42,7 +42,7 @@ struct Main: View {
                                     Description(name: "Cloaking Device") {
                                         VStack() {
                                             Text(verbatim: !data.status.isCloaked ? "Decloaked" : "Cloaked")
-                                            if !data.status.isCloaked && data.status.moves >= Client.shared.settings?.movesToDecloak ?? 0 && data.status.carrier.name == nil {
+                                            if !data.status.isCloaked && data.status.moves >= Client.shared.settings?.movesToCloak ?? 0 && data.status.carrier.name == nil {
                                                 Button("Cloak", action: {Client.shared.post("cloak_on.php", query: [:], completionHandler: {Client.shared.activeModel.refresh()})})
                                                     .frame(width: 80.0)
                                             } else if data.status.isCloaked && data.status.moves >= Client.shared.settings?.movesToDecloak ?? 0 {
@@ -55,7 +55,7 @@ struct Main: View {
                                 if let name = data.status.carrier.name, let isOnline = data.status.carrier.isOnline {
                                     Description(name: "Carrier") {
                                         VStack() {
-                                            Text(verbatim: name + (isOnline ? "*" : ""))
+                                            Text(verbatim: name) + Text(verbatim: isOnline ? "*" : "").foregroundColor(Color(.sRGB, red: 1.0, green: 0.8, blue: 0.0))
                                             if data.status.moves >= Client.shared.settings?.movesToUndock ?? 0 {
                                                 Button("Undock", action: {Client.shared.post("carrier_exit.php", query: [:], completionHandler: {Client.shared.activeModel.refresh()})})
                                                     .frame(width: 80.0)
@@ -65,35 +65,24 @@ struct Main: View {
                                 }
                                 Description(name: "Base sector") {Text(verbatim: "??")}
                                 Description(name: "Base Hitpoints") {Text(health: data.base.currentHealth, maxHealth: data.base.maxHealth, asPercentage: false)}
-                                Description(name: "Council") {Text(verbatim: Self.makeCouncilString(data: data))}
+                                Description(name: "Council") {
+                                    VStack() {
+                                        if let council = data.council, !council.isEmpty {
+                                            ForEach(council, id: \.name) {(commander) in
+                                                Text(verbatim: commander.name) + Text(verbatim: commander.isOnline ? "*" : "").foregroundColor(Color(.sRGB, red: 1.0, green: 0.8, blue: 0.0)) + Text(verbatim: commander.responsibility > 1 ? " (LC)" : " (VC)")
+                                            }
+                                        } else {
+                                            Text(verbatim: "None")
+                                        }
+                                    }
+                                    .accessibilityElement(children: .combine)
+                                }
                             }
                         }
                     }
                 }
             }
         }
-    }
-
-    private static func makeCouncilString(data: Data) -> String {
-        guard let council = data.council else {
-            return "None"
-        }
-        var councilString = ""
-        for commander in council {
-            if !councilString.isEmpty {
-                councilString += "\n"
-            }
-            councilString += commander.name
-            if commander.isOnline {
-                councilString += "*"
-            }
-            if commander.responsibility > 1 {
-                councilString += " (LC)"
-            } else {
-                councilString += " (VC)"
-            }
-        }
-        return councilString
     }
 
     private static func makeNewsString(data: Data) -> String {
