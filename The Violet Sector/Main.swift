@@ -87,7 +87,7 @@ struct Main: View {
             if commander.isOnline {
                 councilString += "*"
             }
-            if commander.responsibility == 3 {
+            if commander.responsibility > 1 {
                 councilString += " (LC)"
             } else {
                 councilString += " (VC)"
