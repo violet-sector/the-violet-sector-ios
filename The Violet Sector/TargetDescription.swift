@@ -20,19 +20,21 @@ struct TargetDescription: View {
                         .frame(width: 80.0)
                 }
             }
-            VStack() {
-                if let rank = rank {
-                    Description(name: "Rank") {Text(verbatim: String(rank))}
-                }
-                Description(name: "Legion") {Text(verbatim: data.legion.description)}
-                Description(name: "Hitpoints") {Text(health: data.currentHealth, maxHealth: data.maxHealth, asPercentage: false)}
-                Description(name: "Score") {Text(verbatim: String(data.score))}
-                Description(name: "Level") {Text(verbatim: String(data.level))}
-                if let kills = data.kills {
-                    Description(name: "Kills") {Text(verbatim: String(kills))}
-                }
-                if let deaths = data.deaths {
-                    Description(name: "Deaths") {Text(verbatim: String(deaths))}
+            GeometryReader() {(geometry) in
+                LazyVGrid(columns: [GridItem(.fixed(geometry.size.width * 0.5), alignment: .trailing), GridItem(.fixed(geometry.size.width * 0.5), alignment: .leading)]) {
+                    if let rank = rank {
+                        Description(name: "Rank") {Text(verbatim: String(rank))}
+                    }
+                    Description(name: "Legion") {Text(verbatim: data.legion.description)}
+                    Description(name: "Hitpoints") {Text(health: data.currentHealth, maxHealth: data.maxHealth, asPercentage: false)}
+                    Description(name: "Score") {Text(verbatim: String(data.score))}
+                    Description(name: "Level") {Text(verbatim: String(data.level))}
+                    if let kills = data.kills {
+                        Description(name: "Kills") {Text(verbatim: String(kills))}
+                    }
+                    if let deaths = data.deaths {
+                        Description(name: "Deaths") {Text(verbatim: String(deaths))}
+                    }
                 }
             }
             Spacer()

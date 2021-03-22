@@ -13,7 +13,7 @@ struct Main: View {
                             .padding(5.0)
                             .border(Color.primary)
                             .frame(width: geometry.size.width - 10.0)
-                        VStack() {
+                        LazyVGrid(columns: [GridItem(.fixed(geometry.size.width * 0.5), alignment: .trailing), GridItem(.fixed(geometry.size.width * 0.5), alignment: .leading)]) {
                             Group() {
                                 Description(name: "Pilot Name") {Text(verbatim: data.status.name)}
                                 Description(name: "Score") {Text(verbatim: String(data.status.score))}
