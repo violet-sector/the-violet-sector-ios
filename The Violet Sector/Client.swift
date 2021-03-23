@@ -55,7 +55,7 @@ final class Client: ObservableObject {
         #endif
         let dataPublisher = session.dataTaskPublisher(for: URL(string: Self.baseURL + resource)!)
             .tryMap({(_ input: (data: Data, response: URLResponse)) -> Data in let response = input.response as! HTTPURLResponse; if response.statusCode != 200 {throw Errors.serverError(response.statusCode)} else if response.mimeType == nil {throw Errors.noContentType} else if response.mimeType! != "application/json" {throw Errors.invalidContentType(response.mimeType!)}; return input.data})
-            .prefix(2)
+            .share()
         let responsePublisher = dataPublisher
             .decode(type: Response?.self, decoder: decoder)
             .tryCatch({[unowned root] (_ failure: Error) -> Just<Response?> in if let error = error, failure is DecodingError {root[keyPath: error] = Self.describeError(failure); return Just(Response?.none)}; throw failure})
