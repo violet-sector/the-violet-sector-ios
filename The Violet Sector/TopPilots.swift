@@ -28,9 +28,9 @@ struct TopPilots: View {
                                         Text(verbatim: String(index + 1))
                                             .frame(width: 20.0, alignment: .trailing)
                                         let name = Text(verbatim: data.content[index].name) +
-                                            Text(verbatim: data.content[index].isOnline ? "*" : "").foregroundColor(Color(.sRGB, red: 1.0, green: 0.8, blue: 0.0)) +
+                                            Text(verbatim: data.content[index].isOnline ? "*" : "").foregroundColor(Color("Colors/Online")) +
                                             Text(verbatim: " [") +
-                                            Text(verbatim: "\(data.content[index].legion.description.first!)").bold().foregroundColor(Color("Legions/\(data.content[index].legion)")) +
+                                            Text(verbatim: "\(data.content[index].legion.description.first!)").bold().foregroundColor(Color("Colors/\(data.content[index].legion)")) +
                                             Text(verbatim: "]")
                                         name.frame(width: (geometry.size.width - 35.0) * 0.5, alignment: .leading)
                                         Text(health: data.content[index].currentHealth, maxHealth: data.content[index].maxHealth, asPercentage: true)

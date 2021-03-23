@@ -59,7 +59,7 @@ import SwiftUI
                         }
                     }
                 }
-                .accentColor(Color(.sRGB, red: 0.75, green: 0.25, blue: 1.0))
+                .accentColor(Color("Colors/Accent"))
                 .onChange(of: client.tab, perform: {setActiveModel($0)})
                 .alert(item: $client.errorResponse, content: {Alert(title: Text(verbatim: "Error Sending Data"), message: Text(verbatim: $0.message), dismissButton: .cancel())})
             } else {

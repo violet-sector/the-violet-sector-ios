@@ -55,7 +55,7 @@ struct Main: View {
                                 if let name = data.status.carrier.name, let isOnline = data.status.carrier.isOnline {
                                     Description(name: "Carrier") {
                                         VStack() {
-                                            Text(verbatim: name) + Text(verbatim: isOnline ? "*" : "").foregroundColor(Color(.sRGB, red: 1.0, green: 0.8, blue: 0.0))
+                                            Text(verbatim: name) + Text(verbatim: isOnline ? "*" : "").foregroundColor(Color("Colors/Online"))
                                             if data.status.moves >= Client.shared.settings?.movesToUndock ?? 0 {
                                                 Button("Undock", action: {Client.shared.post("carrier_exit.php", query: [:], completionHandler: {Client.shared.activeModel.refresh()})})
                                                     .frame(width: 80.0)
@@ -69,7 +69,7 @@ struct Main: View {
                                     VStack() {
                                         if let council = data.council, !council.isEmpty {
                                             ForEach(council, id: \.name) {(commander) in
-                                                Text(verbatim: commander.name) + Text(verbatim: commander.isOnline ? "*" : "").foregroundColor(Color(.sRGB, red: 1.0, green: 0.8, blue: 0.0)) + Text(verbatim: commander.responsibility > 1 ? " (LC)" : " (VC)")
+                                                Text(verbatim: commander.name) + Text(verbatim: commander.isOnline ? "*" : "").foregroundColor(Color("Colors/Online")) + Text(verbatim: commander.responsibility > 1 ? " (LC)" : " (VC)")
                                             }
                                         } else {
                                             Text(verbatim: "None")
