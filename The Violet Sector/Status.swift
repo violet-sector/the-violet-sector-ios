@@ -14,16 +14,16 @@ struct Status: View {
                     Text(verbatim: "Paused")
                 }
                 Text(health: data.currentHealth, maxHealth: data.maxHealth, asPercentage: true)
-                Text(verbatim: makeSectorString())
+                makeSectorText()
             }
             .font(.footnote)
             .accessibilityElement(children: .combine)
         }
     }
 
-    private func makeSectorString() -> String {
+    private func makeSectorText() -> Text {
         guard let data = client.statusResponse else {
-            return ""
+            return Text(verbatim: "")
         }
         var sector = data.destinationSector == .none ? data.currentSector.description : "Hypering to " + data.destinationSector.description
         if data.isSleeping {
@@ -35,9 +35,14 @@ struct Status: View {
         if data.isCloaked {
             sector += " (Cloaked)"
         }
+        var sectorText = Text(verbatim: sector)
         if let name = data.carrier.name, let isOnline = data.carrier.isOnline {
-            sector += " (inside \(name + (isOnline ? "*" : "")))"
+            sectorText = sectorText + Text(verbatim: " (inside \(name)")
+            if isOnline {
+                sectorText = sectorText + Text(verbatim: "*").foregroundColor(Color("Colors/Online"))
+            }
+            sectorText = sectorText + Text(verbatim: ")")
         }
-        return sector
+        return sectorText
     }
 }
