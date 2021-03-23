@@ -31,7 +31,7 @@ struct Main: View {
                                         }
                                     }
                                 }
-                                Description(name: "Sector") {Text(verbatim: data.status.destinationSector == .none ? data.status.currentSector.description : "Hypering to " + data.status.destinationSector.description)}
+                                Description(name: "Sector") {Text(verbatim: (data.status.destinationSector == .none ? data.status.currentSector.description : "Hypering to " + data.status.destinationSector.description) + (data.status.isSleeping ? " (zZzZ)" : "") + (data.status.isInvulnerable ? " (Invulnerable)" : ""))}
                                 if let scrap = data.scrap {
                                     Description(name: "Scrap in Sector") {Text(verbatim: String(scrap))}
                                 }
