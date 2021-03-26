@@ -1,0 +1,43 @@
+// Created by João Santos for project The Violet Sector.
+
+import SwiftUI
+
+struct News: View {
+    var body: some View {
+        Page() {(_ data: Data) in
+            Text(verbatim: "Set by \(data.content.author) on T\(data.content.turn)\n\(DateFormatter.localizedString(from: Date(timeIntervalSince1970: TimeInterval(data.content.time)), dateStyle: .short, timeStyle: .short))")
+            GeometryReader() {(geometry) in
+                ScrollView() {
+                    Text(verbatim: data.content.text)
+                        .multilineTextAlignment(.leading)
+                }
+                .padding(5.0)
+                .frame(width: geometry.size.width - 20.0, height: geometry.size.height, alignment: .topLeading)
+                .border(Color.primary)
+                .padding()
+            }
+        }
+    }
+
+    struct Data: Decodable {
+        let content: Content
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "legion_news"
+        }
+
+        struct Content: Decodable {
+            let author: String
+            let time: Int64
+            let turn: Int64
+            let text: String
+
+            private enum CodingKeys: String, CodingKey {
+                case author
+                case time = "news_time"
+                case turn = "news_tick"
+                case text = "news_text"
+            }
+        }
+    }
+}

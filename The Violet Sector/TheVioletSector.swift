@@ -4,10 +4,11 @@ import SwiftUI
 
 @main struct TheVioletSector: App {
     @ObservedObject private var client = Client.shared
-    private static let mainModel = Model<Main.Data>(resource: "main.php")
+    private static let dashboardModel = Model<Dashboard.Data>(resource: "main.php")
     private static let friendlyScansModel = Model<FriendlyScans.Data>(resource: "scans_friendlies.php")
     private static let incomingScansModel = Model<IncomingScans.Data>(resource: "scans_incoming.php")
     private static let outgoingScansModel = Model<OutgoingScans.Data>(resource: "scans_outgoing.php")
+    private static var newsModel = Model<News.Data>(resource: "legion_news.php")
     private static let mapModel = Model<Map.Data>(resource: "navcom_map.php")
     private static let topPilotsModel = Model<TopPilots.Data>(resource: "rankings_pilots.php")
     private static let topDeathsModel = Model<TopDeaths.Data>(resource: "rankings_att.php")
@@ -29,17 +30,18 @@ import SwiftUI
                                 .multilineTextAlignment(.leading)
                         }
                         .padding(5.0)
+                        .frame(width: 240.0, height: 120.0, alignment: .topLeading)
                         .border(Color.primary)
-                        .frame(width: 240.0, height: 100.0, alignment: .topLeading)
-                        Button("Enter", action: {client.tab = .main})
+                        Button("Enter", action: {client.tab = .dashboard})
                         Spacer()
                     } else {
                         NavigationView() {
                             selectView()
-                                .environmentObject(Self.mainModel)
+                                .environmentObject(Self.dashboardModel)
                                 .environmentObject(Self.friendlyScansModel)
                                 .environmentObject(Self.incomingScansModel)
                                 .environmentObject(Self.outgoingScansModel)
+                                .environmentObject(Self.newsModel)
                                 .environmentObject(Self.mapModel)
                                 .environmentObject(Self.topPilotsModel)
                                 .environmentObject(Self.topDeathsModel)
@@ -48,9 +50,11 @@ import SwiftUI
                         }
                         Status()
                         HStack(spacing: 5.0) {
-                            Button("Main", action: {client.tab = .main})
+                            Button("Main", action: {client.tab = .dashboard})
                                 .frame(width: 60.0)
                             Button("Scans", action: {client.tab = .friendlyScans})
+                                .frame(width: 60.0)
+                            Button("Comms", action: {client.tab = .news})
                                 .frame(width: 60.0)
                             Button("Map", action: {client.tab = .map})
                                 .frame(width: 60.0)
@@ -73,7 +77,7 @@ import SwiftUI
             return AnyView(EmptyView())
         }
         switch tab {
-        case .main:
+        case .dashboard:
             return AnyView(Main())
         case .friendlyScans:
             return AnyView(Scans())
@@ -81,6 +85,8 @@ import SwiftUI
             return AnyView(Scans())
         case .outgoingScans:
             return AnyView(Scans())
+        case .news:
+            return AnyView(Comms())
         case .map:
             return AnyView(Map())
         case .topPilots:
@@ -98,9 +104,9 @@ import SwiftUI
             return
         }
         switch tab {
-        case .main:
-            Self.mainModel.refresh()
-            client.activeModel = Self.mainModel
+        case .dashboard:
+            Self.dashboardModel.refresh()
+            client.activeModel = Self.dashboardModel
         case .friendlyScans:
             Self.friendlyScansModel.refresh()
             client.activeModel = Self.friendlyScansModel
@@ -110,6 +116,9 @@ import SwiftUI
         case .outgoingScans:
             Self.outgoingScansModel.refresh()
             client.activeModel = Self.outgoingScansModel
+        case .news:
+            Self.newsModel.refresh()
+            client.activeModel = Self.newsModel
         case .map:
             Self.mapModel.refresh()
             client.activeModel = Self.mapModel

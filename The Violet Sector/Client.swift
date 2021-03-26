@@ -300,10 +300,11 @@ final class Client: ObservableObject {
     }
 
     enum Tabs {
-        case main
+        case dashboard
         case friendlyScans
         case incomingScans
         case outgoingScans
+        case news
         case map
         case topPilots
         case topDeaths
@@ -311,14 +312,16 @@ final class Client: ObservableObject {
 
         var title: String {
             switch self {
-            case .main:
-                return "Main"
+            case .dashboard:
+                return "Dashboard"
             case .friendlyScans:
                 return "Friendly Scans"
             case .incomingScans:
                 return "Incoming Scans"
             case .outgoingScans:
                 return "Outgoing Scans"
+            case .news:
+                return "Legion News"
             case .map:
                 return "Map"
             case .topPilots:
