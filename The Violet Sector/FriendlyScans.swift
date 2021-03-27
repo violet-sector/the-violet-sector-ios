@@ -4,7 +4,7 @@ import SwiftUI
 
 struct FriendlyScans: View {
     var body: some View {
-        Page() {(_ data: Data) in
+        Page(dataType: Data.self) {(data) in
             Targets(data: data.content)
         }
     }

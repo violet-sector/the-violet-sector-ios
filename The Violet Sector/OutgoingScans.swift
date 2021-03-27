@@ -4,7 +4,7 @@ import SwiftUI
 
 struct OutgoingScans: View {
     var body: some View {
-        Page() {(_ data: Data) in
+        Page(dataType: Data.self) {(data) in
             Targets(data: data.content)
         }
     }

@@ -4,7 +4,7 @@ import SwiftUI
 
 struct TopDeaths: View {
     var body: some View {
-        Page() {(_ data: Data) in
+        Page(dataType: Data.self) {(data) in
             let indices = data.content.indices
             if !indices.isEmpty {
                 GeometryReader() {(geometry) in

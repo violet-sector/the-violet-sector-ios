@@ -4,7 +4,7 @@ import SwiftUI
 
 struct Dashboard: View {
     var body: some View {
-        Page() {(_ data: Data) in
+        Page(dataType: Data.self) {(data) in
             GeometryReader() {(geometry) in
                 VStack(spacing: 10.0) {
                     LazyVGrid(columns: [GridItem(.fixed(geometry.size.width * 0.5), alignment: .trailing), GridItem(.fixed(geometry.size.width * 0.5), alignment: .leading)]) {

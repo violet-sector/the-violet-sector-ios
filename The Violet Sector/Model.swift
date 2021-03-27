@@ -10,7 +10,7 @@ final class Model<Data: Decodable>: ModelProtocol, ObservableObject {
     private var request: Cancellable?
     private let resource: String
 
-    init(resource: String) {
+    init(resource: String, dataType _: Data.Type) {
         self.resource = resource
     }
 

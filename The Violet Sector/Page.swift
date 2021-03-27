@@ -39,7 +39,7 @@ struct Page<Data: Decodable, Content: View>: View {
         .onChange(of: scenePhase, perform: {if $0 == .active {model.refresh()}})
     }
 
-    init(@ViewBuilder content: @escaping (_: Data) -> Content) {
+    init(dataType _: Data.Type, @ViewBuilder content: @escaping (_: Data) -> Content) {
         self.content = content
     }
 }

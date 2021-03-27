@@ -7,7 +7,7 @@ struct Map: View {
     @State private var selectedSector: Sectors?
 
     var body: some View {
-        Page() {(_ data: Data) in
+        Page(dataType: Data.self) {(data) in
             ScrollableMap(data: data, selectedSector: $selectedSector)
             if selectedSector != nil {
                 NavigationLink(destination: SectorDescription(sector: selectedSector!, legions: data.domination[selectedSector!] ?? [], isOpenGate: data.gates.contains(selectedSector!)), tag: selectedSector!, selection: $selectedSector, label: {EmptyView()})

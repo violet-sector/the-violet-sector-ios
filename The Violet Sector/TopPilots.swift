@@ -8,7 +8,7 @@ struct TopPilots: View {
     @State private var selection: Target.Identifier?
     
     var body: some View {
-        Page() {(_ data: Data) in
+        Page(dataType: Data.self) {(data) in
             HStack {
                 TextField("Search", text: $searchInput, onCommit: {search = searchInput})
                     .autocapitalization(.none)

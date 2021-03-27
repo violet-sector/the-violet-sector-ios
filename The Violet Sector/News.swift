@@ -4,7 +4,7 @@ import SwiftUI
 
 struct News: View {
     var body: some View {
-        Page() {(_ data: Data) in
+        Page(dataType: Data.self) {(data) in
             Text(verbatim: "Set by \(data.content.author) on T\(data.content.turn)\n\(DateFormatter.localizedString(from: Date(timeIntervalSince1970: TimeInterval(data.content.time)), dateStyle: .short, timeStyle: .short))")
             GeometryReader() {(geometry) in
                 ScrollView() {

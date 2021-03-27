@@ -4,22 +4,21 @@ import SwiftUI
 
 @main struct TheVioletSector: App {
     @ObservedObject private var client = Client.shared
-    private static let dashboardModel = Model<Dashboard.Data>(resource: "main.php")
-    private static let friendlyScansModel = Model<FriendlyScans.Data>(resource: "scans_friendlies.php")
-    private static let incomingScansModel = Model<IncomingScans.Data>(resource: "scans_incoming.php")
-    private static let outgoingScansModel = Model<OutgoingScans.Data>(resource: "scans_outgoing.php")
-    private static var newsModel = Model<News.Data>(resource: "legion_news.php")
-    private static let mapModel = Model<Map.Data>(resource: "navcom_map.php")
-    private static let topPilotsModel = Model<TopPilots.Data>(resource: "rankings_pilots.php")
-    private static let topDeathsModel = Model<TopDeaths.Data>(resource: "rankings_att.php")
-    private static let topLegionsModel = Model<TopLegions.Data>(resource: "rankings_legions.php")
+    private static let dashboardModel = Model(resource: "main.php", dataType: Dashboard.Data.self)
+    private static let friendlyScansModel = Model(resource: "scans_friendlies.php", dataType: FriendlyScans.Data.self)
+    private static let incomingScansModel = Model(resource: "scans_incoming.php", dataType: IncomingScans.Data.self)
+    private static let outgoingScansModel = Model(resource: "scans_outgoing.php", dataType: OutgoingScans.Data.self)
+    private static var newsModel = Model(resource: "legion_news.php", dataType: News.Data.self)
+    private static let mapModel = Model(resource: "navcom_map.php", dataType: Map.Data.self)
+    private static let topPilotsModel = Model(resource: "rankings_pilots.php", dataType: TopPilots.Data.self)
+    private static let topDeathsModel = Model(resource: "rankings_att.php", dataType: TopDeaths.Data.self)
+    private static let topLegionsModel = Model(resource: "rankings_legions.php", dataType: TopLegions.Data.self)
 
     var body: some Scene {
         WindowGroup() {
             if let settings = client.settings {
                 VStack(spacing: 10.0) {
-                    Text(verbatim: client.timer)
-                        .font(.system(.body, design: .monospaced))
+                    Timer()
                     if client.tab == nil {
                         Spacer()
                         Text(verbatim: "News")
@@ -105,32 +104,24 @@ import SwiftUI
         }
         switch tab {
         case .dashboard:
-            Self.dashboardModel.refresh()
             client.activeModel = Self.dashboardModel
         case .friendlyScans:
-            Self.friendlyScansModel.refresh()
             client.activeModel = Self.friendlyScansModel
         case .incomingScans:
-            Self.incomingScansModel.refresh()
             client.activeModel = Self.incomingScansModel
         case .outgoingScans:
-            Self.outgoingScansModel.refresh()
             client.activeModel = Self.outgoingScansModel
         case .news:
-            Self.newsModel.refresh()
             client.activeModel = Self.newsModel
         case .map:
-            Self.mapModel.refresh()
             client.activeModel = Self.mapModel
         case .topPilots:
-            Self.topPilotsModel.refresh()
             client.activeModel = Self.topPilotsModel
         case .topDeaths:
-            Self.topDeathsModel.refresh()
             client.activeModel = Self.topDeathsModel
         case .topLegions:
-            Self.topLegionsModel.refresh()
             client.activeModel = Self.topLegionsModel
         }
+        client.activeModel.refresh()
     }
 }
