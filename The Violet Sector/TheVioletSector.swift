@@ -5,6 +5,7 @@ import SwiftUI
 @main struct TheVioletSector: App {
     @ObservedObject private var client = Client.shared
     private static let dashboardModel = Model(resource: "main.php", dataType: Dashboard.Data.self)
+    private static let journalModel = Model(resource: "journal.php", dataType: Journal.Data.self)
     private static let friendlyScansModel = Model(resource: "scans_friendlies.php", dataType: FriendlyScans.Data.self)
     private static let incomingScansModel = Model(resource: "scans_incoming.php", dataType: IncomingScans.Data.self)
     private static let outgoingScansModel = Model(resource: "scans_outgoing.php", dataType: OutgoingScans.Data.self)
@@ -37,6 +38,7 @@ import SwiftUI
                         NavigationView() {
                             selectView()
                                 .environmentObject(Self.dashboardModel)
+                                .environmentObject(Self.journalModel)
                                 .environmentObject(Self.friendlyScansModel)
                                 .environmentObject(Self.incomingScansModel)
                                 .environmentObject(Self.outgoingScansModel)
@@ -76,23 +78,15 @@ import SwiftUI
             return AnyView(EmptyView())
         }
         switch tab {
-        case .dashboard:
+        case .dashboard, .journal:
             return AnyView(Main())
-        case .friendlyScans:
-            return AnyView(Scans())
-        case .incomingScans:
-            return AnyView(Scans())
-        case .outgoingScans:
+        case .friendlyScans, .incomingScans, .outgoingScans:
             return AnyView(Scans())
         case .news:
             return AnyView(Comms())
         case .map:
             return AnyView(Map())
-        case .topPilots:
-            return AnyView(Top())
-        case .topDeaths:
-            return AnyView(Top())
-        case .topLegions:
+        case .topPilots, .topDeaths, .topLegions:
             return AnyView(Top())
         }
     }
@@ -105,6 +99,8 @@ import SwiftUI
         switch tab {
         case .dashboard:
             client.activeModel = Self.dashboardModel
+        case .journal:
+            client.activeModel = Self.journalModel
         case .friendlyScans:
             client.activeModel = Self.friendlyScansModel
         case .incomingScans:

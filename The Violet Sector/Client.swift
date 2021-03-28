@@ -230,6 +230,7 @@ final class Client: ObservableObject {
 
     enum Tabs {
         case dashboard
+        case journal
         case friendlyScans
         case incomingScans
         case outgoingScans
@@ -243,6 +244,8 @@ final class Client: ObservableObject {
             switch self {
             case .dashboard:
                 return "Dashboard"
+            case .journal:
+                return "Journal"
             case .friendlyScans:
                 return "Friendly Scans"
             case .incomingScans:

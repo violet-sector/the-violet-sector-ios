@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A01744AF2512EB5F009315F6 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01744AE2512EB5F009315F6 /* Model.swift */; };
+		A028BF832610550A00586F41 /* Journal.swift in Sources */ = {isa = PBXBuildFile; fileRef = A028BF822610550A00586F41 /* Journal.swift */; };
 		A02B994E2509AF380093DF90 /* SectorDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02B994D2509AF380093DF90 /* SectorDescription.swift */; };
 		A041182D24EBE61400B309DA /* Sectors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041182C24EBE61400B309DA /* Sectors.swift */; };
 		A041182F24EE261700B309DA /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = A041182E24EE261700B309DA /* Status.swift */; };
@@ -44,6 +45,7 @@
 
 /* Begin PBXFileReference section */
 		A01744AE2512EB5F009315F6 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		A028BF822610550A00586F41 /* Journal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Journal.swift; sourceTree = "<group>"; };
 		A02B994D2509AF380093DF90 /* SectorDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorDescription.swift; sourceTree = "<group>"; };
 		A041182C24EBE61400B309DA /* Sectors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sectors.swift; sourceTree = "<group>"; };
 		A041182E24EE261700B309DA /* Status.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				A079FF692501EE8F00FA1B13 /* Map.swift */,
 				A09BA54B2605A55100196FD9 /* Top.swift */,
 				A046D02D24E79E24000393E7 /* Dashboard.swift */,
+				A028BF822610550A00586F41 /* Journal.swift */,
 				A09BA54F260651B200196FD9 /* FriendlyScans.swift */,
 				A09BA552260655E500196FD9 /* IncomingScans.swift */,
 				A09BA5552606570200196FD9 /* OutgoingScans.swift */,
@@ -231,6 +234,7 @@
 				A09E96E7260E8C0C00919101 /* Main.swift in Sources */,
 				A043549B24F0355100EA9BF4 /* String.swift in Sources */,
 				A09E96E0260E79A500919101 /* Comms.swift in Sources */,
+				A028BF832610550A00586F41 /* Journal.swift in Sources */,
 				A041183324EEAF0A00B309DA /* Legions.swift in Sources */,
 				A08E6B8325F624820057E8D7 /* Description.swift in Sources */,
 				A08E6B6E25F1E2570057E8D7 /* Page.swift in Sources */,
