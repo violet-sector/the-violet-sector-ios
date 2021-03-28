@@ -2,7 +2,7 @@
 
 import SwiftUI
 
-struct Dashboard: View {
+struct Computer: View {
     var body: some View {
         Page(dataType: Data.self) {(data) in
             GeometryReader() {(geometry) in

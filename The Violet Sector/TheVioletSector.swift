@@ -4,7 +4,7 @@ import SwiftUI
 
 @main struct TheVioletSector: App {
     @ObservedObject private var client = Client.shared
-    private static let dashboardModel = Model(resource: "main.php", dataType: Dashboard.Data.self)
+    private static let computerModel = Model(resource: "main.php", dataType: Computer.Data.self)
     private static let journalModel = Model(resource: "journal.php", dataType: Journal.Data.self)
     private static let friendlyScansModel = Model(resource: "scans_friendlies.php", dataType: FriendlyScans.Data.self)
     private static let incomingScansModel = Model(resource: "scans_incoming.php", dataType: IncomingScans.Data.self)
@@ -33,12 +33,12 @@ import SwiftUI
                         .padding(5.0)
                         .frame(width: 240.0, height: 120.0)
                         .border(Color.primary)
-                        Button("Enter", action: {client.tab = .dashboard})
+                        Button("Enter", action: {client.tab = .computer})
                         Spacer()
                     } else {
                         NavigationView() {
                             selectView()
-                                .environmentObject(Self.dashboardModel)
+                                .environmentObject(Self.computerModel)
                                 .environmentObject(Self.journalModel)
                                 .environmentObject(Self.friendlyScansModel)
                                 .environmentObject(Self.incomingScansModel)
@@ -52,7 +52,7 @@ import SwiftUI
                         }
                         Status()
                         HStack(spacing: 5.0) {
-                            Button("Main", action: {client.tab = .dashboard})
+                            Button("Main", action: {client.tab = .computer})
                                 .frame(width: 60.0)
                             Button("Scans", action: {client.tab = .friendlyScans})
                                 .frame(width: 60.0)
@@ -80,7 +80,7 @@ import SwiftUI
             return AnyView(EmptyView())
         }
         switch tab {
-        case .dashboard, .journal:
+        case .computer, .journal:
             return AnyView(Main())
         case .friendlyScans, .incomingScans, .outgoingScans:
             return AnyView(Scans())
@@ -99,8 +99,8 @@ import SwiftUI
             return
         }
         switch tab {
-        case .dashboard:
-            client.activeModel = Self.dashboardModel
+        case .computer:
+            client.activeModel = Self.computerModel
         case .journal:
             client.activeModel = Self.journalModel
         case .friendlyScans:

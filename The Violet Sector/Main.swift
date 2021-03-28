@@ -8,14 +8,14 @@ struct Main: View {
     var body: some View {
         VStack(spacing: 10.0) {
             HStack(spacing: 5.0) {
-                Button("Dashboard", action: {client.tab = .dashboard})
+                Button("Computer", action: {client.tab = .computer})
                     .frame(width: 80.0)
                 Button("Journal", action: {client.tab = .journal})
                     .frame(width: 80.0)
             }
             switch client.tab {
-            case .dashboard:
-                Dashboard()
+            case .computer:
+                Computer()
             case .journal:
                 Journal()
             default:
