@@ -28,9 +28,10 @@ import SwiftUI
                         ScrollView() {
                             Text(verbatim: settings.news)
                                 .multilineTextAlignment(.leading)
+                                .frame(maxWidth: .infinity, alignment: .topLeading)
                         }
                         .padding(5.0)
-                        .frame(width: 240.0, height: 120.0, alignment: .topLeading)
+                        .frame(width: 240.0, height: 120.0)
                         .border(Color.primary)
                         Button("Enter", action: {client.tab = .dashboard})
                         Spacer()

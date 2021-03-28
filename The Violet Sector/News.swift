@@ -10,11 +10,12 @@ struct News: View {
                 ScrollView() {
                     Text(verbatim: data.content.text)
                         .multilineTextAlignment(.leading)
+                        .frame(maxWidth: .infinity, alignment: .topLeading)
                 }
                 .padding(5.0)
-                .frame(width: geometry.size.width - 20.0, height: geometry.size.height, alignment: .topLeading)
+                .frame(width: geometry.size.width - 20.0, height: geometry.size.height)
                 .border(Color.primary)
-                .padding()
+                .padding([.leading, .trailing], 10.0)
             }
         }
     }
