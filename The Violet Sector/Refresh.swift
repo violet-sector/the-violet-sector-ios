@@ -2,13 +2,11 @@
 
 import SwiftUI
 
-struct Refresh: ToolbarContent {
-    var body: some ToolbarContent {
-        ToolbarItem(placement: .automatic) {
-            Button(action: {Client.shared.activeModel.refresh()}) {
-                Image(systemName: "arrow.clockwise")
-            }
-            .accessibilityLabel("Refresh")
+struct Refresh: View {
+    var body: some View {
+        Button(action: {Client.shared.activeModel.refresh()}) {
+            Image(systemName: "arrow.clockwise")
         }
+        .accessibilityLabel("Refresh")
     }
 }
