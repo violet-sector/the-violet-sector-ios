@@ -9,11 +9,10 @@ struct Top: View {
         VStack(spacing: 10.0) {
             HStack(spacing: 5.0) {
                 Button("Pilots", action: {client.tab = .topPilots})
-                    .frame(width: 60.0)
                 Button("Deaths", action: {client.tab = .topDeaths})
-                    .frame(width: 60.0)
                 Button("Legions", action: {client.tab = .topLegions})
             }
+            .buttonStyle(SectionButton())
             if let tab = client.tab {
                 switch tab {
                 case .topPilots:

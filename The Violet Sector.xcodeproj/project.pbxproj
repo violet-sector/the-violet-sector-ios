@@ -25,6 +25,8 @@
 		A07CFC5224F8895A0019FE20 /* TopLegions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07CFC5124F8895A0019FE20 /* TopLegions.swift */; };
 		A08198AB25150D0700A81399 /* TheVioletSector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08198AA25150D0700A81399 /* TheVioletSector.swift */; };
 		A082E126250042FB008DCD47 /* Targets.swift in Sources */ = {isa = PBXBuildFile; fileRef = A082E125250042FB008DCD47 /* Targets.swift */; };
+		A08594242611A9FD0058CDBD /* SectionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08594232611A9FD0058CDBD /* SectionButton.swift */; };
+		A08594292611B64D0058CDBD /* TabButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08594282611B64D0058CDBD /* TabButton.swift */; };
 		A08E6B6E25F1E2570057E8D7 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E6B6D25F1E2570057E8D7 /* Page.swift */; };
 		A08E6B7825F3B5A70057E8D7 /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E6B7725F3B5A70057E8D7 /* Text.swift */; };
 		A08E6B8325F624820057E8D7 /* Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E6B8225F624820057E8D7 /* Description.swift */; };
@@ -62,6 +64,8 @@
 		A07CFC5124F8895A0019FE20 /* TopLegions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLegions.swift; sourceTree = "<group>"; };
 		A08198AA25150D0700A81399 /* TheVioletSector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheVioletSector.swift; sourceTree = "<group>"; };
 		A082E125250042FB008DCD47 /* Targets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Targets.swift; sourceTree = "<group>"; };
+		A08594232611A9FD0058CDBD /* SectionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionButton.swift; sourceTree = "<group>"; };
+		A08594282611B64D0058CDBD /* TabButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabButton.swift; sourceTree = "<group>"; };
 		A08E6B6D25F1E2570057E8D7 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		A08E6B7725F3B5A70057E8D7 /* Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
 		A08E6B8225F624820057E8D7 /* Description.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Description.swift; sourceTree = "<group>"; };
@@ -134,6 +138,8 @@
 				A02B994D2509AF380093DF90 /* SectorDescription.swift */,
 				A041183A24EED98300B309DA /* TargetDescription.swift */,
 				A0C4FF5824FE7A5100BA2418 /* Refresh.swift */,
+				A08594282611B64D0058CDBD /* TabButton.swift */,
+				A08594232611A9FD0058CDBD /* SectionButton.swift */,
 				A08E6B8225F624820057E8D7 /* Description.swift */,
 				A0556726260F07930037FA13 /* Timer.swift */,
 				A041182E24EE261700B309DA /* Status.swift */,
@@ -236,6 +242,7 @@
 				A09E96E0260E79A500919101 /* Comms.swift in Sources */,
 				A028BF832610550A00586F41 /* Journal.swift in Sources */,
 				A041183324EEAF0A00B309DA /* Legions.swift in Sources */,
+				A08594292611B64D0058CDBD /* TabButton.swift in Sources */,
 				A08E6B8325F624820057E8D7 /* Description.swift in Sources */,
 				A08E6B6E25F1E2570057E8D7 /* Page.swift in Sources */,
 				A09BA54C2605A55100196FD9 /* Top.swift in Sources */,
@@ -259,6 +266,7 @@
 				A041183724EEC21B00B309DA /* Target.swift in Sources */,
 				A01744AF2512EB5F009315F6 /* Model.swift in Sources */,
 				A07CFC4E24F869BF0019FE20 /* TopDeaths.swift in Sources */,
+				A08594242611A9FD0058CDBD /* SectionButton.swift in Sources */,
 				A082E126250042FB008DCD47 /* Targets.swift in Sources */,
 				A041183B24EED98300B309DA /* TargetDescription.swift in Sources */,
 				A02B994E2509AF380093DF90 /* SectorDescription.swift in Sources */,

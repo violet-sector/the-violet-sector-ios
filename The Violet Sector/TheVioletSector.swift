@@ -32,7 +32,7 @@ import SwiftUI
                         }
                         .padding(5.0)
                         .frame(width: 240.0, height: 120.0)
-                        .border(Color.primary)
+                        .background(RoundedRectangle(cornerRadius: 8.0).stroke(Color.accentColor, lineWidth: 2.0))
                         Button("Enter", action: {client.tab = .computer})
                         Spacer()
                     } else {
@@ -53,16 +53,12 @@ import SwiftUI
                         Status()
                         HStack(spacing: 5.0) {
                             Button("Main", action: {client.tab = .computer})
-                                .frame(width: 60.0)
                             Button("Scans", action: {client.tab = .friendlyScans})
-                                .frame(width: 60.0)
                             Button("Comms", action: {client.tab = .news})
-                                .frame(width: 60.0)
                             Button("Map", action: {client.tab = .map})
-                                .frame(width: 60.0)
                             Button("Top", action: {client.tab = .topPilots})
-                                .frame(width: 60.0)
                         }
+                        .buttonStyle(TabButton())
                     }
                 }
                 .ignoresSafeArea(.keyboard, edges: .bottom)

@@ -14,7 +14,7 @@ struct News: View {
                 }
                 .padding(5.0)
                 .frame(width: geometry.size.width - 20.0, height: geometry.size.height)
-                .border(Color.primary)
+                .background(RoundedRectangle(cornerRadius: 8.0).stroke(Color.accentColor, lineWidth: 2.0))
                 .padding([.leading, .trailing], 10.0)
             }
         }

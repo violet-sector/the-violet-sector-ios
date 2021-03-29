@@ -9,14 +9,13 @@ struct Scans: View {
         VStack(spacing: 10.0) {
             HStack(spacing: 5.0) {
                 Button("Friendlies", action: {client.tab = .friendlyScans})
-                    .frame(width: 80.0)
             }
+            .buttonStyle(SectionButton())
             HStack(spacing: 5.0) {
                 Button("Incoming", action: {client.tab = .incomingScans})
-                    .frame(width: 80.0)
                 Button("Outgoing", action: {client.tab = .outgoingScans})
-                    .frame(width: 80.0)
             }
+            .buttonStyle(SectionButton())
             if let tab = client.tab {
                 switch tab {
                 case .friendlyScans:

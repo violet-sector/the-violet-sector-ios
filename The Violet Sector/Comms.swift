@@ -10,6 +10,7 @@ struct Comms: View {
             HStack(spacing: 5.0) {
                 Button("News", action: {client.tab = .news})
             }
+            .buttonStyle(SectionButton())
             switch client.tab {
             case .news:
                 News()
