@@ -15,13 +15,11 @@ struct TargetDescription: View {
                     Text(verbatim: "\(data.ship): \(data.ship.type)" + (data.isCloaked ?? false ? " (Cloaked)" : ""))
                         .font(.caption)
                 } else {
-                    if let sector = Sectors(rawValue: data.legion.rawValue) {
-                        Image("Sectors/Images/\(sector)")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 125.0, height: 125.0)
-                            .accessibilityLabel(data.ship.description)
-                    }
+                    Image("Sectors/Images/\(data.legion.base.description)")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 125.0, height: 125.0)
+                        .accessibilityLabel(data.ship.description)
                     Text(verbatim: data.ship.description)
                         .font(.caption)
                 }
