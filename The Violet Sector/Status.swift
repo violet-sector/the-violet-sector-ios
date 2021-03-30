@@ -7,42 +7,14 @@ struct Status: View {
 
     var body: some View {
         if let data = client.statusResponse {
-            HStack() {
-                if data.moves >= 0 {
-                    Text(verbatim: "\(data.moves) \(data.moves != 1 ? "Moves" : "Move")")
-                } else {
-                    Text(verbatim: "Paused")
-                }
-                Text(health: data.currentHealth, maxHealth: data.maxHealth, asPercentage: true)
-                makeSectorText()
+            VStack() {
+                Text(verbatim: data.moves >= 0 ? "\(data.moves) move\(data.moves != 1 ? "s" : "") " : "Paused ") +
+                    Text(health: data.currentHealth, maxHealth: data.maxHealth, asPercentage: false) +
+                    Text(verbatim: (data.isCloaked ? " (C)" : "") + (data.isInvulnerable ? " (I)" : "") + (data.isSleeping ? " (Z)" : "") + (data.carrier.name != nil ? " (D)" : ""))
+                Text(verbatim: data.destinationSector == .none ? data.currentSector.description : "Hypering to " + data.destinationSector.description)
             }
             .font(.footnote)
             .accessibilityElement(children: .combine)
         }
-    }
-
-    private func makeSectorText() -> Text {
-        guard let data = client.statusResponse else {
-            return Text(verbatim: "")
-        }
-        var sector = data.destinationSector == .none ? data.currentSector.description : "Hypering to " + data.destinationSector.description
-        if data.isSleeping {
-            sector += " (zZzZ)"
-        }
-        if data.isInvulnerable {
-            sector += " (Invulnerable)"
-        }
-        if data.isCloaked {
-            sector += " (Cloaked)"
-        }
-        var sectorText = Text(verbatim: sector)
-        if let name = data.carrier.name, let isOnline = data.carrier.isOnline {
-            sectorText = sectorText + Text(verbatim: " (inside \(name)")
-            if isOnline {
-                sectorText = sectorText + Text(verbatim: "*").foregroundColor(Color("Colors/Online"))
-            }
-            sectorText = sectorText + Text(verbatim: ")")
-        }
-        return sectorText
     }
 }

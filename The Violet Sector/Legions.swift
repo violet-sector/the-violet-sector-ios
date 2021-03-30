@@ -11,7 +11,7 @@ enum Legions: Int, Decodable, CustomStringConvertible {
     var description: String {
         switch self {
         case .none:
-            return "Earthling"
+            return "None"
         case .ajaxian:
             return "Ajaxian"
         case .boraxian:
@@ -22,6 +22,23 @@ enum Legions: Int, Decodable, CustomStringConvertible {
             return "Tibran"
         case .rogue:
             return "Rogue"
+        }
+    }
+
+    var base: Sectors {
+        switch self {
+        case .none:
+            return .none
+        case .ajaxian:
+            return .home1
+        case .boraxian:
+            return .home2
+        case .krilgorian:
+            return .home3
+        case .tibran:
+            return .home4
+        case .rogue:
+            return .none
         }
     }
 }

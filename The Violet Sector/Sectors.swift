@@ -33,7 +33,7 @@ enum Sectors: Int, Decodable, CustomStringConvertible {
     var description: String {
         switch self {
         case .none:
-            return "No Sector"
+            return "None"
         case .home1:
             return "Ajaxus Home"
         case .home2:
