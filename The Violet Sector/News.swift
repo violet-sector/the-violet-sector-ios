@@ -3,12 +3,14 @@
 import SwiftUI
 
 struct News: View {
+    @StateObject private var model = Model(resource: "legion_news.php", responseType: Response.self)
+
     var body: some View {
-        Page(dataType: Data.self) {(data) in
-            Text(verbatim: "Set by \(data.content.author) on T\(data.content.turn)\n\(DateFormatter.localizedString(from: Date(timeIntervalSince1970: TimeInterval(data.content.time)), dateStyle: .short, timeStyle: .short))")
+        Page(model: model) {(response) in
+            Text(verbatim: "Set by \(response.content.author) on T\(response.content.turn)\n\(DateFormatter.localizedString(from: Date(timeIntervalSince1970: TimeInterval(response.content.time)), dateStyle: .short, timeStyle: .short))")
             GeometryReader() {(geometry) in
                 ScrollView() {
-                    Text(verbatim: data.content.text)
+                    Text(verbatim: response.content.text)
                         .multilineTextAlignment(.leading)
                         .frame(maxWidth: .infinity, alignment: .topLeading)
                 }
@@ -20,7 +22,7 @@ struct News: View {
         }
     }
 
-    struct Data: Decodable {
+    private struct Response: Decodable {
         let content: Content
 
         private enum CodingKeys: String, CodingKey {

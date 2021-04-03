@@ -3,9 +3,11 @@
 import SwiftUI
 
 struct TopDeaths: View {
+    @StateObject private var model = Model(resource: "rankings_att.php", responseType: Response.self)
+
     var body: some View {
-        Page(dataType: Data.self) {(data) in
-            let indices = data.content.indices
+        Page(model: model) {(response) in
+            let indices = response.content.indices
             if !indices.isEmpty {
                 GeometryReader() {(geometry) in
                     ScrollView() {
@@ -14,11 +16,11 @@ struct TopDeaths: View {
                                 HStack(spacing: 5.0) {
                                     Text(verbatim: String(index + 1))
                                         .frame(width: 20.0, alignment: .trailing)
-                                    Text(verbatim: data.content[index].name)
+                                    Text(verbatim: response.content[index].name)
                                         .frame(width: (geometry.size.width - 35.0) * 0.5, alignment: .leading)
-                                    Text(verbatim: String(data.content[index].score))
+                                    Text(verbatim: String(response.content[index].score))
                                         .frame(width: (geometry.size.width - 35.0) * 0.3, alignment: .trailing)
-                                    Text(verbatim: String(data.content[index].turn))
+                                    Text(verbatim: String(response.content[index].turn))
                                         .frame(width: (geometry.size.width - 35.0) * 0.2, alignment: .trailing)
                                 }
                                 .frame(height: 32.0)
@@ -35,7 +37,7 @@ struct TopDeaths: View {
         }
     }
 
-    struct Data: Decodable {
+    private struct Response: Decodable {
         let content: [Death]
 
         private enum CodingKeys: String, CodingKey {

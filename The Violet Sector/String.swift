@@ -42,3 +42,7 @@ fileprivate struct Matrix {
         set {matrix[sizeX * y + x] = newValue}
     }
 }
+
+extension String: Identifiable {
+    public var id: String {self}
+}

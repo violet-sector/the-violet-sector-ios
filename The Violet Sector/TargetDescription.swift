@@ -5,6 +5,7 @@ import SwiftUI
 struct TargetDescription: View {
     private let rank: Int?
     private let data: Target
+    @StateObject private var enterAction = Action(resource: "carrier_enter.php", responseType: EnterResponse.self)
 
     var body: some View {
         VStack() {
@@ -26,8 +27,8 @@ struct TargetDescription: View {
             }
             HStack() {
                 if case let .intValue(id) = data.id, let canDock = data.canDock, canDock {
-                    Button("Dock", action: {Client.shared.post("carrier_enter.php", query: ["carrier": String(id)], completionHandler: {Client.shared.activeModel.refresh()})})
-                        .frame(width: 80.0)
+                    Button("Enter", action: {enterAction.perform(query: ["carrier": String(id)], completionHandler: {Client.shared.activeModel.refresh()})})
+                        .disabled(enterAction.isLoading)
                 }
             }
             GeometryReader() {(geometry) in
@@ -51,6 +52,7 @@ struct TargetDescription: View {
         }
         .navigationTitle("\(data.name)\(data.isOnline ? "*" : "")")
         .toolbar(content: {Refresh()})
+        .alert(item: $enterAction.alert, content: {Alert(title: Text(verbatim: "Error Performing Enter Action"), message: Text(verbatim: $0))})
     }
 
     init?(targets: [Target], selection: Target.Identifier, showRank: Bool) {
@@ -63,5 +65,9 @@ struct TargetDescription: View {
         } else {
             rank = nil
         }
+    }
+
+    private struct EnterResponse: Decodable {
+        let success: Bool
     }
 }

@@ -13,7 +13,7 @@ struct Timer: View {
             .font(.system(.body, design: .monospaced))
     }
 
-    private struct Data: Decodable {
+    private struct Response: Decodable {
         let turnDuration: Int64
         let referenceTurn: Int64
         let remainingTime: Int64
@@ -31,7 +31,7 @@ struct Timer: View {
         @Published private(set) var timer = "Loading..."
         private var responseSubscriber: Cancellable?
         private var timerSubscriber: Cancellable?
-        private var data: Data?
+        private var response: Response?
         private var referenceTime: Int64 = 0
         private var referenceTurn: Int64 = 0
         private var turnDuration: Int64 = 0
@@ -49,9 +49,9 @@ struct Timer: View {
             guard responseSubscriber == nil else {
                 return
             }
-            responseSubscriber = Client.shared.get(Self.resource, setResponse: \.data, on: self) {[unowned self] in
+            responseSubscriber = Client.shared.fetch(Self.resource, setResponse: \.response, on: self) {[unowned self] in
                 responseSubscriber = nil
-                if data == nil {
+                if response == nil {
                     DispatchQueue.main.asyncAfter(deadline: .now() + Self.retryInterval, execute: {fetch()})
                 } else {
                     setup()
@@ -60,15 +60,15 @@ struct Timer: View {
         }
 
         private func setup() {
-            guard let data = data, data.turnDuration > 0 else {
+            guard let response = response, response.turnDuration > 0 else {
                 return
             }
-            turnDuration = data.turnDuration
-            referenceTurn = data.referenceTurn
+            turnDuration = response.turnDuration
+            referenceTurn = response.referenceTurn
             let currentTime = Int64(Date().timeIntervalSince1970)
-            referenceTime = currentTime - (turnDuration - data.remainingTime)
-            deltaTime = currentTime - data.serverTime
-            serverHour = data.serverTime - data.serverTime % (60 * 60)
+            referenceTime = currentTime - (turnDuration - response.remainingTime)
+            deltaTime = currentTime - response.serverTime
+            serverHour = response.serverTime - response.serverTime % (60 * 60)
             timerSubscriber = Foundation.Timer.publish(every: 1.0, on: .main, in: .default)
                 .autoconnect()
                 .sink() {[unowned self] (date) in

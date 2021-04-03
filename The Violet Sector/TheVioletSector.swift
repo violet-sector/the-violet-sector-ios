@@ -4,16 +4,6 @@ import SwiftUI
 
 @main struct TheVioletSector: App {
     @ObservedObject private var client = Client.shared
-    private static let computerModel = Model(resource: "main.php", dataType: Computer.Data.self)
-    private static let journalModel = Model(resource: "journal.php", dataType: Journal.Data.self)
-    private static let friendlyScansModel = Model(resource: "scans_friendlies.php", dataType: FriendlyScans.Data.self)
-    private static let incomingScansModel = Model(resource: "scans_incoming.php", dataType: IncomingScans.Data.self)
-    private static let outgoingScansModel = Model(resource: "scans_outgoing.php", dataType: OutgoingScans.Data.self)
-    private static var newsModel = Model(resource: "legion_news.php", dataType: News.Data.self)
-    private static let mapModel = Model(resource: "navcom_map.php", dataType: Map.Data.self)
-    private static let topPilotsModel = Model(resource: "rankings_pilots.php", dataType: TopPilots.Data.self)
-    private static let topDeathsModel = Model(resource: "rankings_att.php", dataType: TopDeaths.Data.self)
-    private static let topLegionsModel = Model(resource: "rankings_legions.php", dataType: TopLegions.Data.self)
 
     var body: some Scene {
         WindowGroup() {
@@ -21,33 +11,26 @@ import SwiftUI
                 VStack(spacing: 10.0) {
                     Timer()
                     if client.tab == nil {
-                        Spacer()
-                        Text(verbatim: "News")
-                            .font(.title)
-                            .accessibilityAddTraits(.isHeader)
-                        ScrollView() {
-                            Text(verbatim: settings.news)
-                                .multilineTextAlignment(.leading)
-                                .frame(maxWidth: .infinity, alignment: .topLeading)
+                        Group() {
+                            Spacer()
+                            Text(verbatim: "News")
+                                .font(.title)
+                                .accessibilityAddTraits(.isHeader)
+                            ScrollView() {
+                                Text(verbatim: settings.news)
+                                    .multilineTextAlignment(.leading)
+                                    .frame(maxWidth: .infinity, alignment: .topLeading)
+                            }
+                            .padding(5.0)
+                            .frame(width: 240.0, height: 120.0)
+                            .background(RoundedRectangle(cornerRadius: 8.0).stroke(Color.accentColor, lineWidth: 2.0))
+                            Button("Enter", action: {client.tab = .computer})
+                            Spacer()
                         }
-                        .padding(5.0)
-                        .frame(width: 240.0, height: 120.0)
-                        .background(RoundedRectangle(cornerRadius: 8.0).stroke(Color.accentColor, lineWidth: 2.0))
-                        Button("Enter", action: {client.tab = .computer})
-                        Spacer()
+                        .onAppear(perform: {client.activeModel = nil})
                     } else {
                         NavigationView() {
                             selectView()
-                                .environmentObject(Self.computerModel)
-                                .environmentObject(Self.journalModel)
-                                .environmentObject(Self.friendlyScansModel)
-                                .environmentObject(Self.incomingScansModel)
-                                .environmentObject(Self.outgoingScansModel)
-                                .environmentObject(Self.newsModel)
-                                .environmentObject(Self.mapModel)
-                                .environmentObject(Self.topPilotsModel)
-                                .environmentObject(Self.topDeathsModel)
-                                .environmentObject(Self.topLegionsModel)
                                 .navigationBarTitleDisplayMode(.inline)
                         }
                         Status()
@@ -63,8 +46,13 @@ import SwiftUI
                 }
                 .ignoresSafeArea(.keyboard, edges: .bottom)
                 .accentColor(Color("Colors/Accent"))
-                .onChange(of: client.tab, perform: {setActiveModel($0)})
-                .alert(item: $client.errorResponse, content: {Alert(title: Text(verbatim: "Error Sending Data"), message: Text(verbatim: $0.message), dismissButton: .cancel())})
+            } else if let error = client.error {
+                Spacer()
+                Text(verbatim: "Error Fetching Data")
+                    .font(.title)
+                    .accessibilityAddTraits(.isHeader)
+                Text(verbatim: error)
+                Spacer()
             } else {
                 ProgressView()
             }
@@ -87,35 +75,5 @@ import SwiftUI
         case .topPilots, .topDeaths, .topLegions:
             return AnyView(Top())
         }
-    }
-
-    private func setActiveModel(_ tab: Client.Tabs?) {
-        guard let tab = tab else {
-            client.activeModel = nil
-            return
-        }
-        switch tab {
-        case .computer:
-            client.activeModel = Self.computerModel
-        case .journal:
-            client.activeModel = Self.journalModel
-        case .friendlyScans:
-            client.activeModel = Self.friendlyScansModel
-        case .incomingScans:
-            client.activeModel = Self.incomingScansModel
-        case .outgoingScans:
-            client.activeModel = Self.outgoingScansModel
-        case .news:
-            client.activeModel = Self.newsModel
-        case .map:
-            client.activeModel = Self.mapModel
-        case .topPilots:
-            client.activeModel = Self.topPilotsModel
-        case .topDeaths:
-            client.activeModel = Self.topDeathsModel
-        case .topLegions:
-            client.activeModel = Self.topLegionsModel
-        }
-        client.activeModel.refresh()
     }
 }

@@ -23,6 +23,7 @@
 		A079FF6A2501EE8F00FA1B13 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = A079FF692501EE8F00FA1B13 /* Map.swift */; };
 		A07CFC4E24F869BF0019FE20 /* TopDeaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07CFC4D24F869BF0019FE20 /* TopDeaths.swift */; };
 		A07CFC5224F8895A0019FE20 /* TopLegions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07CFC5124F8895A0019FE20 /* TopLegions.swift */; };
+		A07DFD522617F09D00454981 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07DFD512617F09D00454981 /* Action.swift */; };
 		A08198AB25150D0700A81399 /* TheVioletSector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08198AA25150D0700A81399 /* TheVioletSector.swift */; };
 		A082E126250042FB008DCD47 /* Targets.swift in Sources */ = {isa = PBXBuildFile; fileRef = A082E125250042FB008DCD47 /* Targets.swift */; };
 		A08594242611A9FD0058CDBD /* SectionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08594232611A9FD0058CDBD /* SectionButton.swift */; };
@@ -62,6 +63,7 @@
 		A079FF692501EE8F00FA1B13 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		A07CFC4D24F869BF0019FE20 /* TopDeaths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopDeaths.swift; sourceTree = "<group>"; };
 		A07CFC5124F8895A0019FE20 /* TopLegions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLegions.swift; sourceTree = "<group>"; };
+		A07DFD512617F09D00454981 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		A08198AA25150D0700A81399 /* TheVioletSector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheVioletSector.swift; sourceTree = "<group>"; };
 		A082E125250042FB008DCD47 /* Targets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Targets.swift; sourceTree = "<group>"; };
 		A08594232611A9FD0058CDBD /* SectionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionButton.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 				A0556726260F07930037FA13 /* Timer.swift */,
 				A041182E24EE261700B309DA /* Status.swift */,
 				A01744AE2512EB5F009315F6 /* Model.swift */,
+				A07DFD512617F09D00454981 /* Action.swift */,
 				A041183624EEC21B00B309DA /* Target.swift */,
 				A041183424EEB2A500B309DA /* Ships.swift */,
 				A041183224EEAF0A00B309DA /* Legions.swift */,
@@ -255,6 +258,7 @@
 				A0F552F124D525DA008C3296 /* Client.swift in Sources */,
 				A09BA55A2606677E00196FD9 /* ModelProtocol.swift in Sources */,
 				A08E6B7825F3B5A70057E8D7 /* Text.swift in Sources */,
+				A07DFD522617F09D00454981 /* Action.swift in Sources */,
 				A07CFC5224F8895A0019FE20 /* TopLegions.swift in Sources */,
 				A0556727260F07930037FA13 /* Timer.swift in Sources */,
 				A041183D24EFBB7F00B309DA /* TopPilots.swift in Sources */,

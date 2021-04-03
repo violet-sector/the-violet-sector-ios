@@ -2,10 +2,9 @@
 
 import Combine
 
-final class Model<Response: Decodable>: ModelProtocol, ObservableObject {
+final class Action<Response: Decodable>: ObservableObject {
+    @Published var alert: String?
     @Published private(set) var response: Response?
-    @Published private(set) var warning: String?
-    @Published private(set) var error: String?
     @Published private(set) var isLoading = false
     private let resource: String
     private var subscriber: Cancellable?
@@ -14,11 +13,11 @@ final class Model<Response: Decodable>: ModelProtocol, ObservableObject {
         self.resource = resource
     }
 
-    func refresh() {
+    func perform(query: [String: String], completionHandler: @escaping () -> Void) {
         guard !isLoading else {
             return
         }
         isLoading = true
-        subscriber = Client.shared.fetch(resource, setResponse: \.response, setWarning: \.warning, setError: \.error, on: self, completionHandler: {[unowned self] in isLoading = false})
+        subscriber = Client.shared.fetch(resource, post: query, setResponse: \.response, setWarning: \.alert, setError: \.alert, on: self, completionHandler: {[unowned self] in isLoading = false; completionHandler()})
     }
 }

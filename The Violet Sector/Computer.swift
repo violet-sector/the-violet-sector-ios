@@ -3,30 +3,32 @@
 import SwiftUI
 
 struct Computer: View {
+    @StateObject private var model = Model(resource: "main.php", responseType: ModelResponse.self)
+
     var body: some View {
-        Page(dataType: Data.self) {(data) in
+        Page(model: model) {(response) in
             GeometryReader() {(geometry) in
                 ScrollView() {
                     VStack(spacing: 10.0) {
-                        if let isCapitalShipAvailable = data.isCapitalShipAvailable, isCapitalShipAvailable {
+                        if let isCapitalShipAvailable = response.isCapitalShipAvailable, isCapitalShipAvailable {
                             Text(verbatim: "Capital Ship Available")
                                 .bold()
                                 .accessibilityAddTraits(.isHeader)
-                            if let capitalShipBlocker = data.capitalShipBlocker {
+                            if let capitalShipBlocker = response.capitalShipBlocker {
                                 Text(verbatim: capitalShipBlocker)
                                     .multilineTextAlignment(.leading)
                             }
                         }
-                        General(data: data, width: geometry.size.width)
-                        Dashboard(data: data, width: geometry.size.width)
-                        Base(data: data, width: geometry.size.width)
+                        General(response: response, width: geometry.size.width)
+                        Dashboard(response: response, width: geometry.size.width)
+                        Base(response: response, width: geometry.size.width)
                     }
                 }
             }
         }
     }
 
-    struct Data: Decodable {
+    private struct ModelResponse: Decodable {
         let scrap: Int?
         let canRetrieveScrap: Bool?
         let retrieveScrapCost: Int?
@@ -127,8 +129,12 @@ struct Computer: View {
         }
     }
 
+    private struct ActionResponse: Decodable {
+        let success: Bool
+    }
+
     private struct General: View {
-        let data: Data
+        let response: ModelResponse
         let width: CGFloat
 
         var body: some View {
@@ -137,20 +143,24 @@ struct Computer: View {
                     .bold()
                     .accessibilityAddTraits(.isHeader)
                 LazyVGrid(columns: [GridItem(.fixed(width * 0.5 - 2.5), spacing: 5.0, alignment: .trailing), GridItem(.fixed(width * 0.5 - 2.5), spacing: 5.0, alignment: .leading)]) {
-                    Description(name: "Name") {Text(verbatim: data.status.name)}
-                    Description(name: "Legion") {Text(verbatim: data.status.legion.description)}
-                    Description(name: "Score") {Text(String(data.status.score))}
-                    Description(name: "Level") {Text(verbatim: String(data.status.level))}
-                    Description(name: "Kills") {Text(verbatim: String(data.killCount))}
-                    Description(name: "Deaths") {Text(verbatim: String(data.deathCount))}
+                    Description(name: "Name") {Text(verbatim: response.status.name)}
+                    Description(name: "Legion") {Text(verbatim: response.status.legion.description)}
+                    Description(name: "Score") {Text(String(response.status.score))}
+                    Description(name: "Level") {Text(verbatim: String(response.status.level))}
+                    Description(name: "Kills") {Text(verbatim: String(response.killCount))}
+                    Description(name: "Deaths") {Text(verbatim: String(response.deathCount))}
                 }
             }
         }
     }
 
     private struct Dashboard: View {
-        let data: Data
+        let response: ModelResponse
         let width: CGFloat
+        @StateObject private var cloakAction = Action(resource: "cloak_on.php", responseType: ActionResponse.self)
+        @StateObject private var decloakAction = Action(resource: "cloak_off.php", responseType: ActionResponse.self)
+        @StateObject private var undockAction = Action(resource: "dock_exit.php", responseType: ActionResponse.self)
+        @StateObject private var repairAction = Action(resource: "self_rep.php", responseType: ActionResponse.self)
 
         var body: some View {
             VStack() {
@@ -160,70 +170,79 @@ struct Computer: View {
                 LazyVGrid(columns: [GridItem(.fixed(width * 0.5 - 2.5), spacing: 5.0, alignment: .trailing), GridItem(.fixed(width * 0.5 - 2.5), spacing: 5.0, alignment: .leading)]) {
                     Description(name: "Hitpoints") {
                         VStack(alignment: .leading) {
-                            Text(health: data.status.currentHealth, maxHealth: data.status.maxHealth, asPercentage: false) + Text(verbatim: data.status.isInvulnerable ? " (I)" : "") + Text(verbatim: data.status.isSleeping ? " (Z)" : "")
-                            if let canRepair = data.canRepair, let repairAmount = data.repairAmount, let repairCost = data.repairCost, canRepair {
-                                Button("Repair \(repairAmount)HP (\(repairCost))", action: {Client.shared.post("self_rep.php", query: [:], completionHandler: {Client.shared.activeModel.refresh()})})
+                            Text(health: response.status.currentHealth, maxHealth: response.status.maxHealth, asPercentage: false) + Text(verbatim: response.status.isInvulnerable ? " (I)" : "") + Text(verbatim: response.status.isSleeping ? " (Z)" : "")
+                            if let canRepair = response.canRepair, let repairAmount = response.repairAmount, let repairCost = response.repairCost, canRepair {
+                                Button("Repair \(repairAmount)HP (\(repairCost))", action: {repairAction.perform(query: [:], completionHandler: {Client.shared.activeModel.refresh()})})
+                                    .disabled(repairAction.isLoading)
                             }
                         }
                     }
-                    if data.status.destinationSector == .none {
-                        Description(name: "Location") {Text(verbatim: data.status.currentSector.description)}
+                    if response.status.destinationSector == .none {
+                        Description(name: "Location") {Text(verbatim: response.status.currentSector.description)}
                     } else {
-                        Description(name: "Destination") {Text(verbatim: data.status.destinationSector.description)}
+                        Description(name: "Destination") {Text(verbatim: response.status.destinationSector.description)}
                     }
-                    if let scrap = data.scrap {
+                    if let scrap = response.scrap {
                         Description(name: "Scrap in Sector") {
                             VStack(alignment: .leading) {
                                 Text(verbatim: String(scrap))
-                                if let canRetrieveScrap = data.canRetrieveScrap, let retrieveScrapCost = data.retrieveScrapCost, canRetrieveScrap {
+                                if let canRetrieveScrap = response.canRetrieveScrap, let retrieveScrapCost = response.retrieveScrapCost, canRetrieveScrap {
                                     Button("Retrieve (\(retrieveScrapCost))", action: {})
                                 }
                             }
                         }
                     }
-                    if data.status.ship.isRepairer {
+                    if response.status.ship.isRepairer {
                         Description(name: "Scrap Carried") {
                             VStack() {
                                 Text(verbatim: "??/\(Client.shared.settings != nil ? String(Client.shared.settings!.maxCarriedScrap) : "??")")
-                                if let canDumpScrap = data.canDumpScrap, let dumpScrapCost = data.dumpScrapCost, canDumpScrap {
+                                if let canDumpScrap = response.canDumpScrap, let dumpScrapCost = response.dumpScrapCost, canDumpScrap {
                                     Button("Dump (\(dumpScrapCost))", action: {})
                                 }
                             }
                         }
                     }
-                    if data.status.ship.isCloaker {
+                    if response.status.ship.isCloaker {
                         Description(name: "Cloaking Device") {
                             VStack() {
-                                Text(verbatim: !data.status.isCloaked ? "Decloaked" : "Cloaked")
-                                if let canCloak = data.canCloak, let cloakCost = data.cloakCost, canCloak {
-                                    Button("Cloak (\(cloakCost))", action: {Client.shared.post("cloak_on.php", query: [:], completionHandler: {Client.shared.activeModel.refresh()})})
+                                Text(verbatim: !response.status.isCloaked ? "Decloaked" : "Cloaked")
+                                if let canCloak = response.canCloak, let cloakCost = response.cloakCost, canCloak {
+                                    Button("Cloak (\(cloakCost))", action: {cloakAction.perform(query: [:], completionHandler: {Client.shared.activeModel.refresh()})})
+                                        .disabled(cloakAction.isLoading)
                                 }
-                                if let canDecloak = data.canDecloak, let decloakCost = data.decloakCost, canDecloak {
-                                    Button("Decloak (\(decloakCost))", action: {Client.shared.post("cloak_off.php", query: [:], completionHandler: {Client.shared.activeModel.refresh()})})
+                                if let canDecloak = response.canDecloak, let decloakCost = response.decloakCost, canDecloak {
+                                    Button("Decloak (\(decloakCost))", action: {decloakAction.perform(query: [:], completionHandler: {Client.shared.activeModel.refresh()})})
+                                        .disabled(decloakAction.isLoading)
                                 }
                             }
                         }
                     }
-                    if let name = data.status.carrier.name, let isOnline = data.status.carrier.isOnline {
+                    if let name = response.status.carrier.name, let isOnline = response.status.carrier.isOnline {
                         Description(name: "Dock") {
                             VStack() {
                                 Text(verbatim: name) + Text(verbatim: isOnline ? "*" : "").foregroundColor(Color("Colors/Online"))
-                                if let canExit = data.canExit, let exitCost = data.exitCost, canExit {
-                                    Button("Exit (\(exitCost))", action: {Client.shared.post("carrier_exit.php", query: [:], completionHandler: {Client.shared.activeModel.refresh()})})
+                                if let canExit = response.canExit, let exitCost = response.exitCost, canExit {
+                                    Button("Exit (\(exitCost))", action: {undockAction.perform(query: [:], completionHandler: {Client.shared.activeModel.refresh()})})
+                                        .disabled(undockAction.isLoading)
                                 }
-                                if let canUndock = data.canUndock, let undockCost = data.undockCost, canUndock {
-                                    Button("Undock (\(undockCost))", action: {Client.shared.post("carrier_exit.php", query: [:], completionHandler: {Client.shared.activeModel.refresh()})})
+                                if let canUndock = response.canUndock, let undockCost = response.undockCost, canUndock {
+                                    Button("Undock (\(undockCost))", action: {undockAction.perform(query: [:], completionHandler: {Client.shared.activeModel.refresh()})})
+                                        .disabled(undockAction.isLoading)
                                 }
                             }
                         }
                     }
                 }
             }
+            .alert(item: $cloakAction.alert, content: {Alert(title: Text(verbatim: "Error Performing Cloak Action"), message: Text(verbatim: $0))})
+            .alert(item: $decloakAction.alert, content: {Alert(title: Text(verbatim: "Error Performing Decloak Action"), message: Text(verbatim: $0))})
+            .alert(item: $undockAction.alert, content: {Alert(title: Text(verbatim: "Error Performing Undock Action"), message: Text(verbatim: $0))})
+            .alert(item: $repairAction.alert, content: {Alert(title: Text(verbatim: "Error Performing Self Repair Action"), message: Text(verbatim: $0))})
         }
     }
 
     private struct Base: View {
-        let data: Data
+        let response: ModelResponse
         let width: CGFloat
 
         var body: some View {
@@ -232,11 +251,11 @@ struct Computer: View {
                     .bold()
                     .accessibilityAddTraits(.isHeader)
                 LazyVGrid(columns: [GridItem(.fixed(width * 0.5 - 2.5), spacing: 5.0, alignment: .trailing), GridItem(.fixed(width * 0.5 - 2.5), spacing: 5.0, alignment: .leading)]) {
-                    Description(name: "Location") {Text(verbatim: data.status.legion.base.description)}
-                    Description(name: "Hitpoints") {Text(health: data.base.currentHealth, maxHealth: data.base.maxHealth, asPercentage: false)}
+                    Description(name: "Location") {Text(verbatim: response.status.legion.base.description)}
+                    Description(name: "Hitpoints") {Text(health: response.base.currentHealth, maxHealth: response.base.maxHealth, asPercentage: false)}
                     Description(name: "Council") {
                         VStack() {
-                            if let council = data.council, !council.isEmpty {
+                            if let council = response.council, !council.isEmpty {
                                 ForEach(council, id: \.name) {(commander) in
                                     Text(verbatim: commander.name) + Text(verbatim: commander.isOnline ? "*" : "").foregroundColor(Color("Colors/Online")) + Text(verbatim: commander.responsibility > 1 ? " (LC)" : " (VC)")
                                 }

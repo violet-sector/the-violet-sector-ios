@@ -3,9 +3,11 @@
 import SwiftUI
 
 struct TopLegions: View {
+    @StateObject private var model = Model(resource: "rankings_legions.php", responseType: Response.self)
+
     var body: some View {
-        Page(dataType: Data.self) {(data) in
-            let legions = data.content
+        Page(model: model) {(response) in
+            let legions = response.content
             if !legions.isEmpty {
                 GeometryReader() {(geometry) in
                     VStack() {
@@ -31,7 +33,7 @@ struct TopLegions: View {
         }
     }
 
-    struct Data: Decodable {
+    private struct Response: Decodable {
         let content: [Legion]
 
         private enum CodingKeys: String, CodingKey {

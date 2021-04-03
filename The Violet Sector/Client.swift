@@ -2,16 +2,16 @@
 
 import Foundation
 import Combine
+import UIKit
 
 final class Client: ObservableObject {
     @Published var tab: Tabs?
-    @Published var errorResponse: CommonError?
     @Published private(set) var statusResponse: StatusResponse? {didSet {if statusResponse == nil && oldValue != nil {statusResponse = oldValue}}}
     @Published private(set) var settings: Settings?
     @Published private(set) var error: String?
     weak var activeModel: ModelProtocol!
     private let session: URLSession
-    private var responseSubscriber: Cancellable?
+    private var request: URLRequest
     private var settingsSubscriber: Cancellable?
     private let decoder = JSONDecoder()
 
@@ -35,66 +35,58 @@ final class Client: ObservableObject {
         configuration.allowsConstrainedNetworkAccess = true
         configuration.allowsExpensiveNetworkAccess = true
         session = URLSession(configuration: configuration)
+        request = URLRequest(url: URL(string: Self.baseURL)!, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 5.0)
+        request.setValue(Self.baseURL, forHTTPHeaderField: "Referer")
+        request.setValue("\(Bundle.main.object(forInfoDictionaryKey: "CFBundleName")!) \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString")!) \(UIDevice.current.systemName)", forHTTPHeaderField: "User-Agent")
+        request.mainDocumentURL = URL(string: Self.baseURL + Self.settingsResource)
+        request.httpShouldHandleCookies = true
+        request.allowsCellularAccess = true
+        request.allowsConstrainedNetworkAccess = true
+        request.allowsExpensiveNetworkAccess = true
+        request.networkServiceType = .responsiveData
         fetchSettings()
     }
 
-    func get<Root: AnyObject, Response: Decodable>(_ resource: String, setResponse response: ReferenceWritableKeyPath<Root, Response?>, setWarning warning: ReferenceWritableKeyPath<Root, String?>? = nil, setError error: ReferenceWritableKeyPath<Root, String?>? = nil, on root: Root, completionHandler: @escaping () -> Void) -> Cancellable {
+    func fetch<Root: AnyObject, Response: Decodable>(_ resource: String, post: [String: String]? = nil, setResponse response: ReferenceWritableKeyPath<Root, Response?>, setWarning warning: ReferenceWritableKeyPath<Root, String?>? = nil, setError error: ReferenceWritableKeyPath<Root, String?>? = nil, on root: Root, completionHandler: @escaping () -> Void) -> Cancellable {
         #if DEBUG
         let resource = resource + "?rpirw=true"
         #endif
-        let dataPublisher = session.dataTaskPublisher(for: URL(string: Self.baseURL + resource)!)
+        var request = self.request
+        request.url = URL(string: Self.baseURL + resource)!
+        if let post = post {
+            var query = ""
+            for (key: key, value: value) in post {
+                if !query.isEmpty {
+                    query += "&"
+                }
+                query += key.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+                query += "="
+                query += value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+            }
+            let postData = query.data(using: .ascii)!
+            request.httpMethod = "POST"
+            request.httpBody = postData
+            request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        }
+        let dataPublisher = session.dataTaskPublisher(for: request)
             .tryMap({(_ input: (data: Data, response: URLResponse)) -> Data in let response = input.response as! HTTPURLResponse; if response.statusCode != 200 {throw Errors.serverError(response.statusCode)} else if response.mimeType == nil {throw Errors.noContentType} else if response.mimeType! != "application/json" {throw Errors.invalidContentType(response.mimeType!)}; return input.data})
             .share()
         let responsePublisher = dataPublisher
             .decode(type: Response?.self, decoder: decoder)
             .receive(on: RunLoop.main)
-            .tryCatch({[unowned root] (_ failure: Error) -> Just<Response?> in if let error = error, failure is DecodingError {root[keyPath: error] = Self.describeError(failure); return Just(Response?.none)}; throw failure})
+            .tryCatch({[unowned root] (_ failure: Error) -> Just<Response?> in if post == nil, let error = error, failure is DecodingError {root[keyPath: error] = Self.describeError(failure); return Just(Response?.none)}; throw failure})
         let commonPublisher = dataPublisher
             .decode(type: CommonResponse?.self, decoder: decoder)
             .tryCatch({(_ error: Error) -> Just<CommonResponse?> in if error is DecodingError {return Just(CommonResponse?.none)}; throw error})
         return responsePublisher
             .zip(commonPublisher)
             .receive(on: RunLoop.main)
-            .sink(receiveCompletion: {[unowned root] in if let error = error, case let .failure(failure) = $0 {root[keyPath: error] = Self.describeError(failure)}; completionHandler()}, receiveValue: {[unowned self, unowned root] in root[keyPath: response] = $0.0; statusResponse = $0.1?.status; if let warning = warning {root[keyPath: warning] = $0.1?.error?.message}})
-    }
-
-    func post(_ resource: String, query: [String: String], completionHandler: @escaping () -> Void) {
-        var queryString = ""
-        for (key: key, value: value) in query {
-            if !queryString.isEmpty {
-                queryString += "&"
-            }
-            queryString += key.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-            queryString += "="
-            queryString += value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-        }
-        let postData = queryString.data(using: .ascii)!
-        #if DEBUG
-        let resource = resource + "?rpirw=true"
-        #endif
-        var postRequest = URLRequest(url: URL(string: Self.baseURL + resource)!, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 5.0)
-        postRequest.httpMethod = "POST"
-        postRequest.httpBody = postData
-        postRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        postRequest.setValue(Self.baseURL, forHTTPHeaderField: "Referer")
-        postRequest.httpShouldHandleCookies = true
-        postRequest.allowsCellularAccess = true
-        postRequest.allowsConstrainedNetworkAccess = true
-        postRequest.allowsExpensiveNetworkAccess = true
-        postRequest.networkServiceType = .responsiveData
-        responseSubscriber = session.dataTaskPublisher(for: postRequest)
-            .map({$0.data})
-            .decode(type: CommonResponse?.self, decoder: decoder)
-            .catch({(_) in Just(CommonResponse?.none)})
-            .receive(on: RunLoop.main)
-            .sink(receiveCompletion: {[unowned self] (_) in responseSubscriber = nil; completionHandler()}, receiveValue: {[unowned self] in statusResponse = $0?.status; errorResponse = $0?.error})
+            .sink(receiveCompletion: {[unowned root] in if let error = error, case let .failure(failure) = $0 {root[keyPath: error] = Self.describeError(failure)}; completionHandler()}, receiveValue: {[unowned self, unowned root] in root[keyPath: response] = $0.0; statusResponse = $0.1?.status; if let warning = warning {root[keyPath: warning] = $0.1?.error}})
     }
 
     private func fetchSettings() {
-        settings = nil
         error = nil
-        settingsSubscriber = get(Self.settingsResource, setResponse: \.settings, setError: \.error, on: self) {[unowned self] in
-            settingsSubscriber = nil
+        settingsSubscriber = fetch(Self.settingsResource, setResponse: \.settings, setError: \.error, on: self) {[unowned self] in
             if settings == nil {
                 DispatchQueue.main.asyncAfter(deadline: .now() + Self.retryInterval, execute: {[unowned self] in fetchSettings()})
             }
@@ -116,13 +108,13 @@ final class Client: ObservableObject {
 
     struct CommonResponse: Decodable {
         let status: StatusResponse
-        let error: CommonError?
+        let error: String?
 
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             status = try container.decode(StatusResponse.self, forKey: .status)
             let error = try container.decodeIfPresent([String].self, forKey: .error)
-            self.error = error?.first != nil ? CommonError(message: error!.first!) : nil
+            self.error = error?.first
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -195,11 +187,6 @@ final class Client: ObservableObject {
         }
     }
 
-    struct CommonError: Identifiable {
-        let message: String
-        var id: String {message}
-    }
-
     struct Settings: Decodable {
         let news: String
         let isOuterRimEnabled: Bool
@@ -243,7 +230,7 @@ final class Client: ObservableObject {
         var title: String {
             switch self {
             case .computer:
-                return "Computer"
+                return "Ship Computer"
             case .journal:
                 return "Journal"
             case .friendlyScans:

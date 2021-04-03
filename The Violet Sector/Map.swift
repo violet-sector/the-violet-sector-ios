@@ -3,20 +3,20 @@
 import SwiftUI
 
 struct Map: View {
-    @EnvironmentObject private var model: Model<Data>
+    @StateObject private var model = Model(resource: "navcom_map.php", responseType: Response.self)
     @State private var selectedSector: Sectors?
 
     var body: some View {
-        Page(dataType: Data.self) {(data) in
-            ScrollableMap(data: data, selectedSector: $selectedSector)
+        Page(model: model) {(response) in
+            ScrollableMap(response: response, selectedSector: $selectedSector)
             if selectedSector != nil {
-                NavigationLink(destination: SectorDescription(sector: selectedSector!, legions: data.domination[selectedSector!] ?? [], isOpenGate: data.gates.contains(selectedSector!)), tag: selectedSector!, selection: $selectedSector, label: {EmptyView()})
+                NavigationLink(destination: SectorDescription(sector: selectedSector!, legions: response.domination[selectedSector!] ?? [], isOpenGate: response.gates.contains(selectedSector!)), tag: selectedSector!, selection: $selectedSector, label: {EmptyView()})
                     .hidden()
             }
         }
     }
 
-    struct Data: Decodable {
+    struct Response: Decodable {
         let domination: [Sectors: Set<Legions>]
         let gates: Set<Sectors>
         let status: Client.StatusResponse
@@ -48,7 +48,7 @@ struct Map: View {
     }
 
     private struct ScrollableMap: UIViewRepresentable {
-        let data: Data
+        let response: Response
         @Binding var selectedSector: Sectors?
 
         func makeUIView(context: Context) -> UIScrollView {
@@ -87,7 +87,7 @@ struct Map: View {
                     continue
                 }
                 let sector = Sectors(rawValue: sectorValue)!
-                guard sector != .uncharted || data.status.currentSector == .uncharted || data.status.destinationSector == .uncharted || data.gates.contains(.uncharted) || data.domination[.uncharted] != nil else {
+                guard sector != .uncharted || response.status.currentSector == .uncharted || response.status.destinationSector == .uncharted || response.gates.contains(.uncharted) || response.domination[.uncharted] != nil else {
                     continue
                 }
                 let coordinates = sector.coordinates
@@ -99,7 +99,7 @@ struct Map: View {
                     element.accessibilityFrameInContainerSpace = CGRect(x: coordinates.x - 75.0, y: coordinates.y - 43.0, width: 150.0, height: 86.0)
                 }
                 element.accessibilityLabel = "\(sector)."
-                if let legions = data.domination[sector] {
+                if let legions = response.domination[sector] {
                     if legions.count == 1 {
                         element.accessibilityHint = " Dominated by \(legions.first!)s."
                     } else {
@@ -118,13 +118,13 @@ struct Map: View {
                         }
                     }
                 }
-                if data.gates.contains(sector) {
+                if response.gates.contains(sector) {
                     element.accessibilityHint = element.accessibilityHint != nil ? element.accessibilityHint! + " You can hyper to this sector." : "You can hyper to this sector."
                 }
-                if sector == data.status.currentSector && data.status.destinationSector == .none {
+                if sector == response.status.currentSector && response.status.destinationSector == .none {
                     element.accessibilityHint = element.accessibilityHint != nil ? element.accessibilityHint! + " You are currently in this sector." : "You are currently in this sector."
                 }
-                if sector == data.status.destinationSector {
+                if sector == response.status.destinationSector {
                     element.accessibilityHint = element.accessibilityHint != nil ? element.accessibilityHint! + " You are hypering to this sector." : "You are hypering to this sector."
                 }
                 elements.append(element)
@@ -134,11 +134,11 @@ struct Map: View {
             if imageView.gestureRecognizers == nil {
                 imageView.addGestureRecognizer(coordinator.gestureRecognizer)
             }
-            if !data.gates.isEmpty {
+            if !response.gates.isEmpty {
                 let hyperRotor = UIAccessibilityCustomRotor(name: "Available hypergates") {(predicate) in
                     let element = predicate.currentItem.targetElement as! AccessibilityElement
                     let sector = element.sector
-                    let openGates = data.gates.sorted(by: {$0.rawValue < $1.rawValue})
+                    let openGates = response.gates.sorted(by: {$0.rawValue < $1.rawValue})
                     if predicate.searchDirection == .next {
                         let index = openGates.firstIndex(where: {$0.rawValue > sector.rawValue}) ?? 0
                         let sector = openGates[index]
@@ -223,17 +223,17 @@ struct Map: View {
                     continue
                 }
                 let sector = Sectors(rawValue: sectorValue)!
-                if data.domination[sector] == nil {
+                if response.domination[sector] == nil {
                     drawSolidSector(color: UIColor.white, sector: sector)
                 }
             }
-            if (data.status.currentSector == .uncharted || data.status.destinationSector == .uncharted || data.gates.contains(.uncharted)) && data.domination[.uncharted] == nil {
+            if (response.status.currentSector == .uncharted || response.status.destinationSector == .uncharted || response.gates.contains(.uncharted)) && response.domination[.uncharted] == nil {
                 drawSolidSector(color: UIColor.white, sector: .uncharted)
             }
         }
 
         private func drawDominatedSectors() {
-            for (key: sector, value: legions) in data.domination {
+            for (key: sector, value: legions) in response.domination {
                 guard legions.count == 1 else {
                     continue
                 }
@@ -243,7 +243,7 @@ struct Map: View {
         }
 
         private func drawContestedSectors() {
-            for (key: sector, value: legions) in data.domination {
+            for (key: sector, value: legions) in response.domination {
                 let legions = legions.sorted(by: {$0.rawValue < $1.rawValue})
                 var angle = CGFloat.pi / 2.0
                 let angleIncrement = -CGFloat.pi * 2.0 / CGFloat(legions.count)
@@ -273,7 +273,7 @@ struct Map: View {
 
         private func drawPlayerLocation() {
             UIColor.red.setStroke()
-            let sector = data.status.currentSector
+            let sector = response.status.currentSector
             var rect = CGRect(x: sector.coordinates.x - 20.0, y: sector.coordinates.y - 20.0, width: 40.0, height: 40.0)
             if sector == .asteroids {
                 rect = CGRect(x: sector.coordinates.x - 80.0, y: sector.coordinates.y - 48.0, width: 160.0, height: 96.0)
@@ -285,7 +285,7 @@ struct Map: View {
 
         private func drawOpenGates() {
             UIColor.blue.setStroke()
-            for sector in data.gates {
+            for sector in response.gates {
                 var rect = CGRect(x: sector.coordinates.x - 20.0, y: sector.coordinates.y - 20.0, width: 40.0, height: 40.0)
                 if sector == .asteroids {
                     rect = CGRect(x: sector.coordinates.x - 80.0, y: sector.coordinates.y - 48.0, width: 160.0, height: 96.0)
@@ -297,18 +297,18 @@ struct Map: View {
         }
 
         private func drawHyperArrow() {
-            guard data.status.destinationSector != .none else {
+            guard response.status.destinationSector != .none else {
                 return
             }
-            var origin = data.status.currentSector.coordinates
-            var destination = data.status.destinationSector.coordinates
+            var origin = response.status.currentSector.coordinates
+            var destination = response.status.destinationSector.coordinates
             var difference = CGPoint(x: destination.x - origin.x, y: destination.y - origin.y)
             var distance = (difference.x * difference.x + difference.y * difference.y).squareRoot()
             guard distance > 0.0 else {
                 return
             }
             let unit = CGPoint(x: difference.x / distance, y: difference.y / distance)
-            if data.status.currentSector == .asteroids {
+            if response.status.currentSector == .asteroids {
                 let slope = CGPoint(x: difference.x, y: difference.y / 43.0 * 75.0)
                 let length = (slope.x * slope.x + slope.y * slope.y).squareRoot()
                 let unit = CGPoint(x: slope.x / length, y: slope.y / length)
@@ -316,7 +316,7 @@ struct Map: View {
             } else {
                 origin = CGPoint(x: origin.x + unit.x * 15.0, y: origin.y + unit.y * 15.0)
             }
-            if data.status.destinationSector == .asteroids {
+            if response.status.destinationSector == .asteroids {
                 let slope = CGPoint(x: difference.x, y: difference.y / 43.0 * 75.0)
                 let length = (slope.x * slope.x + slope.y * slope.y).squareRoot()
                 let unit = CGPoint(x: slope.x / length, y: slope.y / length)
@@ -354,7 +354,7 @@ struct Map: View {
                     continue
                 }
                 let sector = Sectors(rawValue: sectorValue)!
-                guard sector != .uncharted || data.status.currentSector == .uncharted || data.status.destinationSector == .uncharted || data.gates.contains(.uncharted) || data.domination[.uncharted] != nil else {
+                guard sector != .uncharted || response.status.currentSector == .uncharted || response.status.destinationSector == .uncharted || response.gates.contains(.uncharted) || response.domination[.uncharted] != nil else {
                     continue
                 }
                 let sectorLabel = "\(sector)" as NSString

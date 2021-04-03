@@ -3,13 +3,15 @@
 import SwiftUI
 
 struct OutgoingScans: View {
+    @StateObject private var model = Model(resource: "scans_outgoing.php", responseType: Response.self)
+
     var body: some View {
-        Page(dataType: Data.self) {(data) in
-            Targets(data: data.content)
+        Page(model: model) {(response) in
+            Targets(data: response.content)
         }
     }
 
-    struct Data: Decodable {
+    private struct Response: Decodable {
         let content: [Target]
 
         init(from decoder: Decoder) throws {

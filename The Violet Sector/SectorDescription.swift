@@ -6,6 +6,7 @@ struct SectorDescription: View {
     let sector: Sectors
     let legions: Set<Legions>
     let isOpenGate: Bool
+    @StateObject private var hyperAction = Action(resource: "navcom_hyper.php", responseType: HyperResponse.self)
 
     var body: some View {
         VStack(spacing: 10.0) {
@@ -19,7 +20,8 @@ struct SectorDescription: View {
                             .accessibilityLabel(sector.description)
                     }
                     if isOpenGate {
-                        Button("Hyper", action: {Client.shared.post("navcom_hyper.php", query: ["destination": String(sector.rawValue)], completionHandler: {Client.shared.activeModel.refresh()})})
+                        Button("Hyper", action: {hyperAction.perform(query: ["destination": String(sector.rawValue)], completionHandler: {Client.shared.activeModel.refresh()})})
+                            .disabled(hyperAction.isLoading)
                     }
                     Description(sector: sector, legions: legions)
                 }
@@ -28,6 +30,11 @@ struct SectorDescription: View {
         }
         .navigationTitle(Text(verbatim: "\(sector)"))
         .toolbar(content: {Refresh()})
+        .alert(item: $hyperAction.alert, content: {Alert(title: Text(verbatim: "Error Performing Hyper Action"), message: Text(verbatim: $0))})
+    }
+
+    private struct HyperResponse: Decodable {
+        let success: Bool
     }
 
     private struct Description: View {
