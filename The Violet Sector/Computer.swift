@@ -159,6 +159,7 @@ struct Computer: View {
         @StateObject private var repairAction = Action(resource: "self_rep.php", responseType: ActionResponse.self)
         @StateObject private var retrieveAction = Action(resource: "scrap_retrieve.php", responseType: ActionResponse.self)
         @StateObject private var dumpAction = Action(resource: "scrap_dump.php", responseType: ActionResponse.self)
+        @State private var alert: String?
 
         var body: some View {
             VStack() {
@@ -234,12 +235,13 @@ struct Computer: View {
                     }
                 }
             }
-            .alert(item: $cloakAction.alert, content: {Alert(title: Text(verbatim: "Error Performing Cloak Action"), message: Text(verbatim: $0))})
-            .alert(item: $decloakAction.alert, content: {Alert(title: Text(verbatim: "Error Performing Decloak Action"), message: Text(verbatim: $0))})
-            .alert(item: $undockAction.alert, content: {Alert(title: Text(verbatim: "Error Performing Undock Action"), message: Text(verbatim: $0))})
-            .alert(item: $repairAction.alert, content: {Alert(title: Text(verbatim: "Error Performing Self Repair Action"), message: Text(verbatim: $0))})
-            .alert(item: $retrieveAction.alert, content: {Alert(title: Text(verbatim: "Error Performing Scrap Retrieval Action"), message: Text(verbatim: $0))})
-            .alert(item: $dumpAction.alert, content: {Alert(title: Text(verbatim: "Error Performing Scrap Dump Action"), message: Text(verbatim: $0))})
+            .onChange(of: cloakAction.alert, perform: {if let alert = $0 {self.alert = alert}})
+            .onChange(of: decloakAction.alert, perform: {if let alert = $0 {self.alert = alert}})
+            .onChange(of: undockAction.alert, perform: {if let alert = $0 {self.alert = alert}})
+            .onChange(of: repairAction.alert, perform: {if let alert = $0 {self.alert = alert}})
+            .onChange(of: retrieveAction.alert, perform: {if let alert = $0 {self.alert = alert}})
+            .onChange(of: dumpAction.alert, perform: {if let alert = $0 {self.alert = alert}})
+            .alert(item: $alert, content: {Alert(title: Text(verbatim: "Error Performing Action"), message: Text(verbatim: $0))})
         }
 
         private struct ActionResponse: Decodable {

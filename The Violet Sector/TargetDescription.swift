@@ -52,7 +52,7 @@ struct TargetDescription: View {
         }
         .navigationTitle("\(data.name)\(data.isOnline ? "*" : "")")
         .toolbar(content: {Refresh()})
-        .alert(item: $enterAction.alert, content: {Alert(title: Text(verbatim: "Error Performing Enter Action"), message: Text(verbatim: $0))})
+        .alert(item: $enterAction.alert, content: {Alert(title: Text(verbatim: "Error Performing Action"), message: Text(verbatim: $0))})
     }
 
     init?(targets: [Target], selection: Target.Identifier, showRank: Bool) {

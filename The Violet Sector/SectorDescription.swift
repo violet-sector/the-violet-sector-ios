@@ -30,7 +30,7 @@ struct SectorDescription: View {
         }
         .navigationTitle(Text(verbatim: "\(sector)"))
         .toolbar(content: {Refresh()})
-        .alert(item: $hyperAction.alert, content: {Alert(title: Text(verbatim: "Error Performing Hyper Action"), message: Text(verbatim: $0))})
+        .alert(item: $hyperAction.alert, content: {Alert(title: Text(verbatim: "Error Performing Action"), message: Text(verbatim: $0))})
     }
 
     private struct HyperResponse: Decodable {

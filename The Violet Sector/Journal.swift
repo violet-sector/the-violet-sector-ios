@@ -20,7 +20,7 @@ struct Journal: View {
             }
         }
         .toolbar(content: {if text != model.response?.content ?? "" {Button("Done", action: {save()}).disabled(saveAction.isLoading)} else {Refresh()}})
-        .alert(item: $saveAction.alert, content: {Alert(title: Text(verbatim: "Error Saving Journal"), message: Text(verbatim: $0))})
+        .alert(item: $saveAction.alert, content: {Alert(title: Text(verbatim: "Error Performing Action"), message: Text(verbatim: $0))})
     }
 
     private func save() {
