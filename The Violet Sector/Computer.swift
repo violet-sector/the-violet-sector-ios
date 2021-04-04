@@ -129,10 +129,6 @@ struct Computer: View {
         }
     }
 
-    private struct ActionResponse: Decodable {
-        let success: Bool
-    }
-
     private struct General: View {
         let response: ModelResponse
         let width: CGFloat
@@ -161,6 +157,8 @@ struct Computer: View {
         @StateObject private var decloakAction = Action(resource: "cloak_off.php", responseType: ActionResponse.self)
         @StateObject private var undockAction = Action(resource: "dock_exit.php", responseType: ActionResponse.self)
         @StateObject private var repairAction = Action(resource: "self_rep.php", responseType: ActionResponse.self)
+        @StateObject private var retrieveAction = Action(resource: "scrap_retrieve.php", responseType: ActionResponse.self)
+        @StateObject private var dumpAction = Action(resource: "scrap_dump.php", responseType: ActionResponse.self)
 
         var body: some View {
             VStack() {
@@ -187,7 +185,8 @@ struct Computer: View {
                             VStack(alignment: .leading) {
                                 Text(verbatim: String(scrap))
                                 if let canRetrieveScrap = response.canRetrieveScrap, let retrieveScrapCost = response.retrieveScrapCost, canRetrieveScrap {
-                                    Button("Retrieve (\(retrieveScrapCost))", action: {})
+                                    Button("Retrieve (\(retrieveScrapCost))", action: {retrieveAction.perform(query: [:], completionHandler: {Client.shared.activeModel.refresh()})})
+                                        .disabled(retrieveAction.isLoading)
                                 }
                             }
                         }
@@ -197,7 +196,8 @@ struct Computer: View {
                             VStack() {
                                 Text(verbatim: "??/\(Client.shared.settings != nil ? String(Client.shared.settings!.maxCarriedScrap) : "??")")
                                 if let canDumpScrap = response.canDumpScrap, let dumpScrapCost = response.dumpScrapCost, canDumpScrap {
-                                    Button("Dump (\(dumpScrapCost))", action: {})
+                                    Button("Dump (\(dumpScrapCost))", action: {dumpAction.perform(query: [:], completionHandler: {Client.shared.activeModel.refresh()})})
+                                        .disabled(dumpAction.isLoading)
                                 }
                             }
                         }
@@ -238,6 +238,12 @@ struct Computer: View {
             .alert(item: $decloakAction.alert, content: {Alert(title: Text(verbatim: "Error Performing Decloak Action"), message: Text(verbatim: $0))})
             .alert(item: $undockAction.alert, content: {Alert(title: Text(verbatim: "Error Performing Undock Action"), message: Text(verbatim: $0))})
             .alert(item: $repairAction.alert, content: {Alert(title: Text(verbatim: "Error Performing Self Repair Action"), message: Text(verbatim: $0))})
+            .alert(item: $retrieveAction.alert, content: {Alert(title: Text(verbatim: "Error Performing Scrap Retrieval Action"), message: Text(verbatim: $0))})
+            .alert(item: $dumpAction.alert, content: {Alert(title: Text(verbatim: "Error Performing Scrap Dump Action"), message: Text(verbatim: $0))})
+        }
+
+        private struct ActionResponse: Decodable {
+            let success: Bool
         }
     }
 
