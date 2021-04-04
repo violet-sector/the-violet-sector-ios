@@ -235,12 +235,12 @@ struct Computer: View {
                     }
                 }
             }
-            .onChange(of: cloakAction.alert, perform: {if let alert = $0 {self.alert = alert}})
-            .onChange(of: decloakAction.alert, perform: {if let alert = $0 {self.alert = alert}})
-            .onChange(of: undockAction.alert, perform: {if let alert = $0 {self.alert = alert}})
-            .onChange(of: repairAction.alert, perform: {if let alert = $0 {self.alert = alert}})
-            .onChange(of: retrieveAction.alert, perform: {if let alert = $0 {self.alert = alert}})
-            .onChange(of: dumpAction.alert, perform: {if let alert = $0 {self.alert = alert}})
+            .onChange(of: cloakAction.alert, perform: {if let alert = $0 {self.alert = alert; cloakAction.alert = nil}})
+            .onChange(of: decloakAction.alert, perform: {if let alert = $0 {self.alert = alert; decloakAction.alert = nil}})
+            .onChange(of: undockAction.alert, perform: {if let alert = $0 {self.alert = alert; undockAction.alert = nil}})
+            .onChange(of: repairAction.alert, perform: {if let alert = $0 {self.alert = alert; repairAction.alert = nil}})
+            .onChange(of: retrieveAction.alert, perform: {if let alert = $0 {self.alert = alert; retrieveAction.alert = nil}})
+            .onChange(of: dumpAction.alert, perform: {if let alert = $0 {self.alert = alert; dumpAction.alert = nil}})
             .alert(item: $alert, content: {Alert(title: Text(verbatim: "Error Performing Action"), message: Text(verbatim: $0))})
         }
 
