@@ -16,11 +16,7 @@ final class Client: ObservableObject {
     private let decoder = JSONDecoder()
 
     static let shared = Client()
-    #if !DEBUG
     private static let baseURL = "https://www.violetsector.com/json/"
-    #else
-    private static let baseURL = "https://ucs.violetsector.com/json/"
-    #endif
     private static let settingsResource = "config.php"
     private static let retryInterval = TimeInterval(10.0)
 
