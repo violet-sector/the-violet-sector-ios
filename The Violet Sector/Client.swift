@@ -215,6 +215,7 @@ final class Client: ObservableObject {
         case computer
         case journal
         case friendlyScans
+        case pickupScans
         case incomingScans
         case outgoingScans
         case news
@@ -231,6 +232,8 @@ final class Client: ObservableObject {
                 return "Journal"
             case .friendlyScans:
                 return "Friendly Scans"
+            case .pickupScans:
+                return "Pickup Scans"
             case .incomingScans:
                 return "Incoming Scans"
             case .outgoingScans:

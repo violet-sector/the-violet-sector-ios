@@ -66,7 +66,7 @@ import SwiftUI
         switch tab {
         case .computer, .journal:
             return AnyView(Main())
-        case .friendlyScans, .incomingScans, .outgoingScans:
+        case .friendlyScans, .pickupScans, .incomingScans, .outgoingScans:
             return AnyView(Scans())
         case .news:
             return AnyView(Comms())

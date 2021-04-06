@@ -9,6 +9,7 @@ struct Scans: View {
         VStack(spacing: 10.0) {
             HStack(spacing: 5.0) {
                 Button("Friendlies", action: {client.tab = .friendlyScans})
+                Button("Pickups", action: {client.tab = .pickupScans})
             }
             .buttonStyle(SectionButton())
             HStack(spacing: 5.0) {
@@ -20,6 +21,8 @@ struct Scans: View {
                 switch tab {
                 case .friendlyScans:
                     FriendlyScans()
+                case .pickupScans:
+                    PickupScans()
                 case .incomingScans:
                     IncomingScans()
                 case .outgoingScans:
